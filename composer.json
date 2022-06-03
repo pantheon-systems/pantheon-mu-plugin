@@ -1,0 +1,10 @@
+{
+  "name": "pantheon-systems/pantheon-wp-main",
+  "description": "The WordPress configuration file, mu-plugin loader, and integration functions for use on Pantheon sites.",
+  "type": "project",
+  "license": "MIT",
+  "version": "1.0.0",
+  "require": {
+    "vlucas/phpdotenv": "*"
+  }
+}
