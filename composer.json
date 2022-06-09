@@ -1,7 +1,7 @@
 {
   "name": "pantheon-systems/pantheon-wp-main",
-  "description": "The WordPress configuration file, mu-plugin loader, and integration functions for use on Pantheon sites.",
-  "type": "project",
+  "description": "Pantheon mu-plugin for WordPress sites.",
+  "type": "wordpress-muplugin",
   "license": "MIT",
   "version": "1.0.0",
   "require": {
