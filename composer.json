@@ -3,7 +3,6 @@
   "description": "Pantheon mu-plugin for WordPress sites.",
   "type": "wordpress-muplugin",
   "license": "MIT",
-  "version": "1.0.0",
   "require": {
     "vlucas/phpdotenv": "*"
   }

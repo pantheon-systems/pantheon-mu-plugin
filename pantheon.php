@@ -3,7 +3,7 @@
  * Plugin Name: Pantheon
  * Plugin URI: https://pantheon.io/
  * Description: Building on Pantheon's and WordPress's strengths, together.
- * Version: 0.2
+ * Version: 1.0.0
  * Author: Pantheon
  * Author URI: https://pantheon.io/
  *
