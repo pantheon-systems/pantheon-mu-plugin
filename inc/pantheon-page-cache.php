@@ -498,40 +498,6 @@ class Pantheon_Cache {
 			pantheon_clear_edge_paths( $this->paths );
 		}
 	}
-
-	/**
-	 * Sets maintenance mode status.
-	 *
-	 * Enable maintenance mode to work on your site while serving cached pages
-	 * to visitors and bots, or everyone except administators.
-	 *
-	 * ## OPTIONS
-	 *
-	 * <status>
-	 * : Maintenance mode status.
-	 * ---
-	 * options:
-	 *   - disabled
-	 *   - anonymous
-	 *   - everyone
-	 * ---
-	 *
-	 * @subcommand set-maintenance-mode
-	 */
-	public function set_maintenance_mode_command( $args ) {
-
-		list( $status ) = $args;
-
-		$out = $this->default_options;
-		if ( ! empty( $status )
-			&& in_array( $status, [ 'anonymous', 'everyone' ], true ) ) {
-			$out['maintenance_mode'] = $status;
-		} else {
-			$out['maintenance_mode'] = 'disabled';
-		}
-		update_option( self::SLUG, $out );
-		WP_CLI::success( sprintf( 'Maintenance mode set to: %s', $out['maintenance_mode'] ) );
-	}
 }
 
 
