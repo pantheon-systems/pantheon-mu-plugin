@@ -15,7 +15,10 @@ WP_CLI::add_command( 'pantheon-cache', '\\Pantheon\\CLI\\__deprecated_maintenanc
 WP_CLI::add_command( 'pantheon set-maintenance-mode', '\\Pantheon\\CLI\\set_maintenance_mode_command' );
 
 /**
- * Returns a deprecated notice for the pantheon-cache command.
+ * Returns a deprecation notice for the pantheon-cache command.
+ *
+ * The `pantheon-cache` command and `set-maintenance-mode` subcommand is
+ * deprecated. Use `wp pantheon set-maintenance-mode` instead.
  *
  * @deprecated 1.0.0
  */
