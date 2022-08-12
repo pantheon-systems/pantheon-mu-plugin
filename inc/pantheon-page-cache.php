@@ -548,11 +548,6 @@ function Pantheon_Cache() {
 }
 add_action( 'plugins_loaded', 'Pantheon_Cache' );
 
-
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	WP_CLI::add_command( 'pantheon-cache set-maintenance-mode', [ Pantheon_Cache::instance(), 'set_maintenance_mode_command' ] );
-}
-
 /**
  * @see Pantheon_Cache::clean_post_cache
  *
