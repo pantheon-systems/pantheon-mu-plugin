@@ -25,7 +25,9 @@ WP_CLI::add_command( 'pantheon set-maintenance-mode', '\\Pantheon\\CLI\\set_main
 function __deprecated_maintenance_mode_output( $args ) {
 	$replacement_command = ( ! empty( $args ) && in_array( 'set-maintenance-mode', $args, true ) ) ? 'set-maintenance-mode' : '<command>';
 
-	WP_CLI::error( sprintf( __( 'This command is deprecated. Use `wp pantheon %s` instead. Run `wp pantheon --help` for more infomation.', 'pantheon-systems' ), $replacement_command ) );
+	WP_CLI::warning( sprintf( __( 'This command is deprecated. Use `wp pantheon %s` instead. Run `wp pantheon --help` for more infomation.', 'pantheon-systems' ), $replacement_command ) );
+
+	set_maintenance_mode_command( $args );
 }
 
 /**
