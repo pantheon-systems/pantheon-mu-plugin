@@ -15,10 +15,32 @@ WP_CLI::add_command( 'pantheon-cache', '\\Pantheon\\CLI\\__deprecated_maintenanc
 WP_CLI::add_command( 'pantheon set-maintenance-mode', '\\Pantheon\\CLI\\set_maintenance_mode_command' );
 
 /**
- * Returns a deprecation notice for the pantheon-cache command.
+ * Sets maintenance mode status.
  *
- * The `pantheon-cache` command and `set-maintenance-mode` subcommand is
- * deprecated. Use `wp pantheon set-maintenance-mode` instead.
+ * Enable maintenance mode to work on your site while serving cached pages
+ * to visitors and bots, or everyone except administators.
+ *
+ * ## DEPRECATION NOTICE
+ *
+ * This command is deprecated. Use `pantheon set-maintenance-mode` instead.
+ *
+ * ## USAGE
+ *
+ * wp pantheon-cache set-maintenance-mode <status> (deprecated) or
+ * wp pantheon set-maintenance-mode <status>
+ *
+ * ## OPTIONS
+ *
+ * <status>
+ * : Maintenance mode status.
+ * ---
+ * options:
+ *   - disabled
+ *   - anonymous
+ *   - everyone
+ * ---
+ *
+ * @subcommand set-maintenance-mode
  *
  * @deprecated 1.0.0
  */
