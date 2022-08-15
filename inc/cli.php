@@ -13,6 +13,7 @@ use WP_CLI;
 // Support the old pantheon-cache command but return a deprecation notice.
 WP_CLI::add_command( 'pantheon-cache set-maintenance-mode', '\\Pantheon\\CLI\\__deprecated_maintenance_mode_output' );
 WP_CLI::add_command( 'pantheon cache set-maintenance-mode', '\\Pantheon\\CLI\\set_maintenance_mode_command' );
+WP_CLI::add_command( 'pantheon set-maintenance-mode', '\\Pantheon\\CLI\\set_maintenance_mode_command' );
 
 /**
  * Sets maintenance mode status.
