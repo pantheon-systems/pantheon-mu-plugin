@@ -28,7 +28,7 @@ WP_CLI::add_command( 'pantheon cache set-maintenance-mode', '\\Pantheon\\CLI\\se
  * ## USAGE
  *
  * wp pantheon-cache set-maintenance-mode <status> (deprecated) or
- * wp pantheon set-maintenance-mode <status>
+ * wp pantheon cache set-maintenance-mode <status>
  *
  * ## OPTIONS
  *
