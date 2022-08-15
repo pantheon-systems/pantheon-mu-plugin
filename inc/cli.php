@@ -48,7 +48,8 @@ function __deprecated_maintenance_mode_output( $args ) {
 	$allowed_args = [ 'disabled', 'anonymous', 'everyone' ];
 	$replacement_command = ( ! empty( $args  && count( $args ) === 1 ) && in_array( $args[0], $allowed_args, true ) ) ? 'set-maintenance-mode ' . $args[0] : false;
 
-	WP_CLI::warning( sprintf( __( 'This command is deprecated. Use `wp pantheon %s` instead. Run `wp pantheon --help` for more infomation.', 'pantheon-systems' ), $replacement_command ) );
+	WP_CLI::warning( WP_CLI::colorize( '%y' . sprintf( __( 'This command is deprecated. Use `wp pantheon %s` instead.', 'pantheon-systems' ), $replacement_command ) . '%n' ) );
+	WP_CLI::line( __( 'Run `wp pantheon set-maintenance-mode --help` for more information.', 'pantheon-systems' ) );
 
 	set_maintenance_mode_command( $args );
 }
