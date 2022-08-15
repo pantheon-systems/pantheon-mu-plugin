@@ -51,6 +51,11 @@ function __deprecated_maintenance_mode_output( $args ) {
 	WP_CLI::warning( WP_CLI::colorize( '%y' . sprintf( __( 'This command is deprecated. Use `wp pantheon %s` instead.', 'pantheon-systems' ), $replacement_command ) . '%n' ) );
 	WP_CLI::line( __( 'Run `wp pantheon set-maintenance-mode --help` for more information.', 'pantheon-systems' ) );
 
+	// The command should fail before we get here, but in case it doesn't, display an error.
+	if ( false === $replacement_command ) {
+		WP_CLI::error( __( 'Invalid arguments. Run `wp pantheon set-maintenance-mode --help` for more infomation.', 'pantheon-systems' ) );
+	}
+
 	set_maintenance_mode_command( $args );
 }
 
