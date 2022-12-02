@@ -5,6 +5,7 @@
  *
  * Changes:
  *   - Multisite instructions on step2
+ *   - Text area rows increased
  */
 
 /**
@@ -495,13 +496,13 @@ function network_step2( $errors = false ) {
 			);
 			?>
 		</label></p>
-		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="7" aria-describedby="network-wpconfig-rules-description">
+		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
 if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
     $site_name = $_ENV['PANTHEON_SITE_NAME'];
     // Override $hostname value as needed.
     switch ( $_ENV['PANTHEON_ENVIRONMENT'] ) {
         case 'live':
-            $hostname = 'live-' . $site_name . '.pantheonsite.io';
+            $hostname = $_SERVER['HTTP_HOST'];
             break;
         case 'test':
             $hostname = 'test-' . $site_name . '.pantheonsite.io';
@@ -513,7 +514,7 @@ if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
             $hostname = $site_name . '.lndo.site';
             break;
         default:
-            $hostname = env('WP_SITEURL');
+            $hostname = $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $site_name . '.pantheonsite.io';
             break;
     }
 } else {
