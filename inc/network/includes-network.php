@@ -6,6 +6,8 @@
  * Changes:
  *   - Multisite instructions on step2
  *   - Text area rows increased
+ *   - Allow altering config filename
+ *   - Allow altering config contents
  */
 
 /**
@@ -399,8 +401,11 @@ function network_step2( $errors = false ) {
 	$wp_siteurl_subdir = preg_replace( '#^' . preg_quote( $home_path, '#' ) . '#', '', $abspath_fix );
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
+	$config_filename = 'wp-config.php';
+	$config_filename = apply_filters( 'pantheon_wp_multisite_config_filename', $config_filename );
+
 	$location_of_wp_config = $abspath_fix;
-	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+	if ( ! file_exists( ABSPATH . $config_filename ) && file_exists( dirname( ABSPATH ) . '/' . $config_filename ) ) {
 		$location_of_wp_config = dirname( $abspath_fix );
 	}
 	$location_of_wp_config = trailingslashit( $location_of_wp_config );
@@ -446,7 +451,7 @@ function network_step2( $errors = false ) {
 			printf(
 				/* translators: 1: wp-config.php, 2: .htaccess */
 				__( 'You should back up your existing %1$s and %2$s files.' ),
-				'<code>wp-config.php</code>',
+				'<code>' . $config_filename . '</code>',
 				'<code>.htaccess</code>'
 			);
 		} elseif ( file_exists( $home_path . 'web.config' ) ) {
@@ -454,7 +459,7 @@ function network_step2( $errors = false ) {
 			printf(
 				/* translators: 1: wp-config.php, 2: web.config */
 				__( 'You should back up your existing %1$s and %2$s files.' ),
-				'<code>wp-config.php</code>',
+				'<code>' . $config_filename . '</code>',
 				'<code>web.config</code>'
 			);
 		} else {
@@ -462,7 +467,7 @@ function network_step2( $errors = false ) {
 			printf(
 				/* translators: %s: wp-config.php */
 				__( 'You should back up your existing %s file.' ),
-				'<code>wp-config.php</code>'
+				'<code>' . $config_filename . '</code>',
 			);
 		}
 		?>
@@ -476,7 +481,7 @@ function network_step2( $errors = false ) {
 		printf(
 			/* translators: 1: wp-config.php, 2: Location of wp-config file, 3: Translated version of "That's all, stop editing! Happy publishing." */
 			__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
-			'<code>wp-config.php</code>',
+			'<code>' . $config_filename . '</code>',
 			'<code>' . $location_of_wp_config . '</code>',
 			/*
 			 * translators: This string should only be translated if wp-config-sample.php is localized.
@@ -492,11 +497,12 @@ function network_step2( $errors = false ) {
 			printf(
 				/* translators: %s: File name (wp-config.php, .htaccess or web.config). */
 				__( 'Network configuration rules for %s' ),
-				'<code>wp-config.php</code>'
+				'<code>' . $config_filename . '</code>'
 			);
 			?>
 		</label></p>
 		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
+<?php ob_start(); ?>
 if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
     $site_name = $_ENV['PANTHEON_SITE_NAME'];
     // Override $hostname value as needed.
@@ -527,6 +533,12 @@ define( 'DOMAIN_CURRENT_SITE', $hostname );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
+<?php
+  $config_file_contents = ob_get_contents();
+  ob_end_clean();
+  $config_file_contents = apply_filters( 'pantheon_wp_multisite_config_contents', $config_file_contents );
+  echo $config_file_contents;
+?>
 </textarea>
 		<?php
 		$keys_salts = array(
@@ -566,13 +578,13 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 				printf(
 					/* translators: %s: wp-config.php */
 					__( 'This unique authentication key is also missing from your %s file.' ),
-					'<code>wp-config.php</code>'
+					'<code>' . $config_filename . '</code>',
 				);
 			} else {
 				printf(
 					/* translators: %s: wp-config.php */
 					__( 'These unique authentication keys are also missing from your %s file.' ),
-					'<code>wp-config.php</code>'
+					'<code>' . $config_filename . '</code>',
 				);
 			}
 			?>
