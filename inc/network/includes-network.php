@@ -8,6 +8,7 @@
  *   - Text area rows increased
  *   - Allow altering config filename
  *   - Allow altering config contents
+ *   - Remove if file_exists .htaccess
  */
 
 /**
@@ -446,15 +447,7 @@ function network_step2( $errors = false ) {
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="notice notice-warning inline"><p>
 		<?php
-		if ( file_exists( $home_path . '.htaccess' ) ) {
-			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
-			printf(
-				/* translators: 1: wp-config.php, 2: .htaccess */
-				__( 'You should back up your existing %1$s and %2$s files.' ),
-				'<code>' . $config_filename . '</code>',
-				'<code>.htaccess</code>'
-			);
-		} elseif ( file_exists( $home_path . 'web.config' ) ) {
+		if ( file_exists( $home_path . 'web.config' ) ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
 				/* translators: 1: wp-config.php, 2: web.config */
