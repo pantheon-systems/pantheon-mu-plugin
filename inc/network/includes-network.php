@@ -403,7 +403,7 @@ function network_step2( $errors = false ) {
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
 	$config_filename = 'wp-config.php';
-	$config_filename = apply_filters( 'pantheon_wp_multisite_config_filename', $config_filename );
+	$config_filename = apply_filters( 'pantheon.multisite.config_filename', 'wp-config.php' );
 
 	$location_of_wp_config = $abspath_fix;
 	if ( ! file_exists( ABSPATH . $config_filename ) && file_exists( dirname( ABSPATH ) . '/' . $config_filename ) ) {
@@ -529,7 +529,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 <?php
   $config_file_contents = ob_get_contents();
   ob_end_clean();
-  $config_file_contents = apply_filters( 'pantheon_wp_multisite_config_contents', $config_file_contents );
+  $config_file_contents = apply_filters( 'pantheon.multisite.config_contents', $config_file_contents );
   echo $config_file_contents;
 ?>
 </textarea>
