@@ -40,4 +40,7 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 		 */
 		define( 'FS_METHOD', 'direct' );
 	}
+    if ( defined( 'WP_ALLOW_MULTISITE' ) && ( ! defined( 'MULTISITE' ) || empty( MULTISITE ) ) ) {
+        require_once 'inc/pantheon-multisite-finalize.php';
+    }
 } // Ensuring that this is on Pantheon.
