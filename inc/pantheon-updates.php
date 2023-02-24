@@ -48,7 +48,7 @@ function _pantheon_upstream_update_notice() {
 	// Translators: %s is a URL to the user's Pantheon Dashboard.
 	$notice_message = wp_kses_post( sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
 	// Translators: %s is a URL to Pantheon's upstream updates documentation.
-	$upstream_help_message = wp_kses_post( sprintf( __( 'For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation.', 'pantheon-systems' ), 'https://pantheon.io/docs/upstream-updates/' ) );
+	$upstream_help_message = wp_kses_post( sprintf( __( 'For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation.', 'pantheon-systems' ), 'https://docs.pantheon.io/core-updates' ) );
 	$update_help = wp_kses_post( __( 'If you need help, contact an administrator for your Pantheon organization.', 'pantheon-systems' ) );
 	$div_class = esc_attr( 'update-nag notice notice-warning' );
 	$div_style = esc_attr( 'display: table;' );
