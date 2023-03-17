@@ -16,8 +16,12 @@ function _pantheon_hide_update_nag() {
 	remove_action( 'network_admin_notices', 'update_nag', 3 );
 }
 
-// Get the latest WordPress version
-function _pantheon_get_latest_wordpress_version() {
+/**
+ * Get the latest WordPress version
+ *
+ * @return string|null
+ */
+function _pantheon_get_latest_wordpress_version() : ?string {
 	$core_updates = get_core_updates();
 
 	if ( ! is_array( $core_updates ) || empty( $core_updates ) || ! property_exists( $core_updates[0], 'current' ) ) {
@@ -47,9 +51,12 @@ function _pantheon_is_wordpress_core_latest() : bool {
 
 }
 
-
-
-// Replace WordPress core update nag EVERYWHERE with our own notice (use git upstream)
+/**
+ * Replace WordPress core update nag EVERYWHERE with our own notice
+ * (use git upstream)
+ *
+ * @return void
+ */
 function _pantheon_upstream_update_notice() {
 	// Translators: %s is a URL to the user's Pantheon Dashboard.
 	$notice_message = wp_kses_post( sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
@@ -78,7 +85,7 @@ function _pantheon_upstream_update_notice() {
 		// If WP core is out of date, alter the message and show the nag everywhere.
 		// Translators: %s is a URL to the user's Pantheon Dashboard.
 		$notice_message = wp_kses_post( sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
- 
+
 		?>
 		<div class="<?php echo $div_class; ?>" style="<?php echo $div_style; ?>">
 			<p style="<?php echo $paragraph_style; ?>">
@@ -92,8 +99,11 @@ function _pantheon_upstream_update_notice() {
 	}
 }
 
-// Register Pantheon specific WordPress update admin notice
-add_action( 'admin_init', '_pantheon_register_upstream_update_notice' );
+/**
+ * Register Pantheon specific WordPress update admin notice
+ *
+ * @return void
+ */
 function _pantheon_register_upstream_update_notice() {
 	// but only if we are on Pantheon
 	// and this is not a WordPress Ajax request
@@ -102,9 +112,14 @@ function _pantheon_register_upstream_update_notice() {
 		add_action( 'network_admin_notices', '_pantheon_upstream_update_notice' );
 	}
 }
+add_action( 'admin_init', '_pantheon_register_upstream_update_notice' );
 
-// Return zero updates and current time as last checked time
-function _pantheon_disable_wp_updates() {
+/**
+ * Return zero updates and current time as last checked time
+ *
+ * @return object
+ */
+function _pantheon_disable_wp_updates() : object {
 	include ABSPATH . WPINC . '/version.php';
 	return (object) [
 		'updates' => [],
