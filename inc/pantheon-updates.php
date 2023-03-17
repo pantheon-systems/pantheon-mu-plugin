@@ -1,14 +1,14 @@
 <?php
 // If on Pantheon
-if( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ){
+if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	// Disable WordPress auto updates
-	if( ! defined('WP_AUTO_UPDATE_CORE')) {
+	if ( ! defined( 'WP_AUTO_UPDATE_CORE' ) ) {
 		define( 'WP_AUTO_UPDATE_CORE', false );
 	}
 
 	remove_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 	// Remove the default WordPress core update nag
-    add_action('admin_menu','_pantheon_hide_update_nag');
+	add_action( 'admin_menu', '_pantheon_hide_update_nag' );
 }
 
 function _pantheon_hide_update_nag() {
@@ -20,7 +20,7 @@ function _pantheon_hide_update_nag() {
 function _pantheon_get_latest_wordpress_version() {
 	$core_updates = get_core_updates();
 
-	if( ! is_array($core_updates) || empty($core_updates) || ! property_exists($core_updates[0], 'current' ) ){
+	if ( ! is_array( $core_updates ) || empty( $core_updates ) || ! property_exists( $core_updates[0], 'current' ) ) {
 		return null;
 	}
 
@@ -35,12 +35,12 @@ function _pantheon_get_latest_wordpress_version() {
 function _pantheon_is_wordpress_core_latest() : bool {
 	$latest_wp_version = _pantheon_get_latest_wordpress_version();
 
-	if( null === $latest_wp_version ){
+	if ( null === $latest_wp_version ) {
 		return true;
 	}
 
 	// include an unmodified $wp_version
-	include( ABSPATH . WPINC . '/version.php' );
+	include ABSPATH . WPINC . '/version.php';
 
 	// Return true if our version is the latest
 	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '<=' );
@@ -77,7 +77,9 @@ function _pantheon_upstream_update_notice() {
 	} else {
 		// If WP core is out of date, alter the message and show the nag everywhere.
 		// Translators: %s is a URL to the user's Pantheon Dashboard.
-		$notice_message = wp_kses_post( sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );; ?>
+		$notice_message = wp_kses_post( sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
+ 
+		?>
 		<div class="<?php echo $div_class; ?>" style="<?php echo $div_style; ?>">
 			<p style="<?php echo $paragraph_style; ?>">
 				<?php echo $notice_message; ?>
@@ -92,10 +94,10 @@ function _pantheon_upstream_update_notice() {
 
 // Register Pantheon specific WordPress update admin notice
 add_action( 'admin_init', '_pantheon_register_upstream_update_notice' );
-function _pantheon_register_upstream_update_notice(){
+function _pantheon_register_upstream_update_notice() {
 	// but only if we are on Pantheon
 	// and this is not a WordPress Ajax request
-	if( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && ! wp_doing_ajax() ){
+	if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && ! wp_doing_ajax() ) {
 		add_action( 'admin_notices', '_pantheon_upstream_update_notice' );
 		add_action( 'network_admin_notices', '_pantheon_upstream_update_notice' );
 	}
@@ -104,16 +106,16 @@ function _pantheon_register_upstream_update_notice(){
 // Return zero updates and current time as last checked time
 function _pantheon_disable_wp_updates() {
 	include ABSPATH . WPINC . '/version.php';
-	return (object) array(
-		'updates' => array(),
+	return (object) [
+		'updates' => [],
 		'version_checked' => $wp_version,
 		'last_checked' => time(),
-	);
+	];
 }
 
 // In the Test and Live environments, clear plugin/theme update notifications.
 // Users must check a dev or multidev environment for updates.
-if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], array('test', 'live') ) && (php_sapi_name() !== 'cli') ) {
+if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], [ 'test', 'live' ] ) && ( php_sapi_name() !== 'cli' ) ) {
 
 	// Disable Plugin Updates
 	remove_action( 'load-update-core.php', 'wp_update_plugins' );
