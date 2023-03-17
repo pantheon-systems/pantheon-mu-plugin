@@ -5,5 +5,13 @@
   "license": "MIT",
   "require": {
     "vlucas/phpdotenv": "*"
+  },
+  "require-dev": {
+    "pantheon-systems/pantheon-wp-coding-standards": "^1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

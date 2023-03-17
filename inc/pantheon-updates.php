@@ -18,7 +18,7 @@ function _pantheon_hide_update_nag() {
 
 // Get the latest WordPress version
 function _pantheon_get_latest_wordpress_version() {
-	$core_updates = get_core_updates( array('dismissed' => false) );
+	$core_updates = get_core_updates();
 
 	if( ! is_array($core_updates) || empty($core_updates) || ! property_exists($core_updates[0], 'current' ) ){
 		return null;
@@ -27,8 +27,12 @@ function _pantheon_get_latest_wordpress_version() {
 	return $core_updates[0]->current;
 }
 
-// Check if WordPress core is at the latest version.
-function _pantheon_is_wordpress_core_latest() {
+/**
+ * Check if WordPress core is at the latest version.
+ *
+ * @return bool
+ */
+function _pantheon_is_wordpress_core_latest() : bool {
 	$latest_wp_version = _pantheon_get_latest_wordpress_version();
 
 	if( null === $latest_wp_version ){
@@ -39,9 +43,11 @@ function _pantheon_is_wordpress_core_latest() {
 	include( ABSPATH . WPINC . '/version.php' );
 
 	// Return true if our version is the latest
-	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '=' );
+	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '<=' );
 
 }
+
+
 
 // Replace WordPress core update nag EVERYWHERE with our own notice (use git upstream)
 function _pantheon_upstream_update_notice() {
@@ -56,7 +62,7 @@ function _pantheon_upstream_update_notice() {
 
 	if ( _pantheon_is_wordpress_core_latest() ) {
 		// If a WP core update is not detected, only show the nag on the updates page.
-		$screen = get_current_screen(); 
+		$screen = get_current_screen();
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) { ?>
 			<div class="<?php echo $div_class; ?>" style="<?php echo $div_style; ?>">
 				<p style="<?php echo $paragraph_style; ?>">
