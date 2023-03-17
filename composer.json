@@ -13,5 +13,9 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
+  },
+  "scripts": {
+    "lint": "vendor/bin/phpcs -s --standard=Pantheon-WP .",
+    "lint:cbf": "vendor/bin/phpcbf -s --standard=Pantheon-WP ."
   }
 }
