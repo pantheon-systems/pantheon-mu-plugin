@@ -82,6 +82,7 @@ function _pantheon_is_wordpress_core_prerelease() : bool {
  * @return void
  */
 function _pantheon_upstream_update_notice() {
+	$version = _pantheon_get_latest_wordpress_version();
 	$screen = get_current_screen();
 	// Translators: %s is a URL to the user's Pantheon Dashboard.
 	$notice_message = sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
@@ -98,9 +99,11 @@ function _pantheon_upstream_update_notice() {
 		$notice_message = sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
 	}
 
+	// If WP core is a pre-release, alter the message.
 	if ( _pantheon_is_wordpress_core_prerelease() ) {
-		// If WP core is a pre-release, alter the message.
-		$notice_message = __( 'You are using a development version of WordPress.', 'pantheon-systems' );
+		$version_message = $version ?: '<span style="font-weight: normal;">(' . $version . ')</span>';
+		// Translators: %s is the current WordPress version.
+		$notice_message = sprintf( __( 'You are using a development version of WordPress. %s', 'pantheon-systems' ), $version_message );
 		// If we're on the Updates page, add a note about the Beta Tester plugin.
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 			$notice_message .= '<br /><span style="font-weight: normal;">';
