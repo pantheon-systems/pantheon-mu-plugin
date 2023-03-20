@@ -109,8 +109,9 @@ function _pantheon_upstream_update_notice() {
 	// If WP core is a pre-release, alter the message.
 	if ( _pantheon_is_wordpress_core_prerelease() ) {
 		$version = '<span style="font-weight: normal;">(' . $wp_version . ')</span>';
+		$paragraph_style = esc_attr( 'font-size: 14px;' );
 		// Translators: %s is the current WordPress version.
-		$notice_message = sprintf( __( 'You are using a development version of WordPress. %s', 'pantheon-systems' ), $version );
+		$notice_message = sprintf( __( '<strong>You are using a development version of WordPress.</strong> %s', 'pantheon-systems' ), $version );
 		// If we're on the Updates page, add a note about the Beta Tester plugin.
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 			$notice_message .= '<br /><span style="font-weight: normal;">';
