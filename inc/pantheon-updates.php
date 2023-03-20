@@ -133,14 +133,14 @@ function _pantheon_upstream_update_notice() {
 	</div>
 	<?php
 	$notice_html = ob_get_clean();
-	if ( _pantheon_is_wordpress_core_latest() ) {
-		// If a WP core update is not detected, only show the nag on the updates page.
-		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
+	// If a WP core update is not detected, only show the nag on the updates page.
+	if (
+		! _pantheon_is_wordpress_core_latest() || (
+			_pantheon_is_wordpress_core_latest() &&
+			( 'update-core' === $screen->id || 'update-core-network' === $screen->id )
+		) ) {
 			// Escaping is handled above when we're buffering the output, so we can ignore it here.
 			echo $notice_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		}
-	} else {
-		echo $notice_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
