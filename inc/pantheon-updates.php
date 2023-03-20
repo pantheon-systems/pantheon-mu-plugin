@@ -70,10 +70,10 @@ function _pantheon_is_wordpress_core_latest() : bool {
  */
 function _pantheon_upstream_update_notice() {
 	// Translators: %s is a URL to the user's Pantheon Dashboard.
-	$notice_message = wp_kses_post( sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
+	$notice_message = sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
 	// Translators: %s is a URL to Pantheon's upstream updates documentation.
-	$upstream_help_message = wp_kses_post( sprintf( __( 'For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation.', 'pantheon-systems' ), 'https://docs.pantheon.io/core-updates' ) );
-	$update_help = wp_kses_post( __( 'If you need help, contact an administrator for your Pantheon organization.', 'pantheon-systems' ) );
+	$upstream_help_message = sprintf( __( 'For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation.', 'pantheon-systems' ), 'https://docs.pantheon.io/core-updates' );
+	$update_help = __( 'If you need help, contact an administrator for your Pantheon organization.', 'pantheon-systems' );
 	$div_class = esc_attr( 'update-nag notice notice-warning' );
 	$div_style = esc_attr( 'display: table;' );
 	$paragraph_style = esc_attr( 'font-size: 14px; font-weight: bold; margin: 0 0 0.5em 0;' );
@@ -82,29 +82,29 @@ function _pantheon_upstream_update_notice() {
 		// If a WP core update is not detected, only show the nag on the updates page.
 		$screen = get_current_screen();
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) { ?>
-			<div class="<?php echo $div_class; ?>" style="<?php echo $div_style; ?>">
-				<p style="<?php echo $paragraph_style; ?>">
-					<?php echo $notice_message; ?>
+			<div class="<?php echo esc_attr( $div_class ); ?>" style="<?php echo esc_attr( $div_style ); ?>">
+				<p style="<?php echo esc_attr( $paragraph_style ); ?>">
+					<?php echo wp_kses_post( $notice_message ); ?>
 				</p>
-				<?php echo $upstream_help_message; ?>
+				<?php echo wp_kses_post( $upstream_help_message ); ?>
 				<br />
-				<?php echo $update_help; ?>
+				<?php echo wp_kses_post( $update_help ); ?>
 			</div>
 			<?php
 		}
 	} else {
 		// If WP core is out of date, alter the message and show the nag everywhere.
 		// Translators: %s is a URL to the user's Pantheon Dashboard.
-		$notice_message = wp_kses_post( sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] ) );
+		$notice_message = sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
 
 		?>
-		<div class="<?php echo $div_class; ?>" style="<?php echo $div_style; ?>">
-			<p style="<?php echo $paragraph_style; ?>">
-				<?php echo $notice_message; ?>
+		<div class="<?php echo esc_attr( $div_class ); ?>" style="<?php echo esc_attr( $div_style ); ?>">
+			<p style="<?php echo esc_attr( $paragraph_style ); ?>">
+				<?php echo wp_kses_post( $notice_message ); ?>
 			</p>
-			<?php echo $upstream_help_message; ?>
+			<?php echo wp_kses_post( $upstream_help_message ); ?>
 			<br />
-			<?php echo $update_help; ?>
+			<?php echo wp_kses_post( $update_help ); ?>
 		</div>
 		<?php
 	}
