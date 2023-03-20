@@ -1,13 +1,19 @@
 <?php
-// If on Pantheon
+/**
+ * Pantheon MU Plugin Updates
+ *
+ * Handles modifying the default WordPress update behavior on Pantheon.
+ */
+
+// If on Pantheon...
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
-	// Disable WordPress auto updates
+	// Disable WordPress auto updates.
 	if ( ! defined( 'WP_AUTO_UPDATE_CORE' ) ) {
 		define( 'WP_AUTO_UPDATE_CORE', false );
 	}
 
 	remove_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
-	// Remove the default WordPress core update nag
+	// Remove the default WordPress core update nag.
 	add_action( 'admin_menu', '_pantheon_hide_update_nag' );
 }
 
@@ -17,7 +23,7 @@ function _pantheon_hide_update_nag() {
 }
 
 /**
- * Get the latest WordPress version
+ * Get the latest WordPress version.
  *
  * @return string|null
  */
@@ -43,17 +49,17 @@ function _pantheon_is_wordpress_core_latest() : bool {
 		return true;
 	}
 
-	// include an unmodified $wp_version
+	// include an unmodified $wp_version.
 	include ABSPATH . WPINC . '/version.php';
 
-	// Return true if our version is the latest
+	// Return true if our version is the latest.
 	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '<=' );
 
 }
 
 /**
- * Replace WordPress core update nag EVERYWHERE with our own notice
- * (use git upstream)
+ * Replace WordPress core update nag EVERYWHERE with our own notice.
+ * Use git upstream instead
  *
  * @return void
  */
@@ -100,7 +106,7 @@ function _pantheon_upstream_update_notice() {
 }
 
 /**
- * Register Pantheon specific WordPress update admin notice
+ * Register Pantheon specific WordPress update admin notice.
  *
  * @return void
  */
@@ -115,7 +121,7 @@ function _pantheon_register_upstream_update_notice() {
 add_action( 'admin_init', '_pantheon_register_upstream_update_notice' );
 
 /**
- * Return zero updates and current time as last checked time
+ * Return zero updates and current time as last checked time.
  *
  * @return object
  */
