@@ -91,35 +91,40 @@ function _pantheon_upstream_update_notice() {
 	$div_style = esc_attr( 'display: table;' );
 	$paragraph_style = esc_attr( 'font-size: 14px; font-weight: bold; margin: 0 0 0.5em 0;' );
 
-	if ( _pantheon_is_wordpress_core_latest() ) {
-		// If a WP core update is not detected, only show the nag on the updates page.
-		$screen = get_current_screen();
-		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) { ?>
-			<div class="<?php echo esc_attr( $div_class ); ?>" style="<?php echo esc_attr( $div_style ); ?>">
-				<p style="<?php echo esc_attr( $paragraph_style ); ?>">
-					<?php echo wp_kses_post( $notice_message ); ?>
-				</p>
-				<?php echo wp_kses_post( $upstream_help_message ); ?>
-				<br />
-				<?php echo wp_kses_post( $update_help ); ?>
-			</div>
-			<?php
-		}
-	} else {
+	if ( ! _pantheon_is_wordpress_core_latest() ) {
 		// If WP core is out of date, alter the message and show the nag everywhere.
 		// Translators: %s is a URL to the user's Pantheon Dashboard.
 		$notice_message = sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
+	}
 
-		?>
-		<div class="<?php echo esc_attr( $div_class ); ?>" style="<?php echo esc_attr( $div_style ); ?>">
-			<p style="<?php echo esc_attr( $paragraph_style ); ?>">
-				<?php echo wp_kses_post( $notice_message ); ?>
-			</p>
+	if ( _pantheon_is_wordpress_core_prerelease() ) {
+		// If WP core is a pre-release, alter the message.
+		$notice_message = sprintf( __( 'You are using a development version of WordPress. <strong>You are responsible for keeping WordPress up-to-date.</strong> Pantheon updates to WordPress will not appear in the dashboard. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' ) );
+	}
+
+	ob_start();
+	?>
+	<div class="<?php echo esc_attr( $div_class ); ?>" style="<?php echo esc_attr( $div_style ); ?>">
+		<p style="<?php echo esc_attr( $paragraph_style ); ?>">
+			<?php echo wp_kses_post( $notice_message ); ?>
+		</p>
+		<?php if ( ! _pantheon_is_wordpress_core_prerelease() ) : ?>
 			<?php echo wp_kses_post( $upstream_help_message ); ?>
 			<br />
 			<?php echo wp_kses_post( $update_help ); ?>
-		</div>
-		<?php
+		<?php endif; ?>
+	</div>
+	<?php
+	$notice_html = ob_get_clean();
+	if ( _pantheon_is_wordpress_core_latest() || _pantheon_is_wordpress_core_prerelease() ) {
+		// If a WP core update is not detected, only show the nag on the updates page.
+		$screen = get_current_screen();
+		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
+			// Escaping is handled above when we're buffering the output, so we can ignore it here.
+			echo $notice_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	} else {
+		echo $notice_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
