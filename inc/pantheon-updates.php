@@ -58,7 +58,7 @@ function _pantheon_is_wordpress_core_latest() : bool {
 	include ABSPATH . WPINC . '/version.php';
 
 	// Return true if our version is the latest.
-	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '<=' );
+	return version_compare( str_replace( '-src', '', $latest_wp_version ), str_replace( '-src', '', $wp_version ), '<=' ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
 
 }
 
@@ -133,7 +133,7 @@ function _pantheon_disable_wp_updates() : object {
 	include ABSPATH . WPINC . '/version.php';
 	return (object) [
 		'updates' => [],
-		'version_checked' => $wp_version,
+		'version_checked' => $wp_version, // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
 		'last_checked' => time(),
 	];
 }
