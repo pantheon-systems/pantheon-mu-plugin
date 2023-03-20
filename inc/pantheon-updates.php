@@ -100,7 +100,12 @@ function _pantheon_upstream_update_notice() {
 
 	if ( _pantheon_is_wordpress_core_prerelease() ) {
 		// If WP core is a pre-release, alter the message.
-		$notice_message = sprintf( __( 'You are using a development version of WordPress. <strong>You are responsible for keeping WordPress up-to-date.</strong> Pantheon updates to WordPress will not appear in the dashboard. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' ) );
+		$notice_message = __( 'You are using a development version of WordPress.', 'pantheon-systems' );
+		// If we're on the Updates page, add a note about the Beta Tester plugin.
+		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
+			$notice_message .= '<br /><span style="font-weight: normal;">';
+			$notice_message .= __( 'You are responsible for keeping WordPress up-to-date. Pantheon updates to WordPress will not appear in the dashboard. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' );
+		}
 	}
 
 	ob_start();
@@ -117,7 +122,7 @@ function _pantheon_upstream_update_notice() {
 	</div>
 	<?php
 	$notice_html = ob_get_clean();
-	if ( _pantheon_is_wordpress_core_latest() || _pantheon_is_wordpress_core_prerelease() ) {
+	if ( _pantheon_is_wordpress_core_latest() ) {
 		// If a WP core update is not detected, only show the nag on the updates page.
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 			// Escaping is handled above when we're buffering the output, so we can ignore it here.
