@@ -17,6 +17,11 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	add_action( 'admin_menu', '_pantheon_hide_update_nag' );
 }
 
+/**
+ * Remove the default WordPress core update nag message.
+ *
+ * @return void
+ */
 function _pantheon_hide_update_nag() {
 	remove_action( 'admin_notices', 'update_nag', 3 );
 	remove_action( 'network_admin_notices', 'update_nag', 3 );
@@ -111,8 +116,7 @@ function _pantheon_upstream_update_notice() {
  * @return void
  */
 function _pantheon_register_upstream_update_notice() {
-	// but only if we are on Pantheon
-	// and this is not a WordPress Ajax request
+	// Only register notice if we are on Pantheon and this is not a WordPress Ajax request.
 	if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && ! wp_doing_ajax() ) {
 		add_action( 'admin_notices', '_pantheon_upstream_update_notice' );
 		add_action( 'network_admin_notices', '_pantheon_upstream_update_notice' );
@@ -138,11 +142,11 @@ function _pantheon_disable_wp_updates() : object {
 // Users must check a dev or multidev environment for updates.
 if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], [ 'test', 'live' ] ) && ( php_sapi_name() !== 'cli' ) ) {
 
-	// Disable Plugin Updates
+	// Disable Plugin Updates.
 	remove_action( 'load-update-core.php', 'wp_update_plugins' );
 	add_filter( 'pre_site_transient_update_plugins', '_pantheon_disable_wp_updates' );
 
-	// Disable Theme Updates
+	// Disable Theme Updates.
 	remove_action( 'load-update-core.php', 'wp_update_themes' );
 	add_filter( 'pre_site_transient_update_themes', '_pantheon_disable_wp_updates' );
 }
