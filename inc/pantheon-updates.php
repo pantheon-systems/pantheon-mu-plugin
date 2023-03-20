@@ -140,7 +140,7 @@ function _pantheon_disable_wp_updates() : object {
 
 // In the Test and Live environments, clear plugin/theme update notifications.
 // Users must check a dev or multidev environment for updates.
-if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], [ 'test', 'live' ] ) && ( php_sapi_name() !== 'cli' ) ) {
+if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], [ 'test', 'live' ], true ) && ( php_sapi_name() !== 'cli' ) ) {
 
 	// Disable Plugin Updates.
 	remove_action( 'load-update-core.php', 'wp_update_plugins' );
