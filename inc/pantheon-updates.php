@@ -63,6 +63,19 @@ function _pantheon_is_wordpress_core_latest() : bool {
 }
 
 /**
+ * Check if WordPress core is a pre-release version.
+ *
+ * @return bool
+ */
+function _pantheon_is_wordpress_core_prerelease() : bool {
+	// include an unmodified $wp_version.
+	include ABSPATH . WPINC . '/version.php';
+
+	// Return true if our version is a prerelease. Pre-releases are identified by a dash in the version number.
+	return false !== strpos( $wp_version, '-' ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
+}
+
+/**
  * Replace WordPress core update nag EVERYWHERE with our own notice.
  * Use git upstream instead
  *
