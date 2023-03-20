@@ -104,7 +104,7 @@ function _pantheon_upstream_update_notice() {
 		// If we're on the Updates page, add a note about the Beta Tester plugin.
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 			$notice_message .= '<br /><span style="font-weight: normal;">';
-			$notice_message .= __( 'You are responsible for keeping WordPress up-to-date. Pantheon updates to WordPress will not appear in the dashboard as long as you\'re using a development version. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' );
+			$notice_message .= __( 'You are responsible for keeping WordPress up-to-date. Pantheon updates to WordPress will not appear in the dashboard as long as you\'re using a pre-release version. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' );
 		}
 	}
 
