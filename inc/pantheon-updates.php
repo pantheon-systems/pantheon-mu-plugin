@@ -82,6 +82,7 @@ function _pantheon_is_wordpress_core_prerelease() : bool {
  * @return void
  */
 function _pantheon_upstream_update_notice() {
+	$screen = get_current_screen();
 	// Translators: %s is a URL to the user's Pantheon Dashboard.
 	$notice_message = sprintf( __( 'Check for updates on <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
 	// Translators: %s is a URL to Pantheon's upstream updates documentation.
@@ -118,7 +119,6 @@ function _pantheon_upstream_update_notice() {
 	$notice_html = ob_get_clean();
 	if ( _pantheon_is_wordpress_core_latest() || _pantheon_is_wordpress_core_prerelease() ) {
 		// If a WP core update is not detected, only show the nag on the updates page.
-		$screen = get_current_screen();
 		if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 			// Escaping is handled above when we're buffering the output, so we can ignore it here.
 			echo $notice_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
