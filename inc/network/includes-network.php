@@ -496,33 +496,9 @@ function network_step2( $errors = false ) {
 		</label></p>
 		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
 <?php ob_start(); ?>
-if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
-    $site_name = $_ENV['PANTHEON_SITE_NAME'];
-    // Override $hostname value as needed.
-    switch ( $_ENV['PANTHEON_ENVIRONMENT'] ) {
-        case 'live':
-            $hostname = $_SERVER['HTTP_HOST'];
-            break;
-        case 'test':
-            $hostname = 'test-' . $site_name . '.pantheonsite.io';
-            break;
-        case 'dev':
-            $hostname = 'dev-' . $site_name . '.pantheonsite.io';
-            break;
-        case 'lando':
-            $hostname = $site_name . '.lndo.site';
-            break;
-        default:
-            $hostname = $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $site_name . '.pantheonsite.io';
-            break;
-    }
-} else {
-    // Override with a default hostname.
-    $hostname = '<?php echo $hostname ?>';
-}
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
-define( 'DOMAIN_CURRENT_SITE', $hostname );
+define( 'DOMAIN_CURRENT_SITE', $_SERVER['HTTP_HOST'] );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
