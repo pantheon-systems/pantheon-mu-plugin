@@ -42,11 +42,11 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
     if ( getenv( 'FRAMEWORK' ) === 'wordpress_network' && ! defined( 'WP_ALLOW_MULTISITE' ) ) {
         define( 'WP_ALLOW_MULTISITE', true );
     }
-    if ( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
-	    if ( defined( 'MULTISITE' ) && MULTISITE ) {
+	if ( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
+		if ( defined( 'MULTISITE' ) && MULTISITE ) {
 			require_once 'inc/pantheon-network-setup.php';
-	    } else {
+		} else {
 			require_once 'inc/pantheon-multisite-finalize.php';
-	    }
-    }
+		}
+	}
 } // Ensuring that this is on Pantheon.
