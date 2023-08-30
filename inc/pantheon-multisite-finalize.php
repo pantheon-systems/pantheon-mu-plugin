@@ -23,7 +23,7 @@ function pantheon_multisite_install_finalize_message() { ?>
 			} else {
 				?>
 					<p><?php esc_html_e( 'You are trying to configure a WordPress Multisite with a wrong upstream!', 'pantheon' ); ?></p>
-					<p><?php echo sprintf( __( 'Make sure that you have the correct upstream configuration for WPMS. If you do not have that capability or check if you are eligible, please <a href="%s">Contact Support</a>.', 'pantheon' ), 'https://pantheon.io/support' ); ?></p>
+					<p><?php echo sprintf( __( 'Make sure that you have the correct upstream configuration for WPMS. If you do not have that capability or to check if you are eligible, please <a href="%s">Contact Support</a>.', 'pantheon' ), 'https://pantheon.io/support' ); ?></p>
 				<?php
 			}
 		}
