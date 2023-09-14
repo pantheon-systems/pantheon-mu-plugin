@@ -1,0 +1,15 @@
+# Directories
+/.github export-ignore
+/tests export-ignore # This doesn't exist yet, but hopefully it will in the future.
+/vendor export-ignore
+
+# Files
+/.DS_Store export-ignore
+/Thumb.db export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.phpcs.xml export-ignore
+/CODEOWNERS export-ignore
+/composer.lock export-ignore
+/phpunit.xml.dist export-ignore # This also doesn't exist, but hopefully one day...
