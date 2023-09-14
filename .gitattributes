@@ -12,4 +12,5 @@
 /.phpcs.xml export-ignore
 /CODEOWNERS export-ignore
 /composer.lock export-ignore
+/CONTRIBUTING.md export-ignore
 /phpunit.xml.dist export-ignore # This also doesn't exist, but hopefully one day...
