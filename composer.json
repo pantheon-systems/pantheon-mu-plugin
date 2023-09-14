@@ -7,7 +7,7 @@
     "vlucas/phpdotenv": "*"
   },
   "require-dev": {
-    "pantheon-systems/pantheon-wp-coding-standards": "^1.0"
+    "pantheon-systems/pantheon-wp-coding-standards": "^2.0"
   },
   "config": {
     "allow-plugins": {
@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "lint": "vendor/bin/phpcs -s --standard=Pantheon-WP .",
-    "lint:cbf": "vendor/bin/phpcbf -s --standard=Pantheon-WP ."
+    "lint": "vendor/bin/phpcs -s .",
+    "lint:cbf": "vendor/bin/phpcbf -s ."
   }
 }
