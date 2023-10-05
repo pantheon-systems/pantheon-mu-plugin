@@ -9,14 +9,6 @@
  * Main Mu Plugin Test Case
  */
 class Test_Main extends WP_UnitTestCase {
-	public function setUp() : void {
-		parent::setUp();
-
-		// If multisite, put the wordpress_network framework environment variable in place.
-		if ( is_multisite() ) {
-			putenv( 'FRAMEWORK=wordpress_network' );
-		}
-	}
 	/**
 	 * Test that the mu-plugin is loaded.
 	 */
