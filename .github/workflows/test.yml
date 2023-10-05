@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - '**'
+env:
+  TERM: xterm-256color
 jobs:
   php8-compatibility:
     name: PHP 8.x Compatibility
