@@ -24,6 +24,8 @@ function _manually_load_plugin() {
 		putenv( 'FRAMEWORK=wordpress_network' );
 	}
 
+	add_filter( 'show_return_to_pantheon_button', '__return_true' );
+
 	require dirname( __DIR__, 2 ) . '/pantheon.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
