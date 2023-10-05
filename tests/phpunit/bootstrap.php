@@ -19,6 +19,11 @@ require_once $_tests_dir . '/includes/functions.php';
 function _manually_load_plugin() {
 	// Set the Pantheon environment variable.
 	$_ENV['PANTHEON_ENVIRONMENT'] = 'dev';
+
+	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+		putenv( 'FRAMEWORK=wordpress_network' );
+	}
+
 	require dirname( __DIR__, 2 ) . '/pantheon.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
