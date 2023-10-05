@@ -25,7 +25,11 @@
     "phpcs": "vendor/bin/phpcs -s .",
     "phpcbf": "vendor/bin/phpcbf -s .",
     "phpunit": "vendor/bin/phpunit",
-    "test": "@phpunit",
+    "test": [
+      "@phpunit",
+      "@test:multisite"
+    ],
+    "test:multisite": "WP_MULTISITE=1 vendor/bin/phpunit",
     "test:install": "bin/install-local-tests.sh --no-db",
     "test:install:withdb": "bin/install-local-tests.sh"
   }
