@@ -21,7 +21,7 @@ function _manually_load_plugin() {
 	$_ENV['PANTHEON_ENVIRONMENT'] = 'dev';
 
 	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-		putenv( 'FRAMEWORK=wordpress_network' );
+		putenv( 'FRAMEWORK=wordpress_network' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv
 	}
 
 	add_filter( 'show_return_to_pantheon_button', '__return_true' );
