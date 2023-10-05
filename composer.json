@@ -24,12 +24,12 @@
     "phplint": "find . -type f -name '*.php' -not -path './vendor/*' -not -path './tests/*' -exec php -l {} \\;",
     "phpcs": "vendor/bin/phpcs -s .",
     "phpcbf": "vendor/bin/phpcbf -s .",
-    "phpunit": "vendor/bin/phpunit",
+    "phpunit": "vendor/bin/phpunit --colors=always",
     "test": [
       "@phpunit",
       "@test:multisite"
     ],
-    "test:multisite": "WP_MULTISITE=1 vendor/bin/phpunit",
+    "test:multisite": "WP_MULTISITE=1 vendor/bin/phpunit --colors=always",
     "test:install": "bin/install-local-tests.sh --no-db",
     "test:install:withdb": "bin/install-local-tests.sh"
   }
