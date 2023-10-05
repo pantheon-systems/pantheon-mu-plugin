@@ -16,7 +16,7 @@ jobs:
         uses: pantheon-systems/phpcompatibility-action@dev
         with:
           test-versions: 8.0-
-          paths: ${{ github.workspace }}/*.php ${{ github.workspace }}/inc/**/*.php
+          paths: ${{ github.workspace }}/*.php ${{ github.workspace }}/inc/*.php ${{ github.workspace }}/inc/network/*.php
   test:
     needs: php8-compatibility
     name: Test
