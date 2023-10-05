@@ -1,7 +1,8 @@
 # Directories
 /.github export-ignore
-/tests export-ignore # This doesn't exist yet, but hopefully it will in the future.
+/tests export-ignore 
 /vendor export-ignore
+/bin export-ignore
 
 # Files
 /.DS_Store export-ignore
@@ -13,4 +14,4 @@
 /CODEOWNERS export-ignore
 /composer.lock export-ignore
 /CONTRIBUTING.md export-ignore
-/phpunit.xml.dist export-ignore # This also doesn't exist, but hopefully one day...
+/phpunit.xml.dist export-ignore 

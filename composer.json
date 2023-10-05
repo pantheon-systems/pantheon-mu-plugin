@@ -7,7 +7,9 @@
     "vlucas/phpdotenv": "*"
   },
   "require-dev": {
-    "pantheon-systems/pantheon-wp-coding-standards": "^2.0"
+    "pantheon-systems/pantheon-wp-coding-standards": "^2.0",
+    "phpunit/phpunit": "^10.3",
+    "yoast/phpunit-polyfills": "^2.0"
   },
   "config": {
     "allow-plugins": {
@@ -15,7 +17,16 @@
     }
   },
   "scripts": {
-    "lint": "vendor/bin/phpcs -s .",
-    "lint:cbf": "vendor/bin/phpcbf -s ."
+    "lint": [
+      "@phplint",
+      "@phpcs"
+    ],
+    "phplint": "find . -type f -name '*.php' -not -path './vendor/*' -not -path './tests/*' -exec php -l {} \\;",
+    "phpcs": "vendor/bin/phpcs -s .",
+    "phpcbf": "vendor/bin/phpcbf -s .",
+    "phpunit": "vendor/bin/phpunit",
+    "test": "@phpunit",
+    "test:install": "bin/install-local-tests.sh --no-db",
+    "test:install:withdb": "bin/install-local-tests.sh"
   }
 }
