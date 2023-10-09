@@ -59,11 +59,6 @@ class Test_Pantheon_Login extends WP_UnitTestCase {
 		$_ENV['PANTHEON_SITE'] = 'test-site';
 		$_ENV['PANTHEON_ENVIRONMENT'] = 'test-env';
 		$_SERVER['HTTP_HOST'] = 'something.pantheonsite.io';
-		
-		if ( ! function_exists( 'Return_To_Pantheon_Button_HTML' ) ) {
-			// Include pantheon-login-form-mods.php.
-			require_once dirname( __DIR__, 2 ) . '/inc/pantheon-login-form-mods.php';
-		}
 
 		$this->assertTrue( function_exists( 'Return_To_Pantheon_Button_HTML' ) );
 		// Capture the output of the function.
