@@ -133,6 +133,15 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	}
 	
 	/**
+	 * Get the next beta version based on the current version.
+	 */
+	private static function get_next_beta_version() {
+		$version_parts = explode( '.', self::$wp_version );
+		$version_parts[2] = (int) $version_parts[2] + 1;
+		return implode( '.', $version_parts ) . '-beta';
+	}
+
+	/**
 	 * Test the _pantheon_upstream_update_notice function for beta/pre-release version.
 	 */
 	public function test_pantheon_upstream_update_notice_core_prerelease() {
