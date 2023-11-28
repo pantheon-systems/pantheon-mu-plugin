@@ -29,9 +29,6 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Test the _pantheon_get_current_wordpress_version function.
 	 */
 	public function test_pantheon_get_current_wordpress_version() {
-		global $wp_version;
-		$wp_version = '6.3.1'; // Mocking the WP version for this test.
-	
 		// Run the function.
 		$result = _pantheon_get_current_wordpress_version();
 	
