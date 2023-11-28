@@ -10,6 +10,19 @@
  */
 class Test_Pantheon_Updates extends WP_UnitTestCase {
 	/**
+	 * The current WordPress version.
+	 */
+	private static $wp_version;
+
+	/**
+	 * The main constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		self::$wp_version = _pantheon_get_current_wordpress_version();
+	}
+
+	/**
 	 * Test the _pantheon_hide_update_nag function.
 	 */
 	public function test_pantheon_hide_update_nag() {
