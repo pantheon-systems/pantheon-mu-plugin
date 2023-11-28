@@ -11,6 +11,8 @@
 class Test_Pantheon_Updates extends WP_UnitTestCase {
 	/**
 	 * The current WordPress version.
+	 * 
+	 * @var string
 	 */
 	private static $wp_version;
 
