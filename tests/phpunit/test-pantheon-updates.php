@@ -145,6 +145,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Test the _pantheon_upstream_update_notice function for beta/pre-release version.
 	 */
 	public function test_pantheon_upstream_update_notice_core_prerelease() {
+		$beta_version = self::get_next_beta_version();
 		set_current_screen( 'update-core' );
 	
 		// Simulate that the core is a prerelease.
@@ -153,12 +154,12 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 			(object) [
 				'updates' => [
 					(object) [
-						'current' => '6.4-beta',
+						'current' => $beta_version,
 						'response' => 'upgrade', 
 						'locale' => 'en_us',
 					],
 				],
-				'version_checked' => '6.4-beta',
+				'version_checked' => $beta_version,
 			],
 		);
 	
