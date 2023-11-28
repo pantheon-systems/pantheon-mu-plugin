@@ -31,9 +31,9 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	public function test_pantheon_get_current_wordpress_version() {
 		// Run the function.
 		$result = _pantheon_get_current_wordpress_version();
-	
-		// Check that the returned version is correct.
-		$this->assertEquals( '6.3.1', $result );
+
+		// Check that the returned version is correct. This value needs to be changed when the WordPress version is updated.
+		$this->assertEquals( '6.4.1', $result );
 	}
 
 	/**
