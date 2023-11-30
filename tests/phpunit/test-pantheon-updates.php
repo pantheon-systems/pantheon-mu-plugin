@@ -10,6 +10,21 @@
  */
 class Test_Pantheon_Updates extends WP_UnitTestCase {
 	/**
+	 * The current WordPress version.
+	 * 
+	 * @var string
+	 */
+	private static $wp_version;
+
+	/**
+	 * The main constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		self::$wp_version = _pantheon_get_current_wordpress_version();
+	}
+
+	/**
 	 * Test the _pantheon_hide_update_nag function.
 	 */
 	public function test_pantheon_hide_update_nag() {
@@ -29,14 +44,11 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Test the _pantheon_get_current_wordpress_version function.
 	 */
 	public function test_pantheon_get_current_wordpress_version() {
-		global $wp_version;
-		$wp_version = '6.3.1'; // Mocking the WP version for this test.
-	
 		// Run the function.
 		$result = _pantheon_get_current_wordpress_version();
-	
-		// Check that the returned version is correct.
-		$this->assertEquals( '6.3.1', $result );
+
+		// Check that the returned version is correct. This value needs to be changed when the WordPress version is updated.
+		$this->assertEquals( '6.4.1', $result );
 	}
 
 	/**
@@ -123,9 +135,19 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	}
 	
 	/**
+	 * Get the next beta version based on the current version.
+	 */
+	private static function get_next_beta_version() {
+		$version_parts = explode( '.', self::$wp_version );
+		$version_parts[2] = (int) $version_parts[2] + 1;
+		return implode( '.', $version_parts ) . '-beta';
+	}
+
+	/**
 	 * Test the _pantheon_upstream_update_notice function for beta/pre-release version.
 	 */
 	public function test_pantheon_upstream_update_notice_core_prerelease() {
+		$beta_version = self::get_next_beta_version();
 		set_current_screen( 'update-core' );
 	
 		// Simulate that the core is a prerelease.
@@ -134,12 +156,12 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 			(object) [
 				'updates' => [
 					(object) [
-						'current' => '6.4-beta',
+						'current' => $beta_version,
 						'response' => 'upgrade', 
 						'locale' => 'en_us',
 					],
 				],
-				'version_checked' => '6.4-beta',
+				'version_checked' => $beta_version,
 			],
 		);
 	
