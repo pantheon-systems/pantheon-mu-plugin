@@ -31,7 +31,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 */
 	private static function get_latest_wp_version_from_file() {
 		$file = dirname( __DIR__ ) . '/wp-latest.json';
-		// var_dump($file);
+
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
