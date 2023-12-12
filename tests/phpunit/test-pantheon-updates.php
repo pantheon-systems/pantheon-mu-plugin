@@ -25,6 +25,24 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Get the latest WordPress version from the wp-latest.json file.
+	 * 
+	 * @return string|bool The latest WordPress version or false if the file doesn't exist.
+	 */
+	private static function get_latest_wp_version_from_file() {
+		$file = dirname( __DIR__ ) . '/wp-latest.json';
+
+		if ( ! file_exists( $file ) ) {
+			return false;
+		}
+
+		$version_raw = json_decode( file_get_contents( $file ) );
+		$version = $version_raw->offers[0]->current;
+
+		return $version;
+	}
+
+	/**
 	 * Test the _pantheon_hide_update_nag function.
 	 */
 	public function test_pantheon_hide_update_nag() {
@@ -46,9 +64,10 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	public function test_pantheon_get_current_wordpress_version() {
 		// Run the function.
 		$result = _pantheon_get_current_wordpress_version();
+		$current_version = self::get_latest_wp_version_from_file();
 
 		// Check that the returned version is correct. This value needs to be changed when the WordPress version is updated.
-		$this->assertEquals( '6.4.1', $result );
+		$this->assertEquals( $current_version, $result );
 	}
 
 	/**

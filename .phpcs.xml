@@ -45,6 +45,9 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName">
 			<exclude-pattern>*/*</exclude-pattern>
 		</exclude>
+		<exclude name="WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown">
+			<exclude-pattern>*/*</exclude-pattern>
+		</exclude>
 		<exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid">
 			<exclude-pattern>inc/pantheon-page-cache.php</exclude-pattern>
 		</exclude>
