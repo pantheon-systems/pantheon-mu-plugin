@@ -30,8 +30,9 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * @return string|bool The latest WordPress version or false if the file doesn't exist.
 	 */
 	private static function get_latest_wp_version_from_file() {
-		$file = dirname( __DIR__ ) . '/wp-latest.json';
-
+		global $_tests_dir;
+		
+		$file = dirname( $_tests_dir ) . '/wp-latest.json';
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
