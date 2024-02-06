@@ -46,4 +46,13 @@ class Test_Fonts extends WP_UnitTestCase
 		$this->assertStringContainsString( 'uploads/fonts', $font_dir['basedir'] );
 		$this->assertStringContainsString( 'uploads/fonts', $font_dir['baseurl'] );
 	}
+
+	/**
+	 * Get the font library from Gutenberg if it's not available.
+	 */
+	private function maybe_get_font_library() {
+		if ( ! function_exists( 'wp_get_font_dir' ) ) {
+			require_once WP_PLUGIN_DIR . '/gutenberg/lib/compat/wordpress-6.5/fonts/fonts.php';
+		}
+	}
 }
