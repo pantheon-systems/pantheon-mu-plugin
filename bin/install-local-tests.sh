@@ -79,6 +79,10 @@ if [ "${WP_VERSION}" == "nightly" ]; then
     wp config create --dbname="${DB_NAME}" --dbuser="${DB_USER}" --dbpass="${DB_PASS}" --dbhost="${DB_HOST}" --dbprefix=wptests_ --path="${TMPDIR}/wordpress/"
   fi
   
+  wp core install --url=localhost --title=Test --admin_user=admin --admin_password=password --admin_email=test@dev.null --path="${TMPDIR}/wordpress/"
+  # If nightly version of WP is installed, install latest Gutenberg plugin and activate it.
+  echo "Installing Gutenberg plugin"
+  wp plugin install gutenberg --activate --path="${TMPDIR}/wordpress/"
 fi
 
 # Run PHPUnit
