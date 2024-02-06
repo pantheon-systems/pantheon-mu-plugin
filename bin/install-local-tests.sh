@@ -2,7 +2,7 @@
 set -e
 
 # Request version.
-echo "Which version of WordPress would you like to test against? (latest, nightly, or a version number)"
+echo "Which version of WordPress would you like to test against? (latest, nightly, or a version number) Leave blank for latest."
 read -r WP_VERSION
 
 # Initialize variables with default values
