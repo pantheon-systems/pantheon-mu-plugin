@@ -42,6 +42,10 @@ class Test_Fonts extends WP_UnitTestCase {
 		}
 
 		$this->maybe_get_font_library();
+		if ( ! function_exists( 'wp_get_font_dir' ) ) {
+			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
+			$this->markTestSkipped( 'The wp_get_font_dir function is not available. We\'re probably not using WP 6.5+' );
+		}
 
 		// Remove the filters we apply to `font_dir` so we're getting the default data.
 		remove_all_filters( 'font_dir' );
@@ -72,6 +76,10 @@ class Test_Fonts extends WP_UnitTestCase {
 		}
 		
 		$this->maybe_get_font_library();
+		if ( ! function_exists( 'wp_get_font_dir' ) ) {
+			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
+			$this->markTestSkipped( 'The wp_get_font_dir function is not available. We\'re probably not using WP 6.5+' );
+		}
 
 		add_filter( 'font_dir', '\\Pantheon\\Fonts\\pantheon_font_dir' );
 		$font_dir = wp_get_font_dir();
@@ -100,6 +108,10 @@ class Test_Fonts extends WP_UnitTestCase {
 		}
 
 		$this->maybe_get_font_library();
+		if ( ! function_exists( 'wp_get_font_dir' ) ) {
+			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
+			$this->markTestSkipped( 'The wp_get_font_dir function is not available. We\'re probably not using WP 6.5+' );
+		}
 
 		$custom_directory = [
 			'path' => WP_CONTENT_DIR . '/custom-fonts',
@@ -143,6 +155,10 @@ class Test_Fonts extends WP_UnitTestCase {
 		}
 
 		$this->maybe_get_font_library();
+		if ( ! function_exists( 'wp_get_font_dir' ) ) {
+			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
+			$this->markTestSkipped( 'The wp_get_font_dir function is not available. We\'re probably not using WP 6.5+' );
+		}
 
 		// Disable the font directory modifications.
 		add_filter( 'pantheon_modify_fonts_dir', '__return_false' );
