@@ -1,19 +1,31 @@
 #!/bin/bash
 set -e
 
+# Request version.
+echo "Which version of WordPress would you like to test against? (latest, nightly, or a version number)"
+read -r WP_VERSION
+
 # Initialize variables with default values
 TMPDIR="/tmp"
 DB_NAME="wordpress_test"
 DB_USER="root"
 DB_PASS=""
 DB_HOST="127.0.0.1"
-WP_VERSION="latest"
+WP_VERSION=${WP_VERSION:-latest}
 SKIP_DB=""
 
 # Display usage information
 usage() {
   echo "Usage:"
   echo "./install-local-tests.sh [--dbname=wordpress_test] [--dbuser=root] [--dbpass=''] [--dbhost=127.0.0.1] [--wpversion=latest] [--no-db]"
+}
+
+download() {
+    if [ `which curl` ]; then
+        curl -s "$1" > "$2";
+    elif [ `which wget` ]; then
+        wget -nv -O "$2" "$1"
+    fi
 }
 
 # Parse command-line arguments
@@ -54,7 +66,13 @@ done
 
 # Run install-wp-tests.sh
 echo "Installing local tests into ${TMPDIR}"
+echo "Using WordPress version: ${WP_VERSION}"
 bash "$(dirname "$0")/install-wp-tests.sh" "$DB_NAME" "$DB_USER" "$DB_PASS" "$DB_HOST" "$WP_VERSION" "$SKIP_DB"
+
+# If WP nightly is chosen, the script doesn't download the wp-latest.json file, so download it manually.
+if [ "${WP_VERSION}" == "nightly" ]; then
+  download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
+fi
 
 # Run PHPUnit
 echo "Running PHPUnit"
