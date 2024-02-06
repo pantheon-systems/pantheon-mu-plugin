@@ -21,7 +21,7 @@ function bootstrap() {
 	 *
 	 * @param bool $modify Whether to modify the fonts directory.
 	 */
-	define('PANTHEON_MODIFY_FONTS_DIR', apply_filters('pantheon_modify_fonts_dir', true));
+	define( 'PANTHEON_MODIFY_FONTS_DIR', apply_filters( 'pantheon_modify_fonts_dir', true ) );
 
 	if ( PANTHEON_MODIFY_FONTS_DIR ) {
 		// Use the new font_dir filter added in WordPress 6.5. See https://github.com/WordPress/gutenberg/pull/57697.
