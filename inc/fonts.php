@@ -49,16 +49,9 @@ function pantheon_font_dir( $defaults ) {
 	$uploads_basedir = $wp_upload_dir['basedir'];
 	$uploads_baseurl = $wp_upload_dir['baseurl'];
 
-	/**
-	 * Make the fonts directory filterable.
-	 *
-	 * By default, this is set to wp-content/uploads/fonts. Use this filter to set the fonts directory to any other location.
-	 *
-	 * @param string $font_dir The new font directory.
-	 */
-	$font_dir = apply_filters( 'pantheon_fonts_dir', $uploads_basedir . '/fonts' );
-	// Generate the URL for the font directory from the font dir.
-	$font_url = str_replace( $uploads_basedir, $uploads_baseurl, $font_dir );
+	// Set our font directory.
+	$font_dir = $uploads_basedir . '/fonts';
+	$font_url = $uploads_baseurl . '/fonts';
 
 	$defaults['path'] = $font_dir;
 	$defaults['url'] = $font_url;
