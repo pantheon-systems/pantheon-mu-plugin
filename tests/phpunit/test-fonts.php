@@ -83,6 +83,49 @@ class Test_Fonts extends WP_UnitTestCase
 	}
 
 	/**
+	 * Test that using the font_dir filter at priority 10 overrides our modifications.
+	 */
+	public function test_pantheon_fonts_dir_filter() {
+		// Check current WP version to see if we can run the test.
+		$version = _pantheon_get_current_wordpress_version();
+		if ( version_compare( $version, '6.4', '<=' ) ) {
+			// Skip the test if the current WP version is less than 6.5.
+			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+		}
+
+		$this->maybe_get_font_library();
+
+		$custom_directory = [
+			'path' => WP_CONTENT_DIR . '/custom-fonts',
+			'url' => WP_CONTENT_URL . '/custom-fonts',
+			'basedir' => WP_CONTENT_DIR . '/custom-fonts',
+			'baseurl' => WP_CONTENT_URL . '/custom-fonts',
+		];
+
+		add_filter( 'font_dir', function( $defaults ) use ( $custom_directory ) {
+			$defaults['path'] = $custom_directory['path'];
+			$defaults['url'] = $custom_directory['url'];
+			$defaults['basedir'] = $custom_directory['basedir'];
+			$defaults['baseurl'] = $custom_directory['baseurl'];
+			return $defaults;
+		} );
+
+		Fonts\bootstrap();
+		$font_dir = wp_get_font_dir();
+
+		$expected = [
+			'path' => WP_CONTENT_DIR . '/custom-fonts',
+			'url' => WP_CONTENT_URL . '/custom-fonts',
+			'subdir' => '',
+			'basedir' => WP_CONTENT_DIR . '/custom-fonts',
+			'baseurl' => WP_CONTENT_URL . '/custom-fonts',
+			'error' => false,
+		];
+
+		$this->assertEquals( $expected, $font_dir );
+	}
+
+	/**
 	 * Get the font library from Gutenberg if it's not available.
 	 */
 	private function maybe_get_font_library() {
