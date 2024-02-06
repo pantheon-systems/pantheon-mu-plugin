@@ -72,6 +72,13 @@ bash "$(dirname "$0")/install-wp-tests.sh" "$DB_NAME" "$DB_USER" "$DB_PASS" "$DB
 # If WP nightly is chosen, the script doesn't download the wp-latest.json file, so download it manually.
 if [ "${WP_VERSION}" == "nightly" ]; then
   download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
+
+  # If a wp-config file does not exist, create it.
+  if [ ! -f "${TMPDIR}/wordpress/wp-config.php" ]; then
+    echo "Creating wp-config.php"
+    wp config create --dbname="${DB_NAME}" --dbuser="${DB_USER}" --dbpass="${DB_PASS}" --dbhost="${DB_HOST}" --dbprefix=wptests_ --path="${TMPDIR}/wordpress/"
+  fi
+  
 fi
 
 # Run PHPUnit
