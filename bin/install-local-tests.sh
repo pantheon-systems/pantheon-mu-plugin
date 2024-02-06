@@ -21,9 +21,9 @@ usage() {
 }
 
 download() {
-    if [ `which curl` ]; then
+    if [ "$(which curl)" ]; then
         curl -s "$1" > "$2";
-    elif [ `which wget` ]; then
+    elif [ "$(which wget)" ]; then
         wget -nv -O "$2" "$1"
     fi
 }
