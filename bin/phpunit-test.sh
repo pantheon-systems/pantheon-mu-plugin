@@ -41,7 +41,6 @@ setup_wp_nightly() {
 
 echo "🧹 Removing files before testing nightly WP..."
 rm -rf "$WP_TESTS_DIR" "$WP_CORE_DIR"
-rm "${DIRNAME}/../tests/wp-latest.json"
 
 echo "🤔 Installing WP Unit tests with WP nightly version..."
 bash "${DIRNAME}/install-wp-tests.sh" wordpress_test root root 127.0.0.1 nightly true
