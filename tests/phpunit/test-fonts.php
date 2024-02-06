@@ -7,19 +7,26 @@
 
 Use Pantheon\Fonts;
 
+use function Pantheon\Fonts\pantheon_modify_fonts_dir;
+
 /**
  * Main Mu Plugin Test Case
  */
 class Test_Fonts extends WP_UnitTestCase
 {
+	public function setUp(): void {
+		parent::setUp();
+		remove_all_filters( 'font_dir' );
+		remove_all_filters( 'pantheon_modify_fonts_dir' );
+		remove_all_filters( 'pantheon_fonts_dir' );
+	}
+
 	/**
 	 * Test the font library modifications have been loaded.
 	 */
 	public function test_font_library_modifications() {
 		$this->assertTrue( function_exists( 'Pantheon\Fonts\bootstrap' ) );
 		$this->assertEquals( has_action( 'init', 'Pantheon\Fonts\bootstrap' ), 10 );
-		$this->assertTrue( defined( 'PANTHEON_MODIFY_FONTS_DIR' ) );
-		$this->assertTrue( PANTHEON_MODIFY_FONTS_DIR );
 	}
 
 	/**
@@ -119,6 +126,38 @@ class Test_Fonts extends WP_UnitTestCase
 			'subdir' => '',
 			'basedir' => WP_CONTENT_DIR . '/custom-fonts',
 			'baseurl' => WP_CONTENT_URL . '/custom-fonts',
+			'error' => false,
+		];
+
+		$this->assertEquals( $expected, $font_dir );
+	}
+
+	/**
+	 * Test that the font directory modifications can be disabled.
+	 */
+	public function test_disable_pantheon_font_dir_mods() {
+		// Check current WP version to see if we can run the test.
+		$version = _pantheon_get_current_wordpress_version();
+		if ( version_compare( $version, '6.4', '<=' ) ) {
+			// Skip the test if the current WP version is less than 6.5.
+			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+		}
+
+		$this->maybe_get_font_library();
+
+		// Disable the font directory modifications.
+		add_filter( 'pantheon_modify_fonts_dir', '__return_false' );
+		$modify_fonts_dir = Fonts\pantheon_modify_fonts_dir();
+		$this->assertFalse( $modify_fonts_dir );
+
+		$font_dir = wp_get_font_dir();
+
+		$expected = [
+			'path' => WP_CONTENT_DIR . '/fonts',
+			'url' => WP_CONTENT_URL . '/fonts',
+			'subdir' => '',
+			'basedir' => WP_CONTENT_DIR . '/fonts',
+			'baseurl' => WP_CONTENT_URL . '/fonts',
 			'error' => false,
 		];
 
