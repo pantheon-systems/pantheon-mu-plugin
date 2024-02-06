@@ -12,6 +12,13 @@ namespace Pantheon\Fonts;
  * Kick off our customizations to the WP_Font_Library.
  */
 function bootstrap() {
+	if ( pantheon_modify_fonts_dir() ) {
+		// Use the new font_dir filter added in WordPress 6.5. See https://github.com/WordPress/gutenberg/pull/57697.
+		add_filter( 'font_dir', __NAMESPACE__ . '\\pantheon_font_dir' );
+	}
+}
+add_action( 'init', __NAMESPACE__ . '\\bootstrap' );
+
 /**
  * Get the value of the pantheon_modify_fonts_dir filter.
  * By default, this should return true (we're filtering).
