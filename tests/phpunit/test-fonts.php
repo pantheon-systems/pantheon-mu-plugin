@@ -168,8 +168,9 @@ class Test_Fonts extends WP_UnitTestCase {
 	 * Get the font library from Gutenberg if it's not available.
 	 */
 	private function maybe_get_font_library() {
-		if ( ! function_exists( 'wp_get_font_dir' ) ) {
-			require_once WP_PLUGIN_DIR . '/gutenberg/lib/compat/wordpress-6.5/fonts/fonts.php';
+		$fonts_php = WP_PLUGIN_DIR . '/gutenberg/lib/compat/wordpress-6.5/fonts/fonts.php';
+		if ( ! function_exists( 'wp_get_font_dir' ) && file_exists( $fonts_php ) ) {
+			require_once $fonts_php;
 		}
 	}
 }
