@@ -31,11 +31,11 @@ composer test:multisite --ansi
 setup_wp_nightly() {
 	download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
 	echo "Creating wp-config.php"
-	wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbprefix=wptests_
-	wp core install --url=localhost --title=Test --admin_user=admin --admin_password=password --admin_email=test@dev.null
+	wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbprefix=wptests_ --path="/tmp/wordpress"
+	wp core install --url=localhost --title=Test --admin_user=admin --admin_password=password --admin_email=test@dev.null --path="/tmp/wordpress"
 	# If nightly version of WP is installed, install latest Gutenberg plugin and activate it.
 	echo "Installing Gutenberg plugin"
-	wp plugin install gutenberg --activate
+	wp plugin install gutenberg --activate --path="/tmp/wordpress"
 }
 
 echo "🧹 Removing files before testing nightly WP..."
