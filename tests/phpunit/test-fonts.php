@@ -5,15 +5,15 @@
  * @package pantheon
  */
 
-Use Pantheon\Fonts;
+use Pantheon\Fonts;
 
 use function Pantheon\Fonts\pantheon_modify_fonts_dir;
 
 /**
  * Main Mu Plugin Test Case
  */
-class Test_Fonts extends WP_UnitTestCase
-{
+class Test_Fonts extends WP_UnitTestCase {
+
 	public function setUp(): void {
 		parent::setUp();
 		remove_all_filters( 'font_dir' );
@@ -31,7 +31,7 @@ class Test_Fonts extends WP_UnitTestCase
 
 	/**
 	 * Test the pantheon_font_dir function.
-	 */	
+	 */ 
 	public function test_pantheon_font_dir() {
 		$this->assertTrue( function_exists( 'Pantheon\Fonts\pantheon_font_dir' ) );
 		
@@ -109,7 +109,7 @@ class Test_Fonts extends WP_UnitTestCase
 			'baseurl' => WP_CONTENT_URL . '/custom-fonts',
 		];
 
-		add_filter( 'font_dir', function( $defaults ) use ( $custom_directory ) {
+		add_filter( 'font_dir', function ( $defaults ) use ( $custom_directory ) {
 			$defaults['path'] = $custom_directory['path'];
 			$defaults['url'] = $custom_directory['url'];
 			$defaults['basedir'] = $custom_directory['basedir'];

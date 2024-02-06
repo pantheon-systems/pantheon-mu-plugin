@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Pantheon mu-plugin customizations to the WP_Font_Library added in WordPress 6.5
  *
