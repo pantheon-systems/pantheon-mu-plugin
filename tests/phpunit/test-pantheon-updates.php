@@ -187,7 +187,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 			return false;
 		}
 
-		// If the version derived from wordpress is higher than the version in the wp-version.json file, then we're using a prerelease.
+		// If the version derived from WordPress is higher than the version in the wp-version.json file, then we're using a prerelease.
 		if ( version_compare( $current_version, $installed_version, '>' ) ) {
 			return true;
 		}
