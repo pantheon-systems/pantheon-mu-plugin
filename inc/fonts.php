@@ -14,7 +14,7 @@ namespace Pantheon\Fonts;
 function bootstrap() {
 	if ( pantheon_modify_fonts_dir() ) {
 		// Use the new font_dir filter added in WordPress 6.5. See https://github.com/WordPress/gutenberg/pull/57697.
-		add_filter( 'font_dir', __NAMESPACE__ . '\\pantheon_font_dir' );
+		add_filter( 'font_dir', __NAMESPACE__ . '\\pantheon_font_dir', 9 );
 	}
 }
 add_action( 'init', __NAMESPACE__ . '\\bootstrap' );
