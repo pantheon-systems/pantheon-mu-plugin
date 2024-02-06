@@ -182,7 +182,13 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		$current_version = _pantheon_get_current_wordpress_version();
 		$installed_version = self::get_latest_wp_version_from_file();
 
-		if ( version_compare( $current_version, $installed_version, '>=' ) ) {
+		// If the current version and the installed version are the same, then we're not using a prerelease.
+		if ( $current_version === $installed_version ) {
+			return false;
+		}
+
+		// If the version derived from wordpress is higher than the version in the wp-version.json file, then we're using a prerelease.
+		if ( version_compare( $current_version, $installed_version, '>' ) ) {
 			return true;
 		}
 
