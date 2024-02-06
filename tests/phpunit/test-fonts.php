@@ -39,6 +39,7 @@ class Test_Fonts extends WP_UnitTestCase {
 		if ( version_compare( $version, '6.4', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+			return;
 		}
 
 		$this->maybe_get_font_library();
@@ -69,6 +70,7 @@ class Test_Fonts extends WP_UnitTestCase {
 		if ( version_compare( $version, '6.4', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+			return;
 		}
 		
 		$this->maybe_get_font_library();
@@ -97,6 +99,7 @@ class Test_Fonts extends WP_UnitTestCase {
 		if ( version_compare( $version, '6.4', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+			return;
 		}
 
 		$this->maybe_get_font_library();
@@ -140,6 +143,7 @@ class Test_Fonts extends WP_UnitTestCase {
 		if ( version_compare( $version, '6.4', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+			return;
 		}
 
 		$this->maybe_get_font_library();
