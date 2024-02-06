@@ -36,10 +36,9 @@ class Test_Fonts extends WP_UnitTestCase {
 		
 		// Check current WP version to see if we can run the test.
 		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4', '<=' ) ) {
+		if ( version_compare( $version, '6.4.x', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-			return;
 		}
 
 		$this->maybe_get_font_library();
@@ -67,10 +66,9 @@ class Test_Fonts extends WP_UnitTestCase {
 	public function test_pantheon_font_dir_filter() {
 		// Check current WP version to see if we can run the test.
 		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4', '<=' ) ) {
+		if ( version_compare( $version, '6.4.x', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-			return;
 		}
 		
 		$this->maybe_get_font_library();
@@ -96,10 +94,9 @@ class Test_Fonts extends WP_UnitTestCase {
 	public function test_pantheon_fonts_dir_filter() {
 		// Check current WP version to see if we can run the test.
 		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4', '<=' ) ) {
+		if ( version_compare( $version, '6.4.x', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-			return;
 		}
 
 		$this->maybe_get_font_library();
@@ -140,10 +137,9 @@ class Test_Fonts extends WP_UnitTestCase {
 	public function test_disable_pantheon_font_dir_mods() {
 		// Check current WP version to see if we can run the test.
 		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4', '<=' ) ) {
+		if ( version_compare( $version, '6.4.x', '<=' ) ) {
 			// Skip the test if the current WP version is less than 6.5.
 			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-			return;
 		}
 
 		$this->maybe_get_font_library();
