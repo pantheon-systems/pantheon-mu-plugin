@@ -28,10 +28,17 @@ class Test_Fonts extends WP_UnitTestCase
 	public function test_pantheon_font_dir() {
 		$this->assertTrue( function_exists( 'Pantheon\Fonts\pantheon_font_dir' ) );
 		
-		if ( ! function_exists( 'wp_get_font_dir' ) ) {
-			// Skip the test if wp_get_font_dir does not exist.
-			$this->markTestSkipped( 'wp_get_font_dir does not exist. WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
+		// Check current WP version to see if we can run the test.
+		$version = _pantheon_get_current_wordpress_version();
+		if ( version_compare( $version, '6.4', '<=' ) ) {
+			// Skip the test if the current WP version is less than 6.5.
+			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
 		}
+
+		$this->maybe_get_font_library();
+
+		// Remove the filters we apply to `font_dir` so we're getting the default data.
+		remove_all_filters( 'font_dir' );
 		$default_fonts = wp_get_font_dir();
 		$font_dir = Fonts\pantheon_font_dir( $default_fonts );
 
