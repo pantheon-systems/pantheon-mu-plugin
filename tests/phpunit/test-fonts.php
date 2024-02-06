@@ -18,7 +18,6 @@ class Test_Fonts extends WP_UnitTestCase {
 		parent::setUp();
 		remove_all_filters( 'font_dir' );
 		remove_all_filters( 'pantheon_modify_fonts_dir' );
-		remove_all_filters( 'pantheon_fonts_dir' );
 	}
 
 	/**
