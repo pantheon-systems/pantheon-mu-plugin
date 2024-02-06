@@ -18,14 +18,16 @@ bash "${DIRNAME}/install-wp-tests.sh" wordpress_test root root 127.0.0.1 latest
 echo "📄 Copying wp-latest.json..."
 cp /tmp/wp-latest.json "${DIRNAME}/../tests/wp-latest.json"
 
-echo "🏃‍♂️ Running PHPUnit on Single Site"
+echo '------------------------------------------'
+echo "🏃‍♂️ [Run 1]: Running PHPUnit on Single Site"
 composer phpunit --ansi
 
 echo "🧹 Removing files before testing WPMS..."
 rm "${DIRNAME}/../tests/wp-latest.json"
 
 bash "${DIRNAME}/install-wp-tests.sh" wordpress_test root root 127.0.0.1 latest true
-echo "🏃‍♂️ Running PHPUnit on Multisite"
+echo '------------------------------------------'
+echo "🏃‍♂️ [Run 2]: Running PHPUnit on Multisite"
 composer test:multisite --ansi
 
 setup_wp_nightly() {
@@ -47,5 +49,6 @@ cp /tmp/wp-latest.json "${DIRNAME}/../tests/wp-latest.json"
 
 setup_wp_nightly
 
-echo "🏃‍♂️ Running PHPUnit on Single Site (Nightly WordPress)"
+echo '------------------------------------------'
+echo "🏃‍♂️ [Run 3]: Running PHPUnit on Single Site (Nightly WordPress)"
 composer phpunit --ansi
