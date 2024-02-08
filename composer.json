@@ -8,6 +8,7 @@
   },
   "require-dev": {
     "pantheon-systems/pantheon-wp-coding-standards": "^2.0",
+    "pantheon-systems/wpunit-helpers": "dev-add-more-helpers",
     "phpunit/phpunit": "^9",
     "yoast/phpunit-polyfills": "^2.0"
   },
