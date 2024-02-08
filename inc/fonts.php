@@ -15,7 +15,7 @@ namespace Pantheon\Fonts;
  * @var array $wp_upload_dir The value of wp_get_upload_dir().
  * @see https://developer.wordpress.org/reference/functions/wp_get_upload_dir/
  */
-$_pantheon_upload_dir = wp_get_upload_dir();
+$_pantheon_upload_dir = wp_get_upload_dir(); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 
 /**
  * Kick off our customizations to the WP_Font_Library.
