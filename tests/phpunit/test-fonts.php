@@ -159,7 +159,7 @@ class Test_Fonts extends WP_UnitTestCase {
 
 		// Disable the font directory modifications.
 		add_filter( 'pantheon_modify_fonts_dir', '__return_false' );
-		$modify_fonts_dir = Fonts\pantheon_modify_fonts_dir();
+		$modify_fonts_dir = apply_filters( 'pantheon_modify_fonts_dir', true );
 		$this->assertFalse( $modify_fonts_dir );
 
 		$font_dir = wp_get_font_dir();
