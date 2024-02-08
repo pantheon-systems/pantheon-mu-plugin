@@ -14,7 +14,8 @@
   },
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "pantheon-systems/wpunit-helpers": true
     }
   },
   "scripts": {
