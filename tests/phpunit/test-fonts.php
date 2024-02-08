@@ -58,13 +58,6 @@ class Test_Fonts extends WP_UnitTestCase {
 	 */ 
 	public function test_pantheon_font_dir() {
 		$this->assertTrue( function_exists( 'Pantheon\Fonts\pantheon_font_dir' ) );
-		
-		// Check current WP version to see if we can run the test.
-		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4.x', '<=' ) ) {
-			// Skip the test if the current WP version is less than 6.5.
-			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-		}
 
 		$this->maybe_get_font_library();
 		if ( ! function_exists( 'wp_get_font_dir' ) ) {
@@ -93,13 +86,6 @@ class Test_Fonts extends WP_UnitTestCase {
 	 * Test that our filtered font directory is filtered properly.
 	 */
 	public function test_pantheon_font_dir_filter() {
-		// Check current WP version to see if we can run the test.
-		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4.x', '<=' ) ) {
-			// Skip the test if the current WP version is less than 6.5.
-			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-		}
-		
 		$this->maybe_get_font_library();
 		if ( ! function_exists( 'wp_get_font_dir' ) ) {
 			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
@@ -125,13 +111,6 @@ class Test_Fonts extends WP_UnitTestCase {
 	 * Test that using the font_dir filter at priority 10 overrides our modifications.
 	 */
 	public function test_pantheon_fonts_dir_filter() {
-		// Check current WP version to see if we can run the test.
-		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4.x', '<=' ) ) {
-			// Skip the test if the current WP version is less than 6.5.
-			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-		}
-
 		$this->maybe_get_font_library();
 		if ( ! function_exists( 'wp_get_font_dir' ) ) {
 			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
@@ -172,13 +151,6 @@ class Test_Fonts extends WP_UnitTestCase {
 	 * Test that the font directory modifications can be disabled.
 	 */
 	public function test_disable_pantheon_font_dir_mods() {
-		// Check current WP version to see if we can run the test.
-		$version = _pantheon_get_current_wordpress_version();
-		if ( version_compare( $version, '6.4.x', '<=' ) ) {
-			// Skip the test if the current WP version is less than 6.5.
-			$this->markTestSkipped( 'WP 6.5+ or Gutenberg 17.6+ must be available to test the font library modifications.' );
-		}
-
 		$this->maybe_get_font_library();
 		if ( ! function_exists( 'wp_get_font_dir' ) ) {
 			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
