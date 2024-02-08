@@ -21,20 +21,6 @@ $_pantheon_upload_dir = wp_get_upload_dir(); // phpcs:ignore VariableAnalysis.Co
  * Kick off our customizations to the WP_Font_Library.
  */
 function bootstrap() {
-	if ( pantheon_modify_fonts_dir() ) {
-		// Use the new font_dir filter added in WordPress 6.5. See https://github.com/WordPress/gutenberg/pull/57697.
-		add_filter( 'font_dir', __NAMESPACE__ . '\\pantheon_font_dir', 9 );
-	}
-}
-add_action( 'init', __NAMESPACE__ . '\\bootstrap' );
-
-/**
- * Get the value of the pantheon_modify_fonts_dir filter.
- * By default, this should return true (we're filtering).
- *
- * @return bool Whether to modify the fonts directory.
- */
-function pantheon_modify_fonts_dir() {
 	/**
 	 * Modify the fonts directory.
 	 *
@@ -44,8 +30,14 @@ function pantheon_modify_fonts_dir() {
 	 *
 	 * @param bool $modify_fonts_dir Whether to modify the fonts directory.
 	 */
-	return apply_filters( 'pantheon_modify_fonts_dir', true );
+	$modify_fonts_dir = apply_filters( 'pantheon_modify_fonts_dir', true );
+
+	if ( $modify_fonts_dir ) {
+		// Use the new font_dir filter added in WordPress 6.5. See https://github.com/WordPress/gutenberg/pull/57697.
+		add_filter( 'font_dir', __NAMESPACE__ . '\\pantheon_font_dir', 9 );
+	}
 }
+add_action( 'init', __NAMESPACE__ . '\\bootstrap' );
 
 /**
  * Define a custom font directory for the WP Font Library.
