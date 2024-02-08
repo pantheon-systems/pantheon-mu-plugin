@@ -54,9 +54,9 @@ function pantheon_modify_fonts_dir() {
  * @param array $defaults The default settings for the font directory.
  */
 function pantheon_font_dir( $defaults ) {
-	$wp_upload_dir = wp_get_upload_dir();
-	$uploads_basedir = $wp_upload_dir['basedir'];
-	$uploads_baseurl = $wp_upload_dir['baseurl'];
+	global $_wp_upload_dir;
+	$uploads_basedir = $_wp_upload_dir['basedir'];
+	$uploads_baseurl = $_wp_upload_dir['baseurl'];
 
 	// Set our font directory.
 	$font_dir = $uploads_basedir . '/fonts';
