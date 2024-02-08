@@ -55,12 +55,9 @@ function pantheon_modify_fonts_dir() {
  */
 function pantheon_font_dir( $defaults ) {
 	global $_pantheon_upload_dir;
-	$uploads_basedir = $_pantheon_upload_dir['basedir'];
-	$uploads_baseurl = $_pantheon_upload_dir['baseurl'];
-
 	// Set our font directory.
-	$font_dir = $uploads_basedir . '/fonts';
-	$font_url = $uploads_baseurl . '/fonts';
+	$font_dir = $_pantheon_upload_dir['basedir'] . '/fonts';
+	$font_url = $_pantheon_upload_dir['baseurl'] . '/fonts';
 
 	$defaults['path'] = $font_dir;
 	$defaults['url'] = $font_url;
