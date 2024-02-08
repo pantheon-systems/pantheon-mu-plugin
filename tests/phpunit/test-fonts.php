@@ -13,7 +13,7 @@ use function Pantheon\Fonts\pantheon_modify_fonts_dir;
  * Main Mu Plugin Test Case
  */
 class Test_Fonts extends WP_UnitTestCase {
-	protected $_original_pantheon_upload_dir;
+	protected $original_pantheon_upload_dir;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -22,7 +22,7 @@ class Test_Fonts extends WP_UnitTestCase {
 
 		// Mock the global variable before each test
 		global $_pantheon_upload_dir;
-		$this->_original_pantheon_upload_dir = $_pantheon_upload_dir; // Backup original global if needed
+		$this->original_pantheon_upload_dir = $_pantheon_upload_dir; // Backup original global if needed
 
 		// Manually set the global variable to a mocked value
 		$_pantheon_upload_dir = [
@@ -34,7 +34,7 @@ class Test_Fonts extends WP_UnitTestCase {
 	public function tearDown(): void {
 		// Restore original global state after each test if necessary
 		global $_pantheon_upload_dir;
-		$_pantheon_upload_dir = $this->_original_pantheon_upload_dir;
+		$_pantheon_upload_dir = $this->original_pantheon_upload_dir;
 
 		parent::tearDown();		
 	}
