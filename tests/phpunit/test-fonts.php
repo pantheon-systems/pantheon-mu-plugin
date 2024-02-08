@@ -13,11 +13,30 @@ use function Pantheon\Fonts\pantheon_modify_fonts_dir;
  * Main Mu Plugin Test Case
  */
 class Test_Fonts extends WP_UnitTestCase {
+	protected $_original_pantheon_upload_dir;
 
 	public function setUp(): void {
 		parent::setUp();
 		remove_all_filters( 'font_dir' );
 		remove_all_filters( 'pantheon_modify_fonts_dir' );
+
+		// Mock the global variable before each test
+		global $_pantheon_upload_dir;
+		$this->_original_pantheon_upload_dir = $_pantheon_upload_dir; // Backup original global if needed
+
+		// Manually set the global variable to a mocked value
+		$_pantheon_upload_dir = [
+			'basedir' => WP_CONTENT_DIR . '/uploads',
+			'baseurl' => 'http://example.org/wp-content/uploads',
+		];		
+	}
+
+	public function tearDown(): void {
+		// Restore original global state after each test if necessary
+		global $_pantheon_upload_dir;
+		$_pantheon_upload_dir = $this->_original_pantheon_upload_dir;
+
+		parent::tearDown();		
 	}
 
 	/**
