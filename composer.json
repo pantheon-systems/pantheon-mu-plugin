@@ -41,7 +41,8 @@
       "@test:multisite"
     ],
     "test:multisite": "WP_MULTISITE=1 vendor/bin/phpunit --colors=always",
-    "test:install": "bin/install-local-tests.sh --no-db",
-    "test:install:withdb": "bin/install-local-tests.sh"
+    "test:install": "bin/install-local-tests.sh --skip-db=true",
+    "test:install:withdb": "bin/install-local-tests.sh",
+    "test:install:nightly": "bin/install-local-tests.sh --version=nightly --skip-db=true"
   }
 }
