@@ -19,6 +19,15 @@
     }
   },
   "scripts": {
+    "chmod-scripts": [
+      "chmod +x bin/*.sh"
+    ],
+    "post-install-cmd": [
+      "@chmod-scripts"
+    ],
+    "post-update-cmd": [
+      "@chmod-scripts"
+    ],
     "lint": [
       "@phplint",
       "@phpcs"
