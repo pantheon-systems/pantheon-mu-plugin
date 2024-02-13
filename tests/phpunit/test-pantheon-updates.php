@@ -30,8 +30,9 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * @return string|bool The latest WordPress version or false if the file doesn't exist.
 	 */
 	private static function get_latest_wp_version_from_file() {
-		$file = dirname( __DIR__ ) . '/wp-latest.json';
-
+		global $_tests_dir;
+		
+		$file = dirname( $_tests_dir ) . '/wp-latest.json';
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
@@ -65,7 +66,11 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		// Run the function.
 		$result = _pantheon_get_current_wordpress_version();
 		$current_version = self::get_latest_wp_version_from_file();
-
+		
+		// If the current version is greater than the result, then we downloaded a nightly version for testing.
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'The current version is greater than the result. We downloaded a nightly version for testing.' );
+		}
 		// Check that the returned version is correct. This value needs to be changed when the WordPress version is updated.
 		$this->assertEquals( $current_version, $result );
 	}
@@ -101,6 +106,10 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Test the _pantheon_upstream_update_notice function for latest core.
 	 */
 	public function test_pantheon_upstream_update_notice_core_latest() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'The current version is greater than the result. We will get a different message than the one this test expects.' );
+		}
+
 		set_current_screen( 'update-core' );
 	
 		// Simulate that the core is the latest version.
@@ -129,6 +138,10 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Test the _pantheon_upstream_update_notice function for older core.
 	 */
 	public function test_pantheon_upstream_update_notice_core_not_latest() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'The current version is greater than the result. We will get a different message than the one this test expects.' );
+		}
+
 		set_current_screen( 'update-core' );
 	
 		// Simulate that the core is not the latest version.
@@ -158,14 +171,38 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 */
 	private static function get_next_beta_version() {
 		$version_parts = explode( '.', self::$wp_version );
-		$version_parts[2] = (int) $version_parts[2] + 1;
+		$version_parts[1] = (int) $version_parts[1] + 1;
 		return implode( '.', $version_parts ) . '-beta';
+	}
+
+	/**
+	 * Check if we're using a beta version.
+	 */
+	private static function is_prerelease() {
+		$current_version = _pantheon_get_current_wordpress_version();
+		$installed_version = self::get_latest_wp_version_from_file();
+
+		// If the current version and the installed version are the same, then we're not using a prerelease.
+		if ( $current_version === $installed_version ) {
+			return false;
+		}
+
+		// If the version derived from WordPress is higher than the version in the wp-version.json file, then we're using a prerelease.
+		if ( version_compare( $current_version, $installed_version, '>' ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * Test the _pantheon_upstream_update_notice function for beta/pre-release version.
 	 */
 	public function test_pantheon_upstream_update_notice_core_prerelease() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'The current version is greater than the result. We will get a different message than the one this test expects.' );
+		}
+
 		$beta_version = self::get_next_beta_version();
 		set_current_screen( 'update-core' );
 	

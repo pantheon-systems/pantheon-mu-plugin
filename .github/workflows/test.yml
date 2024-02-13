@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: PHP Compatibility
         uses: pantheon-systems/phpcompatibility-action@dev
         with:
@@ -26,23 +26,35 @@ jobs:
     services:
       mariadb:
         image: mariadb:10.6
+    strategy:
+      matrix:
+        php_version: [7.4, 8.1, 8.3] # Versions represent newest 7.x, WP supported with exclusions, and beta support.
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup PHP 8.3
+      - uses: actions/checkout@v4
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ matrix.php_version }}
           extensions: mysqli, zip, imagick
       - name: Start MySQL
         run: sudo systemctl start mysql
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/vendor
           key: test-phpunit-dependencies-${{ hashFiles('composer.json') }}
           restore-keys: test-phpunit-dependencies-${{ hashFiles('composer.json') }}
       - name: Install Composer dependencies
-        run: composer install
+        run: |
+          if [ ${{ matrix.php_version }} = "7.4" ]; then
+            composer update
+          fi
+          composer install
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
       - name: Run PHPUnit
         run: bash ./bin/phpunit-test.sh
   
