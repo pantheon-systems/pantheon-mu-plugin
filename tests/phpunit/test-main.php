@@ -30,7 +30,7 @@ class Test_Main extends WP_UnitTestCase {
 	/**
 	 * Test that _pantheon_get_current_wordpress_version is available.
 	 */
-	public function test_fatal_error_if_disable_pantheon_update_notices_defined() {
+	public function test_get_current_wp_version_exists() {
 		// Check _pantheon_get_current_wordpress_version() is defined.
 		$this->assertTrue( function_exists( 'Pantheon\\_pantheon_get_current_wordpress_version' ) );
 		$this->assertIsString( Pantheon\_pantheon_get_current_wordpress_version() );
