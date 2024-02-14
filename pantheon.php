@@ -13,13 +13,13 @@
 define( 'PANTHEON_MU_PLUGIN_VERSION', '1.2.1' );
 
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
-
+	require_once 'inc/functions.php';
 	require_once 'inc/pantheon-page-cache.php';
 	if ( ! defined( 'DISABLE_PANTHEON_UPDATE_NOTICES' ) || ! DISABLE_PANTHEON_UPDATE_NOTICES ) {
 		require_once 'inc/pantheon-updates.php';
 	}
 	// If the WP Font Library exists, we can add our font directory modifications. Use version_compare because the Font Library isn't actually loaded yet.
-	if ( version_compare( _pantheon_get_current_wordpress_version(), '6.5' ) ) {
+	if ( version_compare( Pantheon\_pantheon_get_current_wordpress_version(), '6.5' ) ) {
 		require_once 'inc/fonts.php';
 	}   
 	if ( ! defined( 'RETURN_TO_PANTHEON_BUTTON' ) || RETURN_TO_PANTHEON_BUTTON ) {
