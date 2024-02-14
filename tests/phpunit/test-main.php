@@ -14,7 +14,7 @@ class Test_Main extends WP_UnitTestCase {
 	 */
 	public function test_mu_plugin_constants() {
 		$this->assertTrue( defined( 'PANTHEON_MU_PLUGIN_VERSION' ) );
-		$this->assertEquals( '1.2.1', PANTHEON_MU_PLUGIN_VERSION );
+		$this->assertEquals( '1.3.1', PANTHEON_MU_PLUGIN_VERSION );
 		$this->assertTrue( defined( 'FS_METHOD' ) );
 		$this->assertEquals( 'direct', FS_METHOD );
 		
