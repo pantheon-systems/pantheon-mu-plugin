@@ -21,7 +21,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 */
 	public function __construct() {
 		parent::__construct();
-		self::$wp_version = _pantheon_get_current_wordpress_version();
+		self::$wp_version = Pantheon\_pantheon_get_current_wordpress_version();
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 */
 	public function test_pantheon_get_current_wordpress_version() {
 		// Run the function.
-		$result = _pantheon_get_current_wordpress_version();
+		$result = Pantheon\_pantheon_get_current_wordpress_version();
 		$current_version = self::get_latest_wp_version_from_file();
 		
 		// If the current version is greater than the result, then we downloaded a nightly version for testing.
@@ -179,7 +179,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 	 * Check if we're using a beta version.
 	 */
 	private static function is_prerelease() {
-		$current_version = _pantheon_get_current_wordpress_version();
+		$current_version = Pantheon\_pantheon_get_current_wordpress_version();
 		$installed_version = self::get_latest_wp_version_from_file();
 
 		// If the current version and the installed version are the same, then we're not using a prerelease.
