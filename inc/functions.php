@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Pantheon mu-plugin helper functions
  *
