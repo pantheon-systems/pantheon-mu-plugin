@@ -24,7 +24,6 @@ class Test_Fonts extends WP_UnitTestCase {
 	public function setUp(): void {
 		parent::setUp();
 		remove_all_filters( 'font_dir' );
-		remove_all_filters( 'pantheon_modify_fonts_dir' );
 
 		// Mock the global variable before each test.
 		global $_pantheon_upload_dir;
@@ -141,35 +140,6 @@ class Test_Fonts extends WP_UnitTestCase {
 			'subdir' => '',
 			'basedir' => WP_CONTENT_DIR . '/custom-fonts',
 			'baseurl' => WP_CONTENT_URL . '/custom-fonts',
-			'error' => false,
-		];
-
-		$this->assertEquals( $expected, $font_dir );
-	}
-
-	/**
-	 * Test that the font directory modifications can be disabled.
-	 */
-	public function test_disable_pantheon_font_dir_mods() {
-		$this->maybe_get_font_library();
-		if ( ! function_exists( 'wp_get_font_dir' ) ) {
-			// If the function still doesn't exist after trying to get the font library from gutenberg, mark the test skipped.
-			$this->markTestSkipped( 'The wp_get_font_dir function is not available. We\'re probably not using WP 6.5+' );
-		}
-
-		// Disable the font directory modifications.
-		add_filter( 'pantheon_modify_fonts_dir', '__return_false' );
-		$modify_fonts_dir = apply_filters( 'pantheon_modify_fonts_dir', true );
-		$this->assertFalse( $modify_fonts_dir );
-
-		$font_dir = wp_get_font_dir();
-
-		$expected = [
-			'path' => WP_CONTENT_DIR . '/fonts',
-			'url' => WP_CONTENT_URL . '/fonts',
-			'subdir' => '',
-			'basedir' => WP_CONTENT_DIR . '/fonts',
-			'baseurl' => WP_CONTENT_URL . '/fonts',
 			'error' => false,
 		];
 
