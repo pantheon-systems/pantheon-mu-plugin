@@ -19,7 +19,7 @@ What does that mean? We're glad you asked!
 **Facilitates communication between Pantheon's Edge Cache layer and WordPress.** It allows you to set the default cache age, clear individual pages on demand, and it will automatically clear relevant urls when the site is updated. Authored by [Matthew Boynes](http://www.alleyinteractive.com/).
 
 ## WordPress Multisite Support
-**Simplified multisite configuration.** The `WP_ALLOW_MULTISITE` is automatically defined on WordPress Multisite-based upstreams. The Network Setup pages and notices have been tailored to a Pantheon-specific WordPress multisite experience.
+**Simplified multisite configuration.** The `WP_ALLOW_MULTISITE` is automatically defined on WordPress Multisite-based upstreams. The Network Setup pages and notices have been customized for a Pantheon-specific WordPress multisite experience.
 
 ## Maintenance Mode
 **Put your site into a maintenance mode.** Prevent users from accessing your sites during major updates by enabling Maintenance Mode either in the WordPress admin or via WP-CLI.
