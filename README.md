@@ -30,7 +30,7 @@ What does that mean? We're glad you asked!
 ```bash
 composer require pantheon-systems/pantheon-mu-plugin
 ```
-
+--
 Maintained by [Pantheon](https://pantheon.io) and built by the [community](https://github.com/pantheon-systems/pantheon-mu-plugin/graphs/contributors).
 
 [Releases and Changelogs](https://github.com/pantheon-systems/pantheon-mu-plugin/releases)
