@@ -24,7 +24,7 @@ What does that mean? We're glad you asked!
 ## Maintenance Mode
 **Allows the site to be put into a maintenance mode.** Prevent users from accessing your sites during major updates by enabling Maintenance Mode either in the WordPress admin or via WP-CLI.
 
-## Installation via Composer
+## Install With Composer
 **Built for Composer.** While Pantheon automation ensures that the latest version of the MU plugin are pushed with every update to WordPress, the Composer-based project ensures that you can manage it alongside your other WordPress mu-plugins, plugins and themes in your `composer.json`.
 
 ```bash
