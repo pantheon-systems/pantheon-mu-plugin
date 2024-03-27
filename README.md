@@ -1,6 +1,10 @@
 # Pantheon Must-Use Plugin
 
 [![Actively Maintained](https://img.shields.io/badge/Pantheon-Actively_Maintained-yellow?logo=pantheon&color=FFDC28)](https://docs.pantheon.io/oss-support-levels#actively-maintained-support)
+[![Test](https://github.com/pantheon-systems/pantheon-mu-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/pantheon-systems/pantheon-mu-plugin/actions/workflows/test.yml)
+![GitHub Release](https://img.shields.io/github/v/release/pantheon-systems/pantheon-mu-plugin)
+![GitHub License](https://img.shields.io/github/license/pantheon-systems/pantheon-mu-plugin)
+
 
 Workflow
 --------
