@@ -3,14 +3,14 @@
  * Plugin Name: Pantheon
  * Plugin URI: https://pantheon.io/
  * Description: Building on Pantheon's and WordPress's strengths, together.
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Pantheon
  * Author URI: https://pantheon.io/
  *
  * @package pantheon
  */
 
-define( 'PANTHEON_MU_PLUGIN_VERSION', '1.3.1' );
+define( 'PANTHEON_MU_PLUGIN_VERSION', '1.3.2' );
 
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	require_once 'inc/functions.php';
@@ -18,10 +18,6 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	if ( ! defined( 'DISABLE_PANTHEON_UPDATE_NOTICES' ) || ! DISABLE_PANTHEON_UPDATE_NOTICES ) {
 		require_once 'inc/pantheon-updates.php';
 	}
-	// If the WP Font Library exists, we can add our font directory modifications. Use version_compare because the Font Library isn't actually loaded yet.
-	if ( version_compare( Pantheon\_pantheon_get_current_wordpress_version(), '6.5' ) ) {
-		require_once 'inc/fonts.php';
-	}   
 	if ( ! defined( 'RETURN_TO_PANTHEON_BUTTON' ) || RETURN_TO_PANTHEON_BUTTON ) {
 		require_once 'inc/pantheon-login-form-mods.php';
 	}
