@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Pantheon Site Health Modifications
  *
@@ -22,9 +21,9 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
  */
 function site_health_mods( $tests ) {
 	// Remove checks that aren't relevant to Pantheon environments.
-    unset( $tests['direct']['update_temp_backup_writable'] );
-    unset( $tests['direct']['available_updates_disk_space'] );
-    unset( $tests['async']['background_updates'] );
+	unset( $tests['direct']['update_temp_backup_writable'] );
+	unset( $tests['direct']['available_updates_disk_space'] );
+	unset( $tests['async']['background_updates'] );
 	return $tests;
 }
 
@@ -80,10 +79,11 @@ function test_object_cache() {
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
 				__( 'WP Redis is active for your site. We recommend using Object Cache Pro.', 'pantheon' ),
+				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
 				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
 		];
-	} elseif ( $ocp_active ){
+	} elseif ( $ocp_active ) {
 		$result = [
 			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
 			'status' => 'good',
@@ -94,6 +94,7 @@ function test_object_cache() {
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
 				__( 'Object Cache Pro is active for your site.', 'pantheon' ),
+				// Translators: %s is a URL to the Object Cache Pro documentation.
 				sprintf( __( 'Visit the <a href="%s">Object Cache Pro</a> documentation to learn more.', 'pantheon' ), 'https://objectcache.pro/docs' )
 			),
 		];
@@ -108,7 +109,8 @@ function test_object_cache() {
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
 				__( 'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.', 'pantheon' ),
-				sprintf(__('Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon'), 'https://docs.pantheon.io/object-cache/wordpress')
+				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
+				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
 		];
 	}
