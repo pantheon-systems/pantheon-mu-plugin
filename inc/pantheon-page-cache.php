@@ -90,10 +90,10 @@ class Pantheon_Cache {
 		/**
 		 * Modify the default TTL for the Pantheon cache. Defaults to 1 week.
 		 *
-		 * usage:
-		 * 	add_filter( 'pantheon_cache_default_ttl', function() {
-		 * 		return DAY_IN_SECONDS;
-		 * 	} );
+		 * Usage:
+		 *  add_filter( 'pantheon_cache_default_ttl', function() {
+		 *      return DAY_IN_SECONDS;
+		 *  } );
 		 *
 		 * @param int $default_ttl The default TTL in seconds.
 		 */
