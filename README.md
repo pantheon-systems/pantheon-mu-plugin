@@ -9,19 +9,21 @@ The Pantheon Must-Use Plugin has been designed to tailor the WordPress CMS exper
 
 What does that mean? We're glad you asked!
 
-## WebOps Workflow
+## Features
+
+### WebOps Workflow
 **Integrates WordPress with Pantheon Worklow.** Encourages updating plugins and themes in the Development environment and using Pantheon's git-based upstream core updates. Alerts admins if an update is available but disables automatic updates (so those updates can be applied via the upstream).
 
-## Login
+### Login
 **Customized login form.** The login page links back to the Pantheon dashboard on dev, test and live environments that do not have a domain attached.
 
-## Edge Cache (Global CDN)
+### Edge Cache (Global CDN)
 **Facilitates communication between Pantheon's Edge Cache layer and WordPress.** It allows you to set the default cache age, clear individual pages on demand, and it will automatically clear relevant urls when the site is updated. Authored by [Matthew Boynes](http://www.alleyinteractive.com/).
 
-## WordPress Multisite Support
+### WordPress Multisite Support
 **Simplified multisite configuration.** The `WP_ALLOW_MULTISITE` is automatically defined on WordPress Multisite-based upstreams. The Network Setup pages and notices have been customized for a Pantheon-specific WordPress multisite experience.
 
-## Maintenance Mode
+### Maintenance Mode
 **Put your site into a maintenance mode.** Prevent users from accessing your sites during major updates by enabling Maintenance Mode either in the WordPress admin or via WP-CLI.
 
 ## Install With Composer
