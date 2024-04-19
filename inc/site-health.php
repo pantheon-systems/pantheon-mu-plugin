@@ -11,6 +11,7 @@ namespace Pantheon\Site_Health;
 // If on Pantheon...
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	add_filter( 'site_status_tests', __NAMESPACE__ . '\\site_health_mods' );
+	add_filter( 'site_status_tests', __NAMESPACE__ . '\\object_cache_tests' );
 }
 
 /**
@@ -25,4 +26,78 @@ function site_health_mods( $tests ) {
     unset( $tests['direct']['available_updates_disk_space'] );
     unset( $tests['async']['background_updates'] );
 	return $tests;
+}
+
+/**
+ * Add object cache tests.
+ *
+ * @param array $tests The Site Health tests.
+ * @return array
+ */
+function object_cache_tests( $tests ) {
+	$tests['direct']['object_cache'] = [
+		'label' => __( 'Object Cache', 'pantheon' ),
+		'test'  => 'test_object_cache',
+	];
+
+	return $tests;
+}
+
+/**
+ * Check for object cache and object cache plugins.
+ *
+ * @return array
+ */
+function test_object_cache() {
+	if ( ! isset( $_ENV['CACHE_HOST'] ) ) {
+		$result = [
+			'label' => __( 'Redis Object Cache', 'pantheon' ),
+			'status' => 'critical',
+			'badge' => [
+				'label' => __( 'Performance', 'pantheon' ),
+				'color' => 'red',
+			],
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Redis object cache is not active for your site.', 'pantheon' )
+			),
+		];
+
+		return $result;
+	}
+
+	$wp_redis_active = is_plugin_active( 'wp-redis/wp-redis.php' );
+	$ocp_active = is_plugin_active( 'object-cache-pro/object-cache-pro.php' );
+
+	if ( $wp_redis_active ) {
+		$result = [
+			'label' => __( 'WP Redis Active', 'pantheon' ),
+			'status' => 'recommended',
+			'badge' => [
+				'label' => __( 'Performance', 'pantheon' ),
+				'color' => 'yellow',
+			],
+			'description' => sprintf(
+				'<p>%s</p><p>%s</p>',
+				__( 'WP Redis is active for your site. We recommend using Object Cache Pro.', 'pantheon' ),
+				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
+			),
+		];
+	} else {
+		$result = [
+			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
+			'status' => 'good',
+			'badge' => [
+				'label' => __( 'Performance', 'pantheon' ),
+				'color' => 'green',
+			],
+			'description' => sprintf(
+				'<p>%s</p><p>%s</p>',
+				__( 'Object Cache Pro is active for your site.', 'pantheon' ),
+				sprintf( __( 'Visit the <a href="%s">Object Cache Pro</a> documentation to learn more.', 'pantheon' ), 'https://objectcache.pro/docs' )
+			),
+		];
+	}
+
+	return $result;
 }
