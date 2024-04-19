@@ -26,6 +26,81 @@ What does that mean? We're glad you asked!
 ### Maintenance Mode
 **Put your site into a maintenance mode.** Prevent users from accessing your sites during major updates by enabling Maintenance Mode either in the WordPress admin or via WP-CLI.
 
+## Hooks
+
+The Pantheon Must-Use Plugin provides the following hooks that can be used in your code:
+
+### Filters
+
+#### `pantheon_wp_login_text`
+Filter the text displayed on the login page next to the Return to Pantheon button.
+
+**Default Value:** `Log into your WordPress Site`
+
+**Example:**
+```php
+add_filter( 'pantheon_wp_login_text', function() {
+	return 'Log into MySite.';
+} );
+```
+
+#### `pantheon_cache_default_ttl`
+Filter the default cache age for the Pantheon Edge Cache.
+
+**Default Value:** `WEEK_IN_SECONDS` (604800)
+
+**Example:**
+```php
+add_filter( 'pantheon_cache_default_ttl', function() {
+    return 2 * WEEK_IN_SECONDS;
+} );
+```
+
+#### `pantheon_cache_do_maintenance_mode`
+Allows you to modify the maintenance mode behavior with more advanced conditionals.
+
+**Default Value:** Boolean, depending on whether maintenance mode is enabled, user is not on the login page and the action is not happening in WP-CLI.
+
+```php
+add_filter( 'pantheon_cache_do_maintenance_mode', function( $do_maintenance_mode ) {
+	if ( $some_conditional_logic ) {
+		return false;
+	}
+	return $do_maintenance_mode;
+} );
+```
+
+#### `pantheon_cache_allow_clear_all`
+Allows you to disable the ability to clear the entire cache from the WordPress admin. If set to `false`, this removes the "Clear Site Cache" section of the Pantheon Page Cache admin page.
+
+**Default Value:** `true`
+
+**Example:**
+```php
+add_filter( 'pantheon_cache_allow_clear_all', '__return_false' );
+```
+
+### Actions
+#### `pantheon_cache_settings_page_top`
+Runs at the top of the Pantheon Page Cache settings page.
+
+**Example:**
+```php
+add_action( 'pantheon_cache_settings_page_top', function() {
+	echo '<h2>My Custom Heading</h2>';
+} );
+```
+
+#### `pantheon_cache_settings_page_bottom`
+Runs at the bottom of the Pantheon Page Cache settings page.
+
+**Example:**
+```php
+add_action( 'pantheon_cache_settings_page_bottom', function() {
+	echo '<p>My Custom Footer</p>';
+} );
+```
+
 ## Install With Composer
 **Built for Composer.** While Pantheon automation ensures that the latest version of the MU plugin are pushed with every update to WordPress, the Composer-based project ensures that you can manage it alongside your other WordPress mu-plugins, plugins and themes in your `composer.json`.
 
