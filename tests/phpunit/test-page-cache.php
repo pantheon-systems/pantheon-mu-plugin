@@ -30,7 +30,7 @@ class Test_Page_Cache extends WP_UnitTestCase {
 		parent::setUp();
 		$this->pantheon_cache = Pantheon_Cache::instance();
 		$this->default_options = [
-			'default_ttl' => 600,
+			'default_ttl' => 60*60*24*7, // 1 week.
 			'maintenance_mode' => 'disabled',
 		];
 		$this->pantheon_cache->paths = []; // Clear any leftover paths.
