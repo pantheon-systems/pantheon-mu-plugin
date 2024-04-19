@@ -198,7 +198,7 @@ class Test_Page_Cache extends WP_UnitTestCase {
 	 */
 	public function test_pantheon_cache_default_ttl_filter() {
 		// Add a filter to change the default TTL to 120 seconds.
-		add_filter( 'pantheon_cache_default_ttl', function() {
+		add_filter( 'pantheon_cache_default_ttl', function () {
 			return 120;
 		} );
 
