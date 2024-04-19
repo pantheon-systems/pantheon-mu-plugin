@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Pantheon Site Health Modifications
  *
@@ -22,9 +21,9 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
  */
 function site_health_mods( $tests ) {
 	// Remove checks that aren't relevant to Pantheon environments.
-    unset( $tests['direct']['update_temp_backup_writable'] );
-    unset( $tests['direct']['available_updates_disk_space'] );
-    unset( $tests['async']['background_updates'] );
+	unset( $tests['direct']['update_temp_backup_writable'] );
+	unset( $tests['direct']['available_updates_disk_space'] );
+	unset( $tests['async']['background_updates'] );
 	return $tests;
 }
 
@@ -83,7 +82,7 @@ function test_object_cache() {
 				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
 		];
-	} elseif ( $ocp_active ){
+	} elseif ( $ocp_active ) {
 		$result = [
 			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
 			'status' => 'good',
@@ -108,7 +107,7 @@ function test_object_cache() {
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
 				__( 'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.', 'pantheon' ),
-				sprintf(__('Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon'), 'https://docs.pantheon.io/object-cache/wordpress')
+				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
 		];
 	}
