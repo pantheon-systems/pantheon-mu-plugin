@@ -60,6 +60,7 @@ function test_object_cache() {
 				'<p>%s</p>',
 				__( 'Redis object cache is not active for your site.', 'pantheon' )
 			),
+			'test' => 'object_cache',
 		];
 
 		return $result;
@@ -82,6 +83,7 @@ function test_object_cache() {
 				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
 				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
+			'test' => 'object_cache',
 		];
 	} elseif ( $ocp_active ) {
 		$result = [
@@ -97,6 +99,7 @@ function test_object_cache() {
 				// Translators: %s is a URL to the Object Cache Pro documentation.
 				sprintf( __( 'Visit the <a href="%s">Object Cache Pro</a> documentation to learn more.', 'pantheon' ), 'https://objectcache.pro/docs' )
 			),
+			'test' => 'object_cache',
 		];
 	} else {
 		$result = [
@@ -112,6 +115,7 @@ function test_object_cache() {
 				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
 				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
+			'test' => 'object_cache',
 		];
 	}
 
