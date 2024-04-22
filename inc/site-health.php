@@ -74,7 +74,7 @@ function test_object_cache() {
 			'status' => 'recommended',
 			'badge' => [
 				'label' => __( 'Performance', 'pantheon' ),
-				'color' => 'yellow',
+				'color' => 'orange',
 			],
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
