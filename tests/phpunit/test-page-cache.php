@@ -30,7 +30,7 @@ class Test_Page_Cache extends WP_UnitTestCase {
 		parent::setUp();
 		$this->pantheon_cache = Pantheon_Cache::instance();
 		$this->default_options = [
-			'default_ttl' => 600,
+			'default_ttl' => 60 * 60 * 24 * 7, // 1 week.
 			'maintenance_mode' => 'disabled',
 		];
 		$this->pantheon_cache->paths = []; // Clear any leftover paths.
@@ -191,5 +191,24 @@ class Test_Page_Cache extends WP_UnitTestCase {
 	
 		// Now the paths array should contain both regexes.
 		$this->assertEquals( [ $regex, $another_regex ], $this->pantheon_cache->paths );
+	}
+
+	/**
+	 * Test the filtered value and display if the pantheon_cache_default_ttl filter is used.
+	 */
+	public function test_pantheon_cache_default_ttl_filter() {
+		// Add a filter to change the default TTL to 120 seconds.
+		add_filter( 'pantheon_cache_default_ttl', function () {
+			return 120;
+		} );
+
+		// Get the filtered default TTL.
+		$filtered_default_ttl = apply_filters( 'pantheon_cache_default_ttl', get_option( 'default_ttl' ) );
+
+		// The filtered default TTL should be 120 seconds.
+		$this->assertEquals( 120, $filtered_default_ttl );
+
+		// Remove the filter.
+		remove_all_filters( 'pantheon_cache_default_ttl' );
 	}
 }

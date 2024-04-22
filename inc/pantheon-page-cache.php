@@ -87,9 +87,21 @@ class Pantheon_Cache {
 	 * @return void
 	 */
 	protected function setup() {
+		/**
+		 * Modify the default TTL for the Pantheon cache. Defaults to 1 week.
+		 *
+		 * Usage:
+		 *  add_filter( 'pantheon_cache_default_ttl', function() {
+		 *      return DAY_IN_SECONDS;
+		 *  } );
+		 *
+		 * @param int $default_ttl The default TTL in seconds.
+		 */
+		$default_ttl = apply_filters( 'pantheon_cache_default_ttl', WEEK_IN_SECONDS );
+
 		$this->options = get_option( self::SLUG, [] );
 		$this->default_options = [
-			'default_ttl' => 600,
+			'default_ttl' => $default_ttl,
 			'maintenance_mode' => 'disabled',
 		];
 		$this->options = wp_parse_args( $this->options, $this->default_options );
@@ -214,9 +226,15 @@ class Pantheon_Cache {
 	 * @return void
 	 */
 	public function default_ttl_field() {
+		$disabled = ( has_filter( 'pantheon_cache_default_ttl' ) ) ? ' disabled' : '';
 		echo '<h3>' . esc_html__( 'Default Time to Live (TTL)', 'pantheon-cache' ) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<p>' . esc_html__( 'Maximum time a cached page will be served. A higher TTL typically improves site performance.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="5" /> ' . esc_html__( 'seconds', 'pantheon-cache' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="5" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		// Display a message if the setting is disabled.
+		if ( $disabled ) {
+			echo '<p>' . esc_html__( 'This setting is disabled because the default TTL has been filtered to the current value.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 	}
 
 	/**
