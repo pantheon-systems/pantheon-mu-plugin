@@ -80,6 +80,16 @@ Allows you to disable the ability to clear the entire cache from the WordPress a
 add_filter( 'pantheon_cache_allow_clear_all', '__return_false' );
 ```
 
+#### `pantheon_skip_cache_control`
+Allows you to disable the cache control headers that are sent by the Pantheon Page Cache plugin.
+
+**Default Value:** `false`
+
+**Example:**
+```php
+add_filter( 'pantheon_skip_cache_control', '__return_true' );
+```
+
 ### Actions
 #### `pantheon_cache_settings_page_top`
 Runs at the top of the Pantheon Page Cache settings page.
