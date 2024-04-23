@@ -85,7 +85,11 @@ function test_object_cache() {
 			),
 			'test' => 'object_cache',
 		];
-	} elseif ( $ocp_active ) {
+
+		return $result;
+	}
+
+	if ( $ocp_active ) {
 		$result = [
 			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
 			'status' => 'good',
@@ -101,23 +105,25 @@ function test_object_cache() {
 			),
 			'test' => 'object_cache',
 		];
-	} else {
-		$result = [
-			'label' => __( 'No Object Cache Plugin Active', 'pantheon' ),
-			'status' => 'critical',
-			'badge' => [
-				'label' => __( 'Performance', 'pantheon' ),
-				'color' => 'red',
-			],
-			'description' => sprintf(
-				'<p>%s</p><p>%s</p>',
-				__( 'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.', 'pantheon' ),
-				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
-				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
-			),
-			'test' => 'object_cache',
-		];
+
+		return $result;
 	}
+
+	$result = [
+		'label' => __( 'No Object Cache Plugin Active', 'pantheon' ),
+		'status' => 'critical',
+		'badge' => [
+			'label' => __( 'Performance', 'pantheon' ),
+			'color' => 'red',
+		],
+		'description' => sprintf(
+			'<p>%s</p><p>%s</p>',
+			__( 'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.', 'pantheon' ),
+			// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
+			sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
+		),
+		'test' => 'object_cache',
+	];
 
 	return $result;
 }
