@@ -380,6 +380,19 @@ class Pantheon_Cache {
 	 * @return void
 	 */
 	public function cache_add_headers() {
+		/**
+		 * Filter to skip the cache control header.
+		 *
+		 * @param bool $skip_cache_control Whether to skip the cache control header.
+		 * @see https://github.com/pantheon-systems/pantheon-mu-plugin/issues/37
+		 * @return bool
+		 */
+		$skip_cache_control = apply_filters( 'pantheon_skip_cache_control', false );
+
+		if ( $skip_cache_control ) {
+			return;
+		}
+
 		header( sprintf( 'cache-control: %s', $this->get_cache_control_header_value() ) );
 	}
 
