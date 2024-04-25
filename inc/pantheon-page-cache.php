@@ -91,13 +91,13 @@ class Pantheon_Cache {
 		 * Modify the default max-age for the Pantheon cache. Defaults to 1 week (604800 seconds).
 		 *
 		 * Usage:
-		 *  add_filter( 'pantheon_cache_default_ttl', function() {
+		 *  add_filter( 'pantheon_cache_default_max_age', function() {
 		 *      return DAY_IN_SECONDS;
 		 *  } );
 		 *
 		 * @param int $default_ttl The default max-age in seconds.
 		 */
-		$default_ttl = apply_filters( 'pantheon_cache_default_ttl', WEEK_IN_SECONDS );
+		$default_ttl = apply_filters( 'pantheon_cache_default_max_age', WEEK_IN_SECONDS );
 
 		$this->options = get_option( self::SLUG, [] );
 		$this->default_options = [
@@ -226,7 +226,7 @@ class Pantheon_Cache {
 	 * @return void
 	 */
 	public function default_ttl_field() {
-		$disabled = ( has_filter( 'pantheon_cache_default_ttl' ) ) ? ' disabled' : '';
+		$disabled = ( has_filter( 'pantheon_cache_default_max_age' ) ) ? ' disabled' : '';
 		echo '<h3>' . esc_html__( 'Default Max Age', 'pantheon-cache' ) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<p>' . esc_html__( 'Maximum time a cached page will be served. A higher max-age typically improves site performance.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="5" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

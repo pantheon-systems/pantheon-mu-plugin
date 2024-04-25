@@ -194,21 +194,21 @@ class Test_Page_Cache extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test the filtered value and display if the pantheon_cache_default_ttl filter is used.
+	 * Test the filtered value and display if the pantheon_cache_default_max_age filter is used.
 	 */
-	public function test_pantheon_cache_default_ttl_filter() {
+	public function test_pantheon_cache_default_max_age_filter() {
 		// Add a filter to change the default max-age to 120 seconds.
-		add_filter( 'pantheon_cache_default_ttl', function () {
+		add_filter( 'pantheon_cache_default_max_age', function () {
 			return 120;
 		} );
 
 		// Get the filtered default max-age.
-		$filtered_default_ttl = apply_filters( 'pantheon_cache_default_ttl', get_option( 'default_ttl' ) );
+		$filtered_default_ttl = apply_filters( 'pantheon_cache_default_max_age', get_option( 'default_ttl' ) );
 
 		// The filtered default max-age should be 120 seconds.
 		$this->assertEquals( 120, $filtered_default_ttl );
 
 		// Remove the filter.
-		remove_all_filters( 'pantheon_cache_default_ttl' );
+		remove_all_filters( 'pantheon_cache_default_max_age' );
 	}
 }
