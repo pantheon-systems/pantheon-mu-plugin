@@ -45,7 +45,7 @@ add_filter( 'pantheon_wp_login_text', function() {
 ```
 
 #### `pantheon_cache_default_ttl`
-Filter the default cache age for the Pantheon Edge Cache.
+Filter the default cache max-age for the Pantheon Edge Cache.
 
 **Default Value:** `WEEK_IN_SECONDS` (604800)
 
