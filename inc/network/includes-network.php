@@ -459,12 +459,14 @@ function network_step2( $errors = false ) {
 		</label></p>
 		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
 	<?php ob_start(); ?>
+$hostname = '<?php echo $hostname; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'; // The domain of the network. Use as a fallback if $_SERVER['HTTP_HOST'] is not available.
 if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
 	$site_name = $_ENV['PANTHEON_SITE_NAME'];
 	// Override $hostname value as needed.
 	switch ( $_ENV['PANTHEON_ENVIRONMENT'] ) {
 		case 'live':
-			$hostname = $_SERVER['HTTP_HOST'];
+			// Fall back to the default $hostname if $_SERVER['HTTP_HOST'] is not available.
+			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $hostname;
 			break;
 		case 'test':
 			$hostname = 'test-' . $site_name . '.pantheonsite.io';
