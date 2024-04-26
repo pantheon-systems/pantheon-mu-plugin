@@ -481,10 +481,8 @@ if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
 			$hostname = $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $site_name . '.pantheonsite.io';
 			break;
 	}
-} else {
-	// Override with a default hostname.
-	$hostname = '<?php echo $hostname; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 }
+
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
 define( 'DOMAIN_CURRENT_SITE', $hostname );
