@@ -492,9 +492,14 @@ define( 'PATH_CURRENT_SITE', '<?php echo $base; // phpcs:ignore WordPress.Securi
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
 	<?php
-	$config_file_contents = ob_get_contents();
-	ob_end_clean();
-	$config_file_contents = apply_filters( 'pantheon.multisite.config_contents', $config_file_contents );
+	/**
+	 * Filters the contents of the network configuration rules for WordPress configuration files.
+	 *
+	 * This allows this screen to be modified for different environments or configurations (e.g. Composer-based WordPress multisite).
+	 *
+	 * @param string $config_file_contents The contents of the network configuration rules.
+	 */
+	$config_file_contents = apply_filters( 'pantheon.multisite.config_contents', ob_get_clean() );
 	echo $config_file_contents; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 </textarea>
