@@ -469,10 +469,10 @@ if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
 			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $hostname;
 			break;
 		case 'test':
-			$hostname = 'test-' . $site_name . '.pantheonsite.io';
+			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'test-' . $site_name . '.pantheonsite.io';
 			break;
 		case 'dev':
-			$hostname = 'dev-' . $site_name . '.pantheonsite.io';
+			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'dev-' . $site_name . '.pantheonsite.io';
 			break;
 		case 'lando':
 			$hostname = $site_name . '.lndo.site';
