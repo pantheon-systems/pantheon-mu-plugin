@@ -360,7 +360,6 @@ function network_step1( $errors = false ) {
 function network_step2( $errors = false ) {
 	global $wpdb, $is_nginx;
 
-	$hostname          = get_clean_basedomain();
 	$slashed_home      = trailingslashit( get_option( 'home' ) );
 	$base              = parse_url( $slashed_home, PHP_URL_PATH );
 	$document_root_fix = str_replace( '\\', '/', realpath( $_SERVER['DOCUMENT_ROOT'] ) );
