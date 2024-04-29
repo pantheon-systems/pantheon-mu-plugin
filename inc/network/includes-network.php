@@ -459,33 +459,9 @@ function network_step2( $errors = false ) {
 		</label></p>
 		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
 	<?php ob_start(); ?>
-$hostname = '<?php echo $hostname; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'; // The domain of the network. Use as a fallback if $_SERVER['HTTP_HOST'] is not available.
-if ( !empty( $_ENV['PANTHEON_ENVIRONMENT'] )) {
-	$site_name = $_ENV['PANTHEON_SITE_NAME'];
-	// Override $hostname value as needed.
-	switch ( $_ENV['PANTHEON_ENVIRONMENT'] ) {
-		case 'live':
-			// Fall back to the default $hostname if $_SERVER['HTTP_HOST'] is not available.
-			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : $hostname;
-			break;
-		case 'test':
-			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'test-' . $site_name . '.pantheonsite.io';
-			break;
-		case 'dev':
-			$hostname = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'dev-' . $site_name . '.pantheonsite.io';
-			break;
-		case 'lando':
-			$hostname = $site_name . '.lndo.site';
-			break;
-		default:
-			$hostname = $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $site_name . '.pantheonsite.io';
-			break;
-	}
-}
-
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
-define( 'DOMAIN_CURRENT_SITE', $hostname );
+define( 'DOMAIN_CURRENT_SITE', PANTHEON_HOSTNAME );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
