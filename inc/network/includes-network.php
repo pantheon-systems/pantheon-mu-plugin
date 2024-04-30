@@ -460,8 +460,8 @@ function network_step2( $errors = false ) {
 	<?php ob_start(); ?>
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
-define( 'DOMAIN_CURRENT_SITE', PANTHEON_HOSTNAME );
-define( 'PATH_CURRENT_SITE', '<?php echo $base; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' );
+// Use PANTHEON_HOSTNAME if in a Pantheon environment, otherwise use HTTP_HOST.
+define( 'DOMAIN_CURRENT_SITE', defined( 'PANTHEON_HOSTNAME' ) ? PANTHEON_HOSTNAME : $_SERVER['HTTP_HOST'] );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
 	<?php
