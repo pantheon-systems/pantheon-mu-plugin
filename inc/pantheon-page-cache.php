@@ -363,7 +363,8 @@ class Pantheon_Cache {
 	 */
 	private function get_cache_control_header_value() {
 		if ( ! is_admin() && ! is_user_logged_in() ) {
-			$ttl = absint( $this->options['default_ttl'] );
+			// Use the filtered default max-age if applicable.
+			$ttl = apply_filters( 'pantheon_cache_default_max_age', absint( $this->options['default_ttl'] ) );
 			if ( $ttl < 60 && isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && 'live' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
 				$ttl = 60;
 			}
