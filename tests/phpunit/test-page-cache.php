@@ -239,7 +239,11 @@ class Test_Page_Cache extends WP_UnitTestCase {
 		$max_age = $this->get_max_age_from_rest_dispatch();
 
 		// Assert the default max-age.
-		$this->assertEquals( WEEK_IN_SECONDS, $max_age );
+		$this->assertEquals( 
+			WEEK_IN_SECONDS, 
+			$max_age, 
+			sprintf( 'Expected max-age to be the default value (%1$d) but got %2$d', WEEK_IN_SECONDS, $max_age ) 
+		);
 
 		// Filter the default max-age to 120 seconds.
 		add_filter( 'pantheon_cache_default_max_age', function () {
@@ -250,7 +254,10 @@ class Test_Page_Cache extends WP_UnitTestCase {
 		$max_age = $this->get_max_age_from_rest_dispatch();
 
 		// Assert the filtered max-age.
-		$this->assertNotEquals( WEEK_IN_SECONDS, $max_age );
-		$this->assertEquals( 120, $max_age );
+		$this->assertEquals(
+			120, 
+			$max_age,
+			sprintf( 'Expected max-age to be the filtered value (%1$d) but got %2$d', 120, $max_age )
+		);
 	}
 }
