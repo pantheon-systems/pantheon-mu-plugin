@@ -211,4 +211,46 @@ class Test_Page_Cache extends WP_UnitTestCase {
 		// Remove the filter.
 		remove_all_filters( 'pantheon_cache_default_max_age' );
 	}
+
+	/**
+	 * Helper function to get the max-age from the Cache-Control header of a REST API response.
+	 * 
+	 * We're using a REST response here because it is a publicly accessible method that adds the Cache Control value from get_cache_control_header_value() to the response it returns.
+	 * 
+	 * @return int The max-age value.
+	 */
+	private function get_max_age_from_rest_dispatch() {
+		// Set up a rest request.
+		$response = new WP_REST_Response();
+	
+		// We're using the rest_post_dispatch callback here because it's a publicly accessible method that adds Cache Control to the response it returns.
+		$api_response = $this->pantheon_cache->filter_rest_post_dispatch_send_cache_control( $response );
+		$headers = $api_response->get_headers();
+		$cache_control_header_values = explode( ', ', $headers['Cache-Control'] );
+		$max_age = (int) str_replace( 'max-age=', '', $cache_control_header_values[1] );
+
+		return $max_age;
+	}
+
+	/**
+	 * Test the Cache-Control header max-age.
+	 */
+	public function test_cache_control_headers() {
+		$max_age = $this->get_max_age_from_rest_dispatch();
+
+		// Assert the default max-age.
+		$this->assertEquals( WEEK_IN_SECONDS, $max_age );
+
+		// Filter the default max-age to 120 seconds.
+		add_filter( 'pantheon_cache_default_max_age', function () {
+			return 120;
+		} );
+
+		// Get the max-age after the filter.
+		$max_age = $this->get_max_age_from_rest_dispatch();
+
+		// Assert the filtered max-age.
+		$this->assertNotEquals( WEEK_IN_SECONDS, $max_age );
+		$this->assertEquals( 120, $max_age );
+	}
 }
