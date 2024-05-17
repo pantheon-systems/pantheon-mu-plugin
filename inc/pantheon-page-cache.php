@@ -236,9 +236,11 @@ class Pantheon_Cache {
 	 */
 	public function default_ttl_field() {
 		$disabled = ( has_filter( 'pantheon_cache_default_max_age' ) ) ? ' disabled' : '';
+		echo wp_kses_post( apply_filters( 'pantheon_cache_default_ttl_field_before_html', '<div class="pantheon_cache_default_max_age">' ) );
 		echo '<h3>' . esc_html__( 'Default Max Age', 'pantheon-cache' ) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<p>' . esc_html__( 'Maximum time a cached page will be served. A higher max-age typically improves site performance.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( apply_filters( 'pantheon_cache_default_ttl_field_after_html', '</div>' ) );
 
 		// Display a message if the setting is disabled.
 		if ( $disabled ) {
