@@ -180,7 +180,8 @@ class Pantheon_Cache {
 	public function action_admin_init() {
 		register_setting( self::SLUG, self::SLUG, [ self::$instance, 'sanitize_options' ] );
 		add_settings_section( 'general', false, '__return_false', self::SLUG, [
-			'section_class' => 'pantheon-page-cache-settings',
+			'before_section' => '<div class="pantheon-page-cache-settings">',
+			'after_section' => '</div>',
 		] );
 		add_settings_field( 'default_ttl', null, [ self::$instance, 'default_ttl_field' ], self::SLUG, 'general', [
 			'class' => 'cache-default-max-age',
