@@ -244,7 +244,21 @@ class Pantheon_Cache {
 			'https://wordpress.org/plugins/pantheon-advanced-page-cache/'
 		) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$input_field = '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' );
-		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_input', $input_field ) );
+		echo wp_kses( apply_filters( 'pantheon_cache_max_age_input', $input_field ), [
+			'input' => [
+				'type' => [],
+				'name' => [],
+				'value' => [],
+				'size' => [],
+			],
+			'select' => [
+				'name' => [],
+			],
+			'option' => [
+				'value' => [],
+				'selected' => [],
+			],
+		] );
 		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_after_html', '</div>' ) );
 
 		// Display a message if the setting is disabled.
