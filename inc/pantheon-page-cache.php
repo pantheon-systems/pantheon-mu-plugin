@@ -244,7 +244,22 @@ class Pantheon_Cache {
 			'https://wordpress.org/plugins/pantheon-advanced-page-cache/'
 		) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$input_field = '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' );
-		echo wp_kses( apply_filters( 'pantheon_cache_max_age_input', $input_field ), [
+		echo wp_kses( apply_filters( 'pantheon_cache_max_age_input', $input_field ), $this->get_cache_max_age_input_allowed_html() );
+		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_after_html', '</div>' ) );
+
+		// Display a message if the setting is disabled.
+		if ( $disabled ) {
+			echo '<p>' . esc_html__( 'This setting is disabled because the default max-age has been filtered to the current value.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
+
+	/**
+	 * Get the allowed input HTML for the settings page.
+	 *
+	 * @return array
+	 */
+	private function get_cache_max_age_input_allowed_html() {
+		return apply_filters( 'pantheon_cache_max_age_input_allowed_html', [
 			'input' => [
 				'type' => [],
 				'name' => [],
@@ -259,12 +274,6 @@ class Pantheon_Cache {
 				'selected' => [],
 			],
 		] );
-		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_after_html', '</div>' ) );
-
-		// Display a message if the setting is disabled.
-		if ( $disabled ) {
-			echo '<p>' . esc_html__( 'This setting is disabled because the default max-age has been filtered to the current value.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		}
 	}
 
 	/**
