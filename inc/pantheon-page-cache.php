@@ -242,7 +242,7 @@ class Pantheon_Cache {
 			// translators: %s is a link to the Pantheon Advanced Page Cache plugin page.
 			__( 'When your site content is updated, <a href="%s">Pantheon Advanced Page Cache</a> clears page cache automatically. This setting determines how long a page will be stored in the Global Content Delivery Network (GCDN) cache before GCDN retrieves the content from WordPress again.', 'pantheon-cache' ),
 			'https://wordpress.org/plugins/pantheon-advanced-page-cache/'
-		) ). '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo wp_kses_post( apply_filters( 'pantheon_cache_default_ttl_field_after_html', '</div>' ) );
 
