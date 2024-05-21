@@ -236,7 +236,7 @@ class Pantheon_Cache {
 	 */
 	public function default_ttl_field() {
 		$disabled = ( has_filter( 'pantheon_cache_default_max_age' ) ) ? ' disabled' : '';
-		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_before_html', '<div class="pantheon_cache_default_max_age">' ) );
+		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_before_html', '<div class="pantheon-cache-default-max-age">' ) );
 		echo '<h3>' . esc_html__( 'Page Cache Max Age', 'pantheon-cache' ) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<p>' . wp_kses_post( sprintf(
 			// translators: %s is a link to the Pantheon Advanced Page Cache plugin page.
