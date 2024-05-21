@@ -265,6 +265,7 @@ class Pantheon_Cache {
 				'name' => [],
 				'value' => [],
 				'size' => [],
+				'disabled' => [],
 			],
 			'select' => [
 				'name' => [],
