@@ -236,6 +236,7 @@ class Pantheon_Cache {
 	 */
 	public function default_ttl_field() {
 		$disabled = ( has_filter( 'pantheon_cache_default_max_age' ) ) ? ' disabled' : '';
+		$default_ttl = ! $disabled ? $this->options['default_ttl'] : apply_filters( 'pantheon_cache_default_max_age', $this->options['default_ttl'] );
 		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_before_html', '<div class="pantheon-cache-default-max-age">' ) );
 		echo '<h3>' . esc_html__( 'Page Cache Max Age', 'pantheon-cache' ) . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<p>' . wp_kses_post( sprintf(
@@ -243,7 +244,7 @@ class Pantheon_Cache {
 			__( 'When your site content is updated, <a href="%s">Pantheon Advanced Page Cache</a> clears page cache automatically. This setting determines how long a page will be stored in the Global Content Delivery Network (GCDN) cache before GCDN retrieves the content from WordPress again.', 'pantheon-cache' ),
 			'https://wordpress.org/plugins/pantheon-advanced-page-cache/'
 		) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		$input_field = '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $this->options['default_ttl'] . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' );
+		$input_field = '<input type="text" name="' . self::SLUG . '[default_ttl]" value="' . $default_ttl . '" size="7" ' . $disabled . ' /> ' . esc_html__( 'seconds', 'pantheon-cache' );
 		echo wp_kses( apply_filters( 'pantheon_cache_max_age_input', $input_field ), $this->get_cache_max_age_input_allowed_html() );
 		echo wp_kses_post( apply_filters( 'pantheon_cache_max_age_field_after_html', '</div>' ) );
 
