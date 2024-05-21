@@ -250,7 +250,7 @@ class Pantheon_Cache {
 
 		// Display a message if the setting is disabled.
 		if ( $disabled ) {
-			echo '<p>' . esc_html__( 'This setting is disabled because the default max-age has been filtered to the current value.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<p class="pantheon-cache-default-max-age-description">' . esc_html__( 'This setting is disabled because the default max-age has been filtered to the current value.', 'pantheon-cache' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
