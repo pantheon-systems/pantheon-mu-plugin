@@ -18,6 +18,11 @@
       "pantheon-systems/wpunit-helpers": true
     }
   },
+  "autoload": {
+    "classmap": [
+      "inc/compatibility/"
+    ]
+  },
   "scripts": {
     "chmod-scripts": [
       "chmod +x bin/*.sh"
