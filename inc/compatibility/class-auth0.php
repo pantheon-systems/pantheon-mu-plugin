@@ -2,7 +2,8 @@
 /**
  * Auth0 Compatibility
  *
- * @package Pantheon
+ * @link https://docs.pantheon.io/plugins-known-issues#auth0
+ * @package Pantheon\Compatibility
  */
 
 namespace Pantheon\Compatibility;
@@ -16,28 +17,28 @@ class Auth0 extends Base {
 
 
 	/**
-	 * Plugin slug
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'auth0/WP_Auth0.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'Auth0';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		Auth0Fix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		Auth0Fix::remove();
 	}

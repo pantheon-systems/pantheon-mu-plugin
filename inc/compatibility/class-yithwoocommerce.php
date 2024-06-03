@@ -2,7 +2,8 @@
 /**
  * YITH WooCommerce Compatibility
  *
- * @package Pantheon
+ * @link https://docs.pantheon.io/plugins-known-issues#yith-woocommerce-extensions-with-mpdf-library
+ * @package Pantheon\Compatibility
  */
 
 namespace Pantheon\Compatibility;
@@ -16,32 +17,28 @@ class YITHWoocommerce extends Base {
 
 
 	/**
-	 * List of plugin slugs
-	 *
-	 * @var array
-	 */
-	public static $plugin_slugs = [
-		'yith-woocommerce-request-a-quote/yith-woocommerce-request-a-quote.php',
-		'yith-woocommerce-gift-cards/init.php',
-		'yith-woocommerce-pdf-invoice/init.php',
-	];
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'YITH WooCommerce Extensions with MPDF Library';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		YITHChangePdfLocationFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		YITHChangePdfLocationFix::remove();
 	}

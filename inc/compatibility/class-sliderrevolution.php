@@ -2,7 +2,8 @@
 /**
  * Slider Revolution Compatibility
  *
- * @package Pantheon
+ * @link https://docs.pantheon.io/plugins-known-issues#slider-revolution
+ * @package Pantheon\Compatibility
  */
 
 namespace Pantheon\Compatibility;
@@ -16,27 +17,27 @@ class SliderRevolution extends Base {
 
 
 	/**
-	 * Plugin slug
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'slider-revolution/slider-revolution.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'Slider Revolution';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		SliderRevolutionFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {}
 }

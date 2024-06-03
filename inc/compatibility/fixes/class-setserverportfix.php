@@ -9,6 +9,8 @@
 
 namespace Pantheon\Compatibility\Fixes;
 
+use function defined;
+
 /**
  * Class SetServerPortFix
  *
@@ -16,30 +18,32 @@ namespace Pantheon\Compatibility\Fixes;
  */
 class SetServerPortFix {
 
-
-
+	/**
+	 * @return void
+	 */
 	public static function apply() {
-		if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
+		if ( ! defined( 'PANTHEON_HOSTNAME' ) ) {
 			return;
 		}
 
-		$_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];
+		$_SERVER['SERVER_NAME'] = PANTHEON_HOSTNAME;
 
-		if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
-			if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && 'ON' === $_SERVER['HTTP_USER_AGENT_HTTPS'] ) {
-				$_SERVER['SERVER_PORT'] = 443;
-			} else {
-				$_SERVER['SERVER_PORT'] = 80;
-			}
+		if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && 'ON' === $_SERVER['HTTP_USER_AGENT_HTTPS'] ) {
+			$_SERVER['SERVER_PORT'] = 443;
+		} else {
+			$_SERVER['SERVER_PORT'] = 80;
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public static function remove() {
-		if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
+		if ( ! defined( 'PANTHEON_HOSTNAME' ) ) {
 			return;
 		}
 
-		$_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];
+		$_SERVER['SERVER_NAME'] = PANTHEON_HOSTNAME;
 		$_SERVER['SERVER_PORT'] = 80;
 	}
 }

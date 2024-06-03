@@ -2,7 +2,8 @@
 /**
  * Compatibility class for Tweet Old Post plugin.
  *
- * @package Pantheon
+ * @link https://docs.pantheon.io/plugins-known-issues#revive-old-post
+ * @package Pantheon\Compatibility
  */
 
 namespace Pantheon\Compatibility;
@@ -16,28 +17,28 @@ class TweetOldPost extends Base {
 
 
 	/**
-	 * Plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'tweet-old-post/tweet-old-post.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'Revive Old Post';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		SetServerPortFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		SetServerPortFix::remove();
 	}

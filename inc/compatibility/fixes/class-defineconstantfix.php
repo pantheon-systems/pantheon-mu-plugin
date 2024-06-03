@@ -14,16 +14,15 @@ namespace Pantheon\Compatibility\Fixes;
  */
 class DefineConstantFix {
 
-
-	public static function apply( $key, $value ): void {
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 *
+	 * @return void
+	 */
+	public static function apply( $key, $value ) {
 		if ( ! defined( $key ) ) {
 			define( $key, $value );
-		}
-	}
-
-	public static function remove( $key ): void {
-		if ( defined( $key ) ) {
-			define( $key, null );
 		}
 	}
 }

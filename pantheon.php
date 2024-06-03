@@ -55,12 +55,9 @@ if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
 			require_once 'inc/pantheon-multisite-finalize.php';
 		}
 	}
+
 	if (!defined('PANTHEON_COMPATIBILITY') || PANTHEON_COMPATIBILITY) {
-		if (file_exists('vendor/autoload.php')) {
-			require_once 'vendor/autoload.php';
-		}
-		if (class_exists('Pantheon\Compatibility\CompatibilityFactory')) {
-			Pantheon\Compatibility\CompatibilityFactory::get_instance();
-		}
+		require_once 'inc/compatibility/class-compatibilityfactory.php';
+		Pantheon\Compatibility\CompatibilityFactory::get_instance();
 	}
 } // Ensuring that this is on Pantheon.

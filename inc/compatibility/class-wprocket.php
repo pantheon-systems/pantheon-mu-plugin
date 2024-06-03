@@ -2,7 +2,8 @@
 /**
  * Compatibility class for WP Rocket plugin.
  *
- * @package Pantheon
+ * @link https://docs.pantheon.io/plugins-known-issues#wp-rocket
+ * @package Pantheon\Compatibility
  */
 
 namespace Pantheon\Compatibility;
@@ -18,28 +19,28 @@ class WPRocket extends Base {
 
 
 	/**
-	 * The plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'wp-rocket/wp-rocket.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'WP Rocket';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		WPRocketFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		WPRocketFix::remove();
 	}

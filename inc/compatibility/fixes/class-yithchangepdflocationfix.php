@@ -2,6 +2,7 @@
 /**
  * Changes PDF cache location for YITH WooCommerce extensions.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#yith-woocommerce-extensions-with-mpdf-library
  * @package Pantheon\Compatibility\Fixes
  */
 
@@ -13,7 +14,9 @@ namespace Pantheon\Compatibility\Fixes;
 class YITHChangePdfLocationFix {
 
 
-
+	/**
+	 * @return void
+	 */
 	public static function apply() {
 		add_filter( 'ywraq_mpdf_args', [ self::class, 'yith_mpdf_change_tmp_dir' ], 20, 1 );
 
@@ -22,6 +25,9 @@ class YITHChangePdfLocationFix {
 		add_filter( 'yith_ywgc_mpdf_args', [ self::class, 'yith_mpdf_change_tmp_dir' ], 10, 1 );
 	}
 
+	/**
+	 * @return void
+	 */
 	public static function remove() {}
 
 	/**

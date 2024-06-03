@@ -2,6 +2,7 @@
 /**
  * Compatibility fix for Polylang plugin.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#polylang
  * @package Pantheon\Compatibility
  */
 
@@ -16,31 +17,28 @@ class Polylang extends Base {
 
 
 	/**
-	 * The plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'polylang/polylang.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'PolyLang';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		DefineConstantFix::apply( 'PLL_CACHE_HOME_URL', false );
 		DefineConstantFix::apply( 'PLL_COOKIE', false );
 	}
 
-	public function remove_fix() {
-		DefineConstantFix::remove( 'PLL_CACHE_HOME_URL' );
-		DefineConstantFix::remove( 'PLL_COOKIE' );
-	}
+	/**
+	 * @return void
+	 */
+	public function remove_fix() {}
 }

@@ -2,6 +2,7 @@
 /**
  * AutoptimizeFix
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#autoptimize
  * @package Pantheon\Compatibility\Fixes
  */
 
@@ -14,6 +15,7 @@ namespace Pantheon\Compatibility\Fixes;
  */
 class AutoptimizeFix {
 
+
 	/**
 	 * Apply the fix
 	 *
@@ -25,6 +27,9 @@ class AutoptimizeFix {
 		update_option( 'autoptimize_cache_fallback', '' );
 	}
 
+	/**
+	 * @return void
+	 */
 	public static function remove() {
 		delete_option( 'autoptimize_cache_fallback' );
 	}

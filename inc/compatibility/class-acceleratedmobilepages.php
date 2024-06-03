@@ -2,6 +2,7 @@
 /**
  * Accelerated Mobile Pages compatibility fix.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#amp-for-wp--accelerated-mobile-pages
  * @package Pantheon\Compatibility
  */
 
@@ -14,14 +15,6 @@ use Pantheon\Compatibility\Fixes\AcceleratedMobilePagesFix;
  */
 class AcceleratedMobilePages extends Base {
 
-
-	/**
-	 * The plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'accelerated-mobile-pages/accelerated-moblie-pages.php';
-
 	/**
 	 * The plugin name.
 	 *
@@ -30,16 +23,22 @@ class AcceleratedMobilePages extends Base {
 	public static $plugin_name = 'AMP for WP – Accelerated Mobile Pages';
 
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on every request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		AcceleratedMobilePagesFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		AcceleratedMobilePagesFix::remove();
 	}

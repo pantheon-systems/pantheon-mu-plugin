@@ -63,16 +63,19 @@ abstract class Base {
 	 */
 	protected $run_fix_everytime = false;
 
-	public function __construct() {
-		// Register the plugin deactivation hooks.
+	/**
+	 * Base constructor registering deactivation hook and conditionally executing activate method.
+	 */
+	public function __construct( $slug ) {
+		static::$plugin_slug = $slug;
 		register_deactivation_hook( WP_PLUGIN_DIR . '/' . static::$plugin_slug, [ $this, 'deactivate' ] );
-		if ( $this->is_plugin_active() || $this->is_any_plugin_active() ) {
+		if ( $this->is_plugin_active() ) {
 			$this->activate();
 		}
 	}
 
 	/**
-	 * Check if the plugin is active.
+	 * Check if the plugin is active by $plugin_slug parameter.
 	 *
 	 * @return bool
 	 */
@@ -80,22 +83,8 @@ abstract class Base {
 		return ( static::$plugin_slug && is_plugin_active( static::$plugin_slug ) );
 	}
 
-	protected function is_any_plugin_active() {
-		if ( ! property_exists( $this, 'plugin_slugs' ) ) {
-			return false;
-		}
-
-		foreach ( static::$plugin_slugs as $plugin_slug ) {
-			if ( is_plugin_active( $plugin_slug ) ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	/**
-	 * Activate the plugin.
+	 * Set up compatibility hooks and persists compatibility status.
 	 *
 	 * @return void
 	 */
@@ -134,12 +123,17 @@ abstract class Base {
 		$this->persist_data( $plugin_methods );
 	}
 
+	/**
+	 * Trigger compatibility layer on plugin activation.
+	 *
+	 * @return void
+	 */
 	protected function run_on_plugin_activation() {
 		$this->apply_fix();
 	}
 
 	/**
-	 * Apply the fix to the plugin.
+	 * Apply the compatibility fix.
 	 *
 	 * @return mixed
 	 */
@@ -159,34 +153,53 @@ abstract class Base {
 		}, PHP_INT_MAX);
 	}
 
+	/**
+	 * Trigger compatibility layer after plugin activation.
+	 *
+	 * @return void
+	 */
 	protected function run_after_plugin_activation() {
 		$this->apply_fix();
 	}
 
+	/**
+	 * Trigger compatibility layer on WP Dashboard.
+	 *
+	 * @return void
+	 */
 	protected function run_fix_on_dashboard_only() {
 		$this->apply_fix();
 	}
 
+	/**
+	 * Trigger compatibility layer on WP frontend.
+	 *
+	 * @return void
+	 */
 	protected function run_fix_on_frontend_only() {
 		$this->apply_fix();
 	}
 
+	/**
+	 * Trigger compatibility layer on each request.
+	 *
+	 * @return void
+	 */
 	protected function run_fix_everytime() {
 		$this->apply_fix();
 	}
 
 	/**
-	 * Persist the plugin's data to the database.
+	 * Persist the compatibility layer data to the database.
 	 *
 	 * @return void
 	 */
 	protected function persist_data( array $plugin_methods = [] ) {
-		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' );
+		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
 		$old = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
 		$pantheon_applied_fixes[ static::$plugin_slug ] = [
 			'plugin_slug' => static::$plugin_slug,
 			'plugin_name' => static::$plugin_name,
-			'plugin_version' => $this->get_plugin_version(),
 			'plugin_status' => $plugin_methods ? 'automated' : 'waiting',
 			'plugin_message' => 'Manual fixes can be safely removed.',
 			'plugin_class' => static::class,
@@ -200,17 +213,6 @@ abstract class Base {
 	}
 
 	/**
-	 * Get the version of the plugin.
-	 *
-	 * @return mixed
-	 */
-	protected function get_plugin_version() {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . static::$plugin_slug );
-
-		return $plugin_data['Version'];
-	}
-
-	/**
 	 * Check if the plugin is installed.
 	 *
 	 * @return bool
@@ -220,7 +222,7 @@ abstract class Base {
 	}
 
 	/**
-	 * Deactivate the plugin.
+	 * Rollback the compatibility layer.
 	 *
 	 * @return void
 	 */
@@ -230,14 +232,14 @@ abstract class Base {
 	}
 
 	/**
-	 * Remove the fix from the plugin.
+	 * Remove the compatibility layer fix.
 	 *
 	 * @return mixed
 	 */
 	abstract public function remove_fix();
 
 	/**
-	 * Remove the plugin's data from the persisted fixes.
+	 * Remove the compatibility layer's persisted data.
 	 *
 	 * @return void
 	 */
@@ -253,15 +255,5 @@ abstract class Base {
 			// Update the option with the modified array.
 			update_option( 'pantheon_applied_fixes', $pantheon_applied_fixes );
 		}
-	}
-
-	/**
-	 * Register the plugin activation hooks.
-	 *
-	 * @return void
-	 */
-	protected function register_plugin_activation_hooks() {
-		register_activation_hook( WP_PLUGIN_DIR . '/' . static::$plugin_slug, [ $this, 'activate' ] );
-		register_deactivation_hook( WP_PLUGIN_DIR . '/' . static::$plugin_slug, [ $this, 'deactivate' ] );
 	}
 }

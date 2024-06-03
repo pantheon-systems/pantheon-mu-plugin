@@ -2,6 +2,7 @@
 /**
  * Compatibility class for Broken Link Checker plugin.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#broken-link-checker
  * @package Pantheon\Compatibility
  */
 
@@ -16,12 +17,6 @@ class BrokenLinkChecker extends Base {
 
 
 	/**
-	 * The plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'broken-link-checker/broken-link-checker.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
@@ -34,10 +29,16 @@ class BrokenLinkChecker extends Base {
 	 */
 	private $default_threshold_value = 72;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		UpdateValueFix::apply( 'wsblc_options', 'check_threshold', 72 );
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		UpdateValueFix::remove( 'wsblc_options', 'check_threshold' );
 	}
@@ -60,7 +61,7 @@ class BrokenLinkChecker extends Base {
 		}
 
 		// bail if the check_threshold is not equal to the default value.
-		if ( $this->default_threshold_value !== intval( $options->check_threshold ) ) {
+		if ( $this->default_threshold_value !== (int) $options->check_threshold ) {
 			return false;
 		}
 

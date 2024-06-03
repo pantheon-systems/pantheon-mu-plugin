@@ -2,6 +2,7 @@
 /**
  * Auth0 Fix
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#auth0
  * @package Pantheon\Compatibility\Fixes
  */
 
@@ -29,8 +30,14 @@ class Auth0Fix {
 		add_action( 'plugins_loaded', [ __CLASS__, 'fix' ] );
 	}
 
+	/**
+	 * @return void
+	 */
 	public static function remove() {}
 
+	/**
+	 * @return void
+	 */
 	public static function fix() {
 		if ( ! function_exists( 'wpAuth0' ) || ! class_exists( 'Auth0\SDK\Store\CookieStore' ) ) {
 			return;

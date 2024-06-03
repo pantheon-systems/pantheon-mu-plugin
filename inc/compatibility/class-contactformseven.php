@@ -2,6 +2,7 @@
 /**
  * Compatibility class for Contact Form 7 plugin.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#contact-form-7
  * @package Pantheon\Compatibility
  */
 
@@ -17,30 +18,29 @@ class ContactFormSeven extends Base {
 
 
 	/**
-	 * Plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'contact-form-7/wp-contact-form-7.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'Contact Form 7';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		SetServerPortFix::apply();
-		// Set the temporary uploads directory for Contact Form 7.
 		DefineConstantFix::apply( 'WPCF7_UPLOADS_TMP_DIR', ( WP_CONTENT_DIR . '/uploads/wpcf7_uploads' ) );
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		SetServerPortFix::remove();
 	}

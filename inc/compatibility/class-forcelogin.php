@@ -2,6 +2,7 @@
 /**
  * Force Login compatibility fix.
  *
+ * @link https://docs.pantheon.io/plugins-known-issues#force-login
  * @package Pantheon\Compatibility
  */
 
@@ -16,28 +17,28 @@ class ForceLogin extends Base {
 
 
 	/**
-	 * The plugin slug.
-	 *
-	 * @var string
-	 */
-	public static $plugin_slug = 'wp-force-login/wp-force-login.php';
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
 	 */
 	public static $plugin_name = 'Force Login';
 	/**
-	 * Run fix everytime either frontend or dashboard.
+	 * Run fix on each request.
 	 *
 	 * @var bool
 	 */
 	protected $run_fix_everytime = true;
 
+	/**
+	 * @return void
+	 */
 	public function apply_fix() {
 		SetServerPortFix::apply();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function remove_fix() {
 		SetServerPortFix::remove();
 	}

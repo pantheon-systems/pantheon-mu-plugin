@@ -14,8 +14,6 @@ namespace Pantheon\Compatibility\Fixes;
  */
 class DeleteFileFix {
 
-
-
 	/**
 	 * Apply the fix
 	 *
