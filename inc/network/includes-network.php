@@ -456,7 +456,7 @@ function network_step2( $errors = false ) {
 			);
 			?>
 		</label></p>
-		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
+		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="8" aria-describedby="network-wpconfig-rules-description">
 <?php ob_start(); ?>
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
