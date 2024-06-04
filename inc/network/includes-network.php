@@ -457,7 +457,7 @@ function network_step2( $errors = false ) {
 			?>
 		</label></p>
 		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="31" aria-describedby="network-wpconfig-rules-description">
-	<?php ob_start(); ?>
+<?php ob_start(); ?>
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
 // Use PANTHEON_HOSTNAME if in a Pantheon environment, otherwise use HTTP_HOST.
