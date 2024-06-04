@@ -46,9 +46,8 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 		define( 'WP_ALLOW_MULTISITE', true );
 	}
 	if ( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
-		if ( defined( 'MULTISITE' ) && MULTISITE ) {
-			require_once 'inc/pantheon-network-setup.php';
-		} else {
+		require_once 'inc/pantheon-network-setup.php';
+		if ( ! defined( 'MULTISITE' ) && MULTISITE ) {
 			require_once 'inc/pantheon-multisite-finalize.php';
 		}
 	}
