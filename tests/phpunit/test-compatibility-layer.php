@@ -6,11 +6,14 @@
  */
 
 use Pantheon\Compatibility\CompatibilityFactory;
+use Pantheon\Compatibility\ForceLogin;
+
 
 /**
  * Pantheon Compatibility Layer Test Case
  */
 class Test_Compatibility_Layer extends WP_UnitTestCase {
+
 
 
 	/**
@@ -60,6 +63,22 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 		}
 	}
 
+	public function test_compatibility_hooks() {
+		$this->set_active_plugin( 'wp-force-login/wp-force-login.php' );
+		CompatibilityFactory::get_instance();
+		global $wp_filter;
+		$this->assertTrue( array_key_exists( 'deactivate_wp-force-login/wp-force-login.php', $wp_filter ) );
+		$hooked_functions = array_column($wp_filter['deactivate_wp-force-login/wp-force-login.php']->callbacks[10],
+		'function');
+		$function_names = array_column( $hooked_functions, 0 );
+		$this->assertInstanceOf( ForceLogin::class, $function_names[0] );
+	}
+
+	private function set_active_plugin( $plugin ) {
+		update_option( 'active_plugins', $plugin );
+		wp_cache_delete( 'plugins', 'plugins' );
+	}
+
 	public function test_daily_pantheon_cron() {
 		$this->set_active_plugin( 'wp-force-login/wp-force-login.php' );
 		$this->compatibility_factory->daily_pantheon_cron();
@@ -67,10 +86,5 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 
 		$this->assertIsArray( $applied_fixes );
 		$this->assertArrayHasKey( 'wp-force-login/wp-force-login.php', $applied_fixes );
-	}
-
-	private function set_active_plugin( $plugin ) {
-		update_option( 'active_plugins', $plugin );
-		wp_cache_delete( 'plugins', 'plugins' );
 	}
 }
