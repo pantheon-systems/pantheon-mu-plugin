@@ -13,8 +13,6 @@ namespace Pantheon\Compatibility\Fixes;
  * @package Pantheon\Compatibility\Fixes
  */
 class AddFilterFix {
-
-
 	/**
 	 * @param string $filter_name
 	 * @param callable $callback

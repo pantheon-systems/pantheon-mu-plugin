@@ -12,8 +12,6 @@ namespace Pantheon\Compatibility\Fixes;
  * Class YITHChangePdfLocationFix
  */
 class YITHChangePdfLocationFix {
-
-
 	/**
 	 * @return void
 	 */
@@ -28,7 +26,8 @@ class YITHChangePdfLocationFix {
 	/**
 	 * @return void
 	 */
-	public static function remove() {}
+	public static function remove() {
+	}
 
 	/**
 	 * Changes PDF cache location for YITH WooCommerce extensions.
@@ -38,8 +37,8 @@ class YITHChangePdfLocationFix {
 	 * @return array The updated config with writable path.
 	 */
 	public function yith_mpdf_change_tmp_dir( array $args ): array {
-		$upload_dir = wp_upload_dir();
-		$upload_dir = $upload_dir['basedir'];
+		$upload_dir      = wp_upload_dir();
+		$upload_dir      = $upload_dir['basedir'];
 		$args['tempDir'] = $upload_dir . '/yith-mpdf-tmp/';
 
 		return $args;

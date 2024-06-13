@@ -15,8 +15,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  * Class ContactFormSeven
  */
 class ContactFormSeven extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

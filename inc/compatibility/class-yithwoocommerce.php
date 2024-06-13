@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\YITHChangePdfLocationFix;
  * Class YITHWoocommerce
  */
 class YITHWoocommerce extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

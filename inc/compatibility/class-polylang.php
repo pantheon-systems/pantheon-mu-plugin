@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  * Class Polylang
  */
 class Polylang extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -40,5 +38,6 @@ class Polylang extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {}
+	public function remove_fix() {
+	}
 }

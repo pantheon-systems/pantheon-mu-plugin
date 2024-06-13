@@ -14,8 +14,6 @@ namespace Pantheon\Compatibility\Fixes;
  * @package Pantheon\Compatibility\Fixes
  */
 class AutoptimizeFix {
-
-
 	/**
 	 * Apply the fix
 	 *

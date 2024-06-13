@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  * Class TweetOldPost
  */
 class TweetOldPost extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

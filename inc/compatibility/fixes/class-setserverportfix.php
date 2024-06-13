@@ -17,7 +17,6 @@ use function defined;
  * @package Pantheon\Compatibility\Fixes
  */
 class SetServerPortFix {
-
 	/**
 	 * @return void
 	 */

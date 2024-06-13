@@ -12,8 +12,6 @@ namespace Pantheon\Compatibility;
  * Class EventEspresso
  */
 class EventEspresso extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

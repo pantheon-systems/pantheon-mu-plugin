@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\SliderRevolutionFix;
  * Slider Revolution Compatibility
  */
 class SliderRevolution extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -39,5 +37,6 @@ class SliderRevolution extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {}
+	public function remove_fix() {
+	}
 }

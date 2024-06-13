@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  * Redirection compatibility class
  */
 class Redirection extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

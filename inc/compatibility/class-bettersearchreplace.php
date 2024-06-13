@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\AddFilterFix;
  * Better Search Replace compatibility fix.
  */
 class BetterSearchReplace extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -33,17 +31,17 @@ class BetterSearchReplace extends Base {
 	 * @return void
 	 */
 	public function apply_fix() {
-		AddFilterFix::apply('bsr_capability', function () {
+		AddFilterFix::apply( 'bsr_capability', function () {
 			return 'manage_options';
-		});
+		} );
 	}
 
 	/**
 	 * @return void
 	 */
 	public function remove_fix() {
-		AddFilterFix::remove('bsr_capability', function () {
+		AddFilterFix::remove( 'bsr_capability', function () {
 			return 'manage_options';
-		});
+		} );
 	}
 }

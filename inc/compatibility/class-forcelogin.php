@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  * Force Login compatibility fix.
  */
 class ForceLogin extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\UpdateValueFix;
  * Class BrokenLinkChecker
  */
 class BrokenLinkChecker extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

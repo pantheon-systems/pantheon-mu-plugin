@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\Auth0Fix;
  * Auth0 Compatibility
  */
 class Auth0 extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

@@ -14,7 +14,6 @@ use Pantheon\Compatibility\Fixes\AcceleratedMobilePagesFix;
  * Accelerated Mobile Pages compatibility fix.
  */
 class AcceleratedMobilePages extends Base {
-
 	/**
 	 * The plugin name.
 	 *

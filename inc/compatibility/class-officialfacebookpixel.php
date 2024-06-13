@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\DeleteFileFix;
  * Class OfficialFacebookPixel
  */
 class OfficialFacebookPixel extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -39,5 +37,6 @@ class OfficialFacebookPixel extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {}
+	public function remove_fix() {
+	}
 }

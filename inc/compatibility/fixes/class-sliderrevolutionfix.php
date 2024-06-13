@@ -12,9 +12,6 @@ namespace Pantheon\Compatibility\Fixes;
  * Slider Revolution Fix
  */
 class SliderRevolutionFix {
-
-
-
 	/**
 	 * @return void
 	 */

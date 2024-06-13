@@ -13,8 +13,6 @@ use const ABSPATH;
  * Self Updating Themes Fix
  */
 class SelfUpdatingThemesFix {
-
-
 	/**
 	 * @return void
 	 */

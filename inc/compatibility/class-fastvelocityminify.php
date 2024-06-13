@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  * Class FastVelocityMinify
  */
 class FastVelocityMinify extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -41,5 +39,6 @@ class FastVelocityMinify extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {}
+	public function remove_fix() {
+	}
 }

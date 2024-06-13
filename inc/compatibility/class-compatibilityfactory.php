@@ -27,9 +27,6 @@ use function wp_schedule_event;
  * @package Pantheon\Compatibility
  */
 class CompatibilityFactory {
-
-
-
 	/**
 	 * Plugins targeted by the automated compatibility layer.
 	 *
@@ -82,22 +79,22 @@ class CompatibilityFactory {
 	private function setup_targets() {
 		static::$targets = [
 			AcceleratedMobilePages::class => [ 'slug' => 'accelerated-mobile-pages/accelerated-mobile-pages.php' ],
-			Auth0::class => [ 'slug' => 'auth0/WP_Auth0.php' ],
-			Autoptimize::class => [ 'slug' => 'autoptimize/autoptimize.php' ],
-			BetterSearchReplace::class => [ 'slug' => 'better-search-replace/better-search-replace.php' ],
-			BrokenLinkChecker::class => [ 'slug' => 'broken-link-checker/broken-link-checker.php' ],
-			ContactFormSeven::class => [ 'slug' => 'contact-form-7/wp-contact-form-7.php' ],
-			EventEspresso::class => [ 'slug' => 'event-espresso-decaf/espresso.php' ],
-			FastVelocityMinify::class => [ 'slug' => 'fast-velocity-minify/fvm.php' ],
-			ForceLogin::class => [ 'slug' => 'wp-force-login/wp-force-login.php' ],
-			OfficialFacebookPixel::class => [ 'slug' => 'official-facebook-pixel/facebook-for-wordpress.php' ],
-			Polylang::class => [ 'slug' => 'polylang/polylang.php' ],
-			Redirection::class => [ 'slug' => 'redirection/redirection.php' ],
-			SliderRevolution::class => [ 'slug' => 'slider-revolution/slider-revolution.php' ],
-			TweetOldPost::class => [ 'slug' => 'tweet-old-post/tweet-old-post.php' ],
-			WPRocket::class => [ 'slug' => 'wp-rocket/wp-rocket.php' ],
-			WooZone::class => [ 'slug' => 'woozone/plugin.php' ],
-			YITHWoocommerce::class => [ 'slug' => 'yith-woocommerce-request-a-quote/yith-woocommerce-request-a-quote.php' ],
+			Auth0::class                  => [ 'slug' => 'auth0/WP_Auth0.php' ],
+			Autoptimize::class            => [ 'slug' => 'autoptimize/autoptimize.php' ],
+			BetterSearchReplace::class    => [ 'slug' => 'better-search-replace/better-search-replace.php' ],
+			BrokenLinkChecker::class      => [ 'slug' => 'broken-link-checker/broken-link-checker.php' ],
+			ContactFormSeven::class       => [ 'slug' => 'contact-form-7/wp-contact-form-7.php' ],
+			EventEspresso::class          => [ 'slug' => 'event-espresso-decaf/espresso.php' ],
+			FastVelocityMinify::class     => [ 'slug' => 'fast-velocity-minify/fvm.php' ],
+			ForceLogin::class             => [ 'slug' => 'wp-force-login/wp-force-login.php' ],
+			OfficialFacebookPixel::class  => [ 'slug' => 'official-facebook-pixel/facebook-for-wordpress.php' ],
+			Polylang::class               => [ 'slug' => 'polylang/polylang.php' ],
+			Redirection::class            => [ 'slug' => 'redirection/redirection.php' ],
+			SliderRevolution::class       => [ 'slug' => 'slider-revolution/slider-revolution.php' ],
+			TweetOldPost::class           => [ 'slug' => 'tweet-old-post/tweet-old-post.php' ],
+			WPRocket::class               => [ 'slug' => 'wp-rocket/wp-rocket.php' ],
+			WooZone::class                => [ 'slug' => 'woozone/plugin.php' ],
+			YITHWoocommerce::class        => [ 'slug' => 'yith-woocommerce-request-a-quote/yith-woocommerce-request-a-quote.php' ],
 		];
 		$this->add_names_to_targets();
 	}
@@ -111,7 +108,7 @@ class CompatibilityFactory {
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		array_walk(static::$targets, static function ( &$plugin, $compat_class ) {
+		array_walk( static::$targets, static function ( &$plugin, $compat_class ) {
 			$file = WP_PLUGIN_DIR . '/' . $plugin['slug'];
 			if ( ! file_exists( $file ) ) {
 				$plugin['name'] = $compat_class::$plugin_name;
@@ -119,9 +116,9 @@ class CompatibilityFactory {
 				return;
 			}
 
-			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['slug'] );
+			$plugin_data    = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['slug'] );
 			$plugin['name'] = $plugin_data['Name'];
-		});
+		} );
 	}
 
 	/**
@@ -179,7 +176,7 @@ class CompatibilityFactory {
 		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
 
 		// filter list of active plugins by fix availability & fix status, then initialize compatibility layers.
-		array_map(static function ( $plugin ) use ( $compat_classes, $pantheon_applied_fixes ) {
+		array_map( static function ( $plugin ) use ( $compat_classes, $pantheon_applied_fixes ) {
 			$compat_layer = array_search(
 				$plugin,
 				array_combine( array_keys( $compat_classes ), array_column( $compat_classes, 'slug' ) ),
@@ -192,6 +189,6 @@ class CompatibilityFactory {
 				return;
 			}
 			( new $compat_layer( $plugin ) )->apply_fix();
-		}, (array) get_option( 'active_plugins' ) ?: []);
+		}, (array) get_option( 'active_plugins' ) ?: [] );
 	}
 }

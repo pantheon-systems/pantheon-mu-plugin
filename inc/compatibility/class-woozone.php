@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  * Class WooZone
  */
 class WooZone extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *
@@ -39,5 +37,6 @@ class WooZone extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {}
+	public function remove_fix() {
+	}
 }

@@ -16,8 +16,6 @@ use Pantheon\Compatibility\Fixes\WPRocketFix;
  * @package Pantheon\Compatibility
  */
 class WPRocket extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

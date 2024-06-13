@@ -14,8 +14,6 @@ use Pantheon\Compatibility\Fixes\AutoptimizeFix;
  * Autoptimize Compatibility
  */
 class Autoptimize extends Base {
-
-
 	/**
 	 * The plugin name.
 	 *

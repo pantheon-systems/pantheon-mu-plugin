@@ -13,7 +13,6 @@ namespace Pantheon\Compatibility\Fixes;
  * @package Pantheon\Compatibility\Fixes
  */
 class DefineConstantFix {
-
 	/**
 	 * @param string $key
 	 * @param mixed $value
