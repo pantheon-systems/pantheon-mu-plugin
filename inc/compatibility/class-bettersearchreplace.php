@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\AddFilterFix;
  */
 class BetterSearchReplace extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Better Search Replace';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

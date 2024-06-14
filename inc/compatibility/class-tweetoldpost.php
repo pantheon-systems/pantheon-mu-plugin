@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  */
 class TweetOldPost extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Revive Old Post';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

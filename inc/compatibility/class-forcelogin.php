@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  */
 class ForceLogin extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Force Login';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

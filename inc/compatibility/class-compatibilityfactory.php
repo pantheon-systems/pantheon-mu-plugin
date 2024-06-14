@@ -108,10 +108,10 @@ class CompatibilityFactory {
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		array_walk( static::$targets, static function ( &$plugin, $compat_class ) {
+		array_walk( static::$targets, static function ( &$plugin ) {
 			$file = WP_PLUGIN_DIR . '/' . $plugin['slug'];
 			if ( ! file_exists( $file ) ) {
-				$plugin['name'] = $compat_class::$plugin_name;
+				$plugin['name'] = $plugin['slug'];
 
 				return;
 			}
@@ -171,10 +171,8 @@ class CompatibilityFactory {
 	 */
 	public function daily_pantheon_cron() {
 		$compat_classes = static::$targets;
-
 		// get list of applied fixes.
 		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
-
 		// filter list of active plugins by fix availability & fix status, then initialize compatibility layers.
 		array_map( static function ( $plugin ) use ( $compat_classes, $pantheon_applied_fixes ) {
 			$compat_layer = array_search(
@@ -188,7 +186,8 @@ class CompatibilityFactory {
 			) {
 				return;
 			}
-			( new $compat_layer( $plugin ) )->apply_fix();
+			$instance = new $compat_layer( $plugin );
+			$instance->apply_fix();
 		}, (array) get_option( 'active_plugins' ) ?: [] );
 	}
 }

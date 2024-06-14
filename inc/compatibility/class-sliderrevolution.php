@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\SliderRevolutionFix;
  */
 class SliderRevolution extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Slider Revolution';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

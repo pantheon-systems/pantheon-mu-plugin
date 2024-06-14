@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\YITHChangePdfLocationFix;
  */
 class YITHWoocommerce extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'YITH WooCommerce Extensions with MPDF Library';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

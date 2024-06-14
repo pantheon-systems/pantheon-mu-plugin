@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  */
 class WooZone extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'WooZone';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

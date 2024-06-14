@@ -16,12 +16,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  */
 class ContactFormSeven extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Contact Form 7';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

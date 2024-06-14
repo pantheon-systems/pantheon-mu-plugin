@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  */
 class FastVelocityMinify extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Fast Velocity Minify';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

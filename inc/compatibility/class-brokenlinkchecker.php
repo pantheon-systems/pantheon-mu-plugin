@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\UpdateValueFix;
  */
 class BrokenLinkChecker extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Broken Link Checker';
-	/**
 	 * The default threshold value.
 	 *
 	 * @var int

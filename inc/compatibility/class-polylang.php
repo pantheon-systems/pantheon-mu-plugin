@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\DefineConstantFix;
  */
 class Polylang extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'PolyLang';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

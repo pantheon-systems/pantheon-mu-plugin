@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\DeleteFileFix;
  */
 class OfficialFacebookPixel extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Facebook for WordPress';
-	/**
 	 * Run fix on plugin activation flag.
 	 *
 	 * @var bool

@@ -15,13 +15,6 @@ use Pantheon\Compatibility\Fixes\AcceleratedMobilePagesFix;
  */
 class AcceleratedMobilePages extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'AMP for WP – Accelerated Mobile Pages';
-
-	/**
 	 * Run fix on every request.
 	 *
 	 * @var bool

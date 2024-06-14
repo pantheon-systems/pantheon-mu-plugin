@@ -17,12 +17,6 @@ use Pantheon\Compatibility\Fixes\WPRocketFix;
  */
 class WPRocket extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'WP Rocket';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

@@ -13,12 +13,6 @@ namespace Pantheon\Compatibility;
  */
 class EventEspresso extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Event Espresso';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\Auth0Fix;
  */
 class Auth0 extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Auth0';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

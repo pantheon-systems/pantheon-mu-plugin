@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\AutoptimizeFix;
  */
 class Autoptimize extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Autoptimize';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool

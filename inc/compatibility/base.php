@@ -65,6 +65,8 @@ abstract class Base {
 	 */
 	public function __construct( $slug ) {
 		static::$plugin_slug = $slug;
+		static::$plugin_name =
+			get_plugin_data( WP_PLUGIN_DIR . '/' . static::$plugin_slug )['Name'] ?: static::$plugin_slug;
 		register_deactivation_hook( WP_PLUGIN_DIR . '/' . static::$plugin_slug, [ $this, 'deactivate' ] );
 		if ( $this->is_plugin_active() ) {
 			$this->activate();

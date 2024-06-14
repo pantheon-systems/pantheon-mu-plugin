@@ -15,12 +15,6 @@ use Pantheon\Compatibility\Fixes\SetServerPortFix;
  */
 class Redirection extends Base {
 	/**
-	 * The plugin name.
-	 *
-	 * @var string
-	 */
-	public static $plugin_name = 'Redirection';
-	/**
 	 * Run fix on each request.
 	 *
 	 * @var bool
