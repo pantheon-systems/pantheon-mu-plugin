@@ -30,7 +30,7 @@ class AcceleratedMobilePagesFix {
 			return;
 		}
 		http_response_code( 301 );
-		$protocol              = ( 0 === stripos( $_SERVER['SERVER_PROTOCOL'], 'https' ) ) ? 'https://' : 'http://';
+		$protocol = ( 0 === stripos( $_SERVER['SERVER_PROTOCOL'], 'https' ) ) ? 'https://' : 'http://';
 		$redirect_header_value = $protocol . PANTHEON_HOSTNAME . $_SERVER['REQUEST_URI'] . '/amp';
 		header( 'Location: ' . $redirect_header_value );
 

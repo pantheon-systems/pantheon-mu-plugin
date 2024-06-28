@@ -31,8 +31,7 @@ class Auth0Fix {
 	/**
 	 * @return void
 	 */
-	public static function remove() {
-	}
+	public static function remove() {}
 
 	/**
 	 * @return void
@@ -42,9 +41,9 @@ class Auth0Fix {
 			return;
 		}
 
-		$sdk          = wpAuth0()->getSdk();
-		$config       = $sdk->configuration();
-		$storage_id   = 'STYXKEY_' . $config->getSessionStorageId();
+		$sdk = wpAuth0()->getSdk();
+		$config = $sdk->configuration();
+		$storage_id = 'STYXKEY_' . $config->getSessionStorageId();
 		$transient_id = 'STYXKEY_' . $config->getTransientStorageId();
 		$config->setSessionStorageId( $storage_id );
 		$config->setTransientStorageId( $transient_id );

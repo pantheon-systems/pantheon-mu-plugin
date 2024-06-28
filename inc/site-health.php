@@ -63,11 +63,8 @@ function output_compatibility_content( $tab ) {
 			<?php
 			printf(
 				wp_kses_post(
-				/* translators: %s: URL to Known Issues page. */
-					__(
-						'This page lists active plugins that have known compatibility issues with Pantheon\'s infrastructure. For additional details, see the <a href="%s" target="_blank">Known Issues</a> page.',
-						'pantheon'
-					)
+					/* translators: %s: URL to Known Issues page. */
+					__( 'This page lists active plugins that have known compatibility issues with Pantheon\'s infrastructure. For additional details, see the <a href="%s" target="_blank">Known Issues</a> page.', 'pantheon' )
 				),
 				esc_url( 'https://docs.pantheon.io/plugins-known-issues' )
 			);
@@ -80,31 +77,22 @@ function output_compatibility_content( $tab ) {
 
 			$info = [
 				'automatic' => [
-					'label'       => esc_html__( 'Automatic Fixes', 'pantheon' ),
-					'description' => esc_html__(
-						'Compatibility with the following plugins has been automatically added.',
-						'pantheon'
-					),
-					'fields'      => get_option( 'pantheon_applied_fixes' ),
-					'show_count'  => true,
+					'label' => esc_html__( 'Automatic Fixes', 'pantheon' ),
+					'description' => esc_html__( 'Compatibility with the following plugins has been automatically added.', 'pantheon' ),
+					'fields' => get_option( 'pantheon_applied_fixes' ),
+					'show_count' => true,
 				],
-				'manual'    => [
-					'label'       => esc_html__( 'Manual Fixes', 'pantheon' ),
-					'description' => esc_html__(
-						'Compatibility with the following plugins needs to be manually applied.',
-						'pantheon'
-					),
-					'fields'      => get_compatibility_manual_fixes(),
-					'show_count'  => true,
+				'manual' => [
+					'label' => esc_html__( 'Manual Fixes', 'pantheon' ),
+					'description' => esc_html__( 'Compatibility with the following plugins needs to be manually applied.', 'pantheon' ),
+					'fields' => get_compatibility_manual_fixes(),
+					'show_count' => true,
 				],
-				'notes'     => [
-					'label'       => esc_html__( 'Needs Review', 'pantheon' ),
-					'description' => esc_html__(
-						'Compatibility with the following plugins needs to be reviewed.',
-						'pantheon'
-					),
-					'fields'      => get_compatibility_review_fixes(),
-					'show_count'  => true,
+				'notes' => [
+					'label' => esc_html__( 'Needs Review', 'pantheon' ),
+					'description' => esc_html__( 'Compatibility with the following plugins needs to be reviewed.', 'pantheon' ),
+					'fields' => get_compatibility_review_fixes(),
+					'show_count' => true,
 				],
 			];
 			foreach ( $info as $section => $details ) :
@@ -114,30 +102,21 @@ function output_compatibility_content( $tab ) {
 
 				?>
 				<h3 class="health-check-accordion-heading">
-					<button aria-expanded="false" class="health-check-accordion-trigger"
-							aria-controls="health-check-accordion-block-<?php echo esc_attr( $section ); ?>"
-							type="button">
+					<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" type="button">
 					<span class="title">
-						<?php echo esc_html( $details['label'] ); ?>
 						<?php
-
+						echo esc_html( $details['label'] );
 						if ( isset( $details['show_count'] ) && $details['show_count'] ) {
-							printf(
-								'(%s)',
-								esc_html( number_format_i18n( count( $details['fields'] ) ) )
-							);
+							printf( '(%s)', esc_html( number_format_i18n( count( $details['fields'] ) ) ) );
 						}
-
 						?>
 					</span>
 						<span class="icon"></span>
 					</button>
 				</h3>
 
-				<div id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>"
-					class="health-check-accordion-panel" hidden="hidden">
+				<div id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" class="health-check-accordion-panel" hidden="hidden">
 					<?php
-
 					if ( ! empty( $details['description'] ) ) {
 						printf( '<p>%s</p>', esc_html( $details['description'] ) );
 					}
@@ -174,12 +153,12 @@ function output_compatibility_status_table( $plugins, $output = true ) {
 			$status = sprintf( __( '%s', 'pantheon' ), ucfirst( $field['plugin_status'] ) );
 			/* translators: %s: A plugin's compatibility status message. */
 			$message = sprintf( __( '%s', 'pantheon' ), ucfirst( $field['plugin_message'] ) );
-			$values  = '<ul>';
-			$values  .= '<li><b>' . $status . '</b></li>';
-			$values  .= '<li>' . $message . '</li>';
-			$values  .= '</ul>';
+			$values = '<ul>';
+			$values .= '<li><b>' . $status . '</b></li>';
+			$values .= '<li>' . $message . '</li>';
+			$values .= '</ul>';
 			printf(
-			/* translators: %s: Plugin's name. */
+				/* translators: %s: Plugin's name. */
 				'<tr><td>' . esc_html__( '%s', 'pantheon' ) . '</td><td>%s</td></tr>',
 				esc_html( $field['plugin_name'] ),
 				wp_kses_post( $values )
@@ -219,48 +198,48 @@ function add_compatibility_tab( $tabs ) {
 function get_compatibility_manual_fixes() {
 	$plugins = [
 		'big-file-uploads' => [
-			'plugin_status'  => esc_html__( 'Manual Fix Required', 'pantheon' ),
-			'plugin_slug'    => 'tuxedo-big-file-uploads/tuxedo_big_file_uploads.php',
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'tuxedo-big-file-uploads/tuxedo_big_file_uploads.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#big-file-uploads'
 				)
 			),
 		],
-		'jetpack'          => [
-			'plugin_status'  => esc_html__( 'Manual Fix Required', 'pantheon' ),
-			'plugin_slug'    => 'jetpack/jetpack.php',
+		'jetpack' => [
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'jetpack/jetpack.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#jetpack'
 				)
 			),
 		],
-		'wordfence'        => [
-			'plugin_status'  => esc_html__( 'Manual Fix Required', 'pantheon' ),
-			'plugin_slug'    => 'wordfence/wordfence.php',
+		'wordfence' => [
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'wordfence/wordfence.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wordfence'
 				)
 			),
 		],
-		'wpml'             => [
-			'plugin_status'  => esc_html__( 'Manual Fix Required', 'pantheon' ),
-			'plugin_slug'    => 'sitepress-multilingual-cms/sitepress.php',
+		'wpml' => [
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'sitepress-multilingual-cms/sitepress.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wpml-the-wordpress-multili
-					n
-				gual-plugin' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#wpml-the-wordpress-multilingual-plugin'
+				)
+			),
 		],
 	];
 
@@ -280,7 +259,7 @@ function get_compatibility_manual_fixes() {
  */
 function add_plugin_names_to_known_issues( $plugins ) {
 	foreach ( $plugins as $key => $plugin ) {
-		$plugin_data                    = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['plugin_slug'] );
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['plugin_slug'] );
 		$plugins[ $key ]['plugin_name'] = $plugin_data['Name'];
 	}
 
@@ -294,452 +273,452 @@ function add_plugin_names_to_known_issues( $plugins ) {
  */
 function get_compatibility_review_fixes() {
 	$plugins = [
-		'raptive-ads'                => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'raptive-ads/adthrive-ads.php',
+		'raptive-ads' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'raptive-ads/adthrive-ads.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#adthrive-ads'
 				)
 			),
 		],
-		'all-in-one-wp-migration'    => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'all-in-one-wp-migration/all-in-one-wp-migration.php',
+		'all-in-one-wp-migration' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'all-in-one-wp-migration/all-in-one-wp-migration.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#all-in-one-wp-migration'
 				)
 			),
 		],
-		'bookly'                     => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'bookly-responsive-appointment-booking-tool/main.php',
+		'bookly' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'bookly-responsive-appointment-booking-tool/main.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#bookly'
 				)
 			),
 		],
-		'coming-soon'                => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'coming-soon/coming-soon.php',
+		'coming-soon' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'coming-soon/coming-soon.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#coming-soon'
 				)
 			),
 		],
-		'disable-json-api'           => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'disable-json-api/disable-json-api.php',
+		'disable-json-api' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'disable-json-api/disable-json-api.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#disable-rest-api-and-requi
-					r
-				e-jwt--oauth-authentication' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#disable-rest-api-and-require-jwt--oauth-authentication'
+				)
+			),
 		],
-		'divi-builder'               => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'divi-builder/divi-builder.php',
+		'divi-builder' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'divi-builder/divi-builder.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#divi-wordpress-theme--visu
-					a
-				l-page-builder' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#divi-wordpress-theme--visual-page-builder'
+				)
+			),
 		],
-		'elementor'                  => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'elementor/elementor.php',
+		'elementor' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'elementor/elementor.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#elementor'
 				)
 			),
 		],
-		'facetwp'                    => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'facetwp/index.php',
+		'facetwp' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'facetwp/index.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#facetwp'
 				)
 			),
 		],
-		'cookie-law-info'            => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'cookie-law-info/cookie-law-info.php',
+		'cookie-law-info' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'cookie-law-info/cookie-law-info.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#gdpr-cookie-consent'
 				)
 			),
 		],
-		'h5p'                        => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'h5p/h5p.php',
+		'h5p' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'h5p/h5p.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#h5p'
 				)
 			),
 		],
-		'hm-require-login'           => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'hm-require-login/hm-require-login.php',
+		'hm-require-login' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'hm-require-login/hm-require-login.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#hm-require-login'
 				)
 			),
 		],
-		'hummingbird-performance'    => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'hummingbird-performance/wp-hummingbird.php',
+		'hummingbird-performance' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'hummingbird-performance/wp-hummingbird.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#hummingbird'
 				)
 			),
 		],
-		'hyperdb'                    => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'hyperdb/db.php',
+		'hyperdb' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'hyperdb/db.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#hyperdb'
 				)
 			),
 		],
-		'iwp-client'                 => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'iwp-client/init.php',
+		'iwp-client' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'iwp-client/init.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#infinitewp'
 				)
 			),
 		],
-		'instashow'                  => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'instashow/instashow.php',
+		'instashow' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'instashow/instashow.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#instashow'
 				)
 			),
 		],
-		'wp-maintenance-mode'        => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'wp-maintenance-mode/wp-maintenance-mode.php',
+		'wp-maintenance-mode' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'wp-maintenance-mode/wp-maintenance-mode.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#maintenance-mode'
 				)
 			),
 		],
-		'worker'                     => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'worker/init.php',
+		'worker' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'worker/init.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#managewp-worker'
 				)
 			),
 		],
-		'monarch'                    => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'monarch/monarch.php',
+		'monarch' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'monarch/monarch.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#monarch-social-sharing'
 				)
 			),
 		],
-		'new-relic'                  => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'new-relic/new-relic.php',
+		'new-relic' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'new-relic/new-relic.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#new-relic-reporting-for-wo
-					r
-		dpress' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#new-relic-reporting-for-wordpress'
+				)
+			),
 		],
 		'object-sync-for-salesforce' => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'object-sync-for-salesforce/object-sync-for-salesforce.php',
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'object-sync-for-salesforce/object-sync-for-salesforce.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#object-sync-for-salesforce'
 				)
 			),
 		],
-		'one-click-demo-import'      => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'one-click-demo-import/one-click-demo-import.php',
+		'one-click-demo-import' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'one-click-demo-import/one-click-demo-import.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#one-click-demo-import'
 				)
 			),
 		],
-		'posts-to-posts'             => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'posts-to-posts/posts-to-posts.php',
+		'posts-to-posts' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'posts-to-posts/posts-to-posts.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#posts-2-posts'
 				)
 			),
 		],
-		'query-monitor'              => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'query-monitor/query-monitor.php',
+		'query-monitor' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'query-monitor/query-monitor.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#query-monitor'
 				)
 			),
 		],
-		'site24x7'                   => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'site24x7/site24x7.php',
+		'site24x7' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'site24x7/site24x7.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#site24x7'
 				)
 			),
 		],
-		'wp-smush-pro'               => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'wp-smush-pro/wp-smush-pro.php',
+		'wp-smush-pro' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'wp-smush-pro/wp-smush-pro.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#smush-pro'
 				)
 			),
 		],
-		'better-wp-security'         => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'better-wp-security/better-wp-security.php',
+		'better-wp-security' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'better-wp-security/better-wp-security.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#solid-security-previously-
-					i
-				themes-security' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#solid-security-previously-ithemes-security'
+				)
+			),
 		],
-		'unbounce'                   => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'unbounce/unbounce.php',
+		'unbounce' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'unbounce/unbounce.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#unbounce-landing-pages'
 				)
 			),
 		],
-		'unyson'                     => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'unyson/unyson.php',
+		'unyson' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'unyson/unyson.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#unyson-theme-framework'
 				)
 			),
 		],
-		'updraftplus'                => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'updraftplus/updraftplus.php',
+		'updraftplus' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'updraftplus/updraftplus.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#updraft--updraft-plus-back
-			u
-				p' ) ),
+					'https://docs.pantheon.io/plugins-known-issues#updraft--updraft-plus-backup'
+				)
+			),
 		],
-		'weather-station'            => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'weather-station/weather-station.php',
+		'weather-station' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'weather-station/weather-station.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#weather-station'
 				)
 			),
 		],
-		'webp-express'               => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'webp-express/webp-express.php',
+		'webp-express' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'webp-express/webp-express.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#webp-express'
 				)
 			),
 		],
-		'woocommerce'                => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'woocommerce/woocommerce.php',
+		'woocommerce' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'woocommerce/woocommerce.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#woocommerce'
 				)
 			),
 		],
-		'download-manager'           => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'download-manager/download-manager.php',
+		'download-manager' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'download-manager/download-manager.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wordpress-download-manager'
 				)
 			),
 		],
-		'wp-all-import'              => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'wp-all-import/wp-all-import.php',
+		'wp-all-import' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'wp-all-import/wp-all-import.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-all-import--export'
 				)
 			),
 		],
-		'wp-migrate-db'              => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'wp-migrate-db/wp-migrate-db.php',
+		'wp-migrate-db' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'wp-migrate-db/wp-migrate-db.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-migrate-db'
 				)
 			),
 		],
-		'wp-phpmyadmin'              => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'wp-phpmyadmin/wp-phpmyadmin.php',
+		'wp-phpmyadmin' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'wp-phpmyadmin/wp-phpmyadmin.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-phpmyadmin'
 				)
 			),
 		],
-		'wp-reset'                   => [
-			'plugin_status'  => esc_html__( 'Incompatible', 'pantheon' ),
-			'plugin_slug'    => 'wp-reset/wp-reset.php',
+		'wp-reset' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'wp-reset/wp-reset.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-reset'
 				)
 			),
 		],
-		'wp-ban'                     => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'wp-ban/wp-ban.php',
+		'wp-ban' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'wp-ban/wp-ban.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-ban'
 				)
 			),
 		],
-		'wpfront-notification-bar'   => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'wpfront-notification-bar/wpfront-notification-bar.php',
+		'wpfront-notification-bar' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'wpfront-notification-bar/wpfront-notification-bar.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wpfront-notification-bar'
 				)
 			),
 		],
-		'yoast-seo'                  => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'wordpress-seo/wp-seo.php',
+		'yoast-seo' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'wordpress-seo/wp-seo.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#yoast-seo'
 				)
 			),
 		],
-		'yoast-indexables'           => [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'yoast-seo/wp-seo.php',
+		'yoast-indexables' => [
+			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug' => 'yoast-seo/wp-seo.php',
 			'plugin_message' => wp_kses_post(
 				sprintf(
-				/* translators: %s: the link to relevant documentation. */
+					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#yoast-indexables'
 				)
@@ -779,9 +758,9 @@ function site_health_mods( $tests ) {
  */
 function compatibility_checks( $tests ) {
 	$tests['async']['compatibility'] = [
-		'label'             => __( 'Pantheon Compatibility', 'pantheon' ),
-		'test'              => 'test-compatibility',
-		'has_rest'          => false,
+		'label' => __( 'Pantheon Compatibility', 'pantheon' ),
+		'test' => 'test-compatibility',
+		'has_rest' => false,
 		'async_direct_test' => __NAMESPACE__ . '\\test_compatibility',
 	];
 
@@ -806,62 +785,47 @@ function test_compatibility() {
 
 	if ( empty( $manual_fixes ) && empty( $review_fixes ) ) {
 		return [
-			'label'       => __( 'Your site is stable', 'pantheon' ),
-			'status'      => 'good',
-			'badge'       => [
+			'label' => __( 'Your site is stable', 'pantheon' ),
+			'status' => 'good',
+			'badge' => [
 				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'green',
 			],
-			'description' => __(
-				'There are no known compatibility issues with your active plugins.',
-				'pantheon'
-			),
-			'test'        => 'compatibility',
+			'description' => __( 'There are no known compatibility issues with your active plugins.', 'pantheon' ),
+			'test' => 'compatibility',
 		];
 	}
 
 	if ( ! empty( $manual_fixes ) ) {
 		return [
-			'label'       => __(
-				'One or more active plugins require a manual compatibility fix',
-				'pantheon'
-			),
-			'status'      => 'critical',
-			'badge'       => [
+			'label' => __( 'One or more active plugins require a manual compatibility fix', 'pantheon' ),
+			'status' => 'critical',
+			'badge' => [
 				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'red',
 			],
 			'description' => sprintf(
 				'<p>%s</p>%s',
-				__(
-					'There are known compatibility issues with your active plugins that require manual fixes.',
-					'pantheon'
-				),
+				__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
 				output_compatibility_status_table( $manual_fixes, false )
 			),
-			'test'        => 'compatibility',
+			'test' => 'compatibility',
 		];
 	}
 
 	return [
-		'label'       => __(
-			'You should review active plugins for compatibility issues',
-			'pantheon'
-		),
-		'status'      => 'recommended',
-		'badge'       => [
+		'label' => __( 'You should review active plugins for compatibility issues', 'pantheon' ),
+		'status' => 'recommended',
+		'badge' => [
 			'label' => __( 'Pantheon', 'pantheon' ),
 			'color' => 'orange',
 		],
 		'description' => sprintf(
 			'<p>%s</p>%s',
-			__(
-				'One or more active plugins may be incompatible or only partially compatible with Pantheon.',
-				'pantheon'
-			),
+			__( 'One or more active plugins may be incompatible or only partially compatible with Pantheon.', 'pantheon' ),
 			output_compatibility_status_table( $review_fixes, false )
 		),
-		'test'        => 'compatibility',
+		'test' => 'compatibility',
 	];
 }
 
@@ -875,7 +839,7 @@ function test_compatibility() {
 function object_cache_tests( $tests ) {
 	$tests['direct']['object_cache'] = [
 		'label' => __( 'Object Cache', 'pantheon' ),
-		'test'  => 'test_object_cache',
+		'test' => 'test_object_cache',
 	];
 
 	return $tests;
@@ -889,9 +853,9 @@ function object_cache_tests( $tests ) {
 function test_object_cache() {
 	if ( ! isset( $_ENV['CACHE_HOST'] ) ) {
 		$result = [
-			'label'       => __( 'Redis Object Cache', 'pantheon' ),
-			'status'      => 'critical',
-			'badge'       => [
+			'label' => __( 'Redis Object Cache', 'pantheon' ),
+			'status' => 'critical',
+			'badge' => [
 				'label' => __( 'Performance', 'pantheon' ),
 				'color' => 'red',
 			],
@@ -899,20 +863,20 @@ function test_object_cache() {
 				'<p>%s</p>',
 				__( 'Redis object cache is not active for your site.', 'pantheon' )
 			),
-			'test'        => 'object_cache',
+			'test' => 'object_cache',
 		];
 
 		return $result;
 	}
 
 	$wp_redis_active = is_plugin_active( 'wp-redis/wp-redis.php' );
-	$ocp_active      = is_plugin_active( 'object-cache-pro/object-cache-pro.php' );
+	$ocp_active = is_plugin_active( 'object-cache-pro/object-cache-pro.php' );
 
 	if ( $wp_redis_active ) {
 		$result = [
-			'label'       => __( 'WP Redis Active', 'pantheon' ),
-			'status'      => 'recommended',
-			'badge'       => [
+			'label' => __( 'WP Redis Active', 'pantheon' ),
+			'status' => 'recommended',
+			'badge' => [
 				'label' => __( 'Performance', 'pantheon' ),
 				'color' => 'orange',
 			],
@@ -920,11 +884,9 @@ function test_object_cache() {
 				'<p>%s</p><p>%s</p>',
 				__( 'WP Redis is active for your site. We recommend using Object Cache Pro.', 'pantheon' ),
 				// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
-				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ),
-					'https://docs.pantheon.io/object-cache/wordpress'
-				)
+				sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 			),
-			'test'        => 'object_cache',
+			'test' => 'object_cache',
 		];
 
 		return $result;
@@ -932,9 +894,9 @@ function test_object_cache() {
 
 	if ( $ocp_active ) {
 		$result = [
-			'label'       => __( 'Object Cache Pro Active', 'pantheon' ),
-			'status'      => 'good',
-			'badge'       => [
+			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
+			'status' => 'good',
+			'badge' => [
 				'label' => __( 'Performance', 'pantheon' ),
 				'color' => 'green',
 			],
@@ -942,35 +904,28 @@ function test_object_cache() {
 				'<p>%s</p><p>%s</p>',
 				__( 'Object Cache Pro is active for your site.', 'pantheon' ),
 				// Translators: %s is a URL to the Object Cache Pro documentation.
-				sprintf( __( 'Visit the <a href="%s">Object Cache Pro</a> documentation to learn more.', 'pantheon' ),
-					'https://objectcache.pro/docs'
-				)
+				sprintf( __( 'Visit the <a href="%s">Object Cache Pro</a> documentation to learn more.', 'pantheon' ), 'https://objectcache.pro/docs' )
 			),
-			'test'        => 'object_cache',
+			'test' => 'object_cache',
 		];
 
 		return $result;
 	}
 
 	$result = [
-		'label'       => __( 'No Object Cache Plugin Active', 'pantheon' ),
-		'status'      => 'critical',
-		'badge'       => [
+		'label' => __( 'No Object Cache Plugin Active', 'pantheon' ),
+		'status' => 'critical',
+		'badge' => [
 			'label' => __( 'Performance', 'pantheon' ),
 			'color' => 'red',
 		],
 		'description' => sprintf(
 			'<p>%s</p><p>%s</p>',
-			__(
-				'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.',
-				'pantheon'
-			),
+			__( 'Redis object cache is active for your site but you have no object cache plugin installed. We recommend using Object Cache Pro.', 'pantheon' ),
 			// Translators: %s is a URL to the Pantheon documentation to install Object Cache Pro.
-			sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ),
-				'https://docs.pantheon.io/object-cache/wordpress'
-			)
+			sprintf( __( 'Visit our <a href="%s">documentation site</a> to learn how to install it.', 'pantheon' ), 'https://docs.pantheon.io/object-cache/wordpress' )
 		),
-		'test'        => 'object_cache',
+		'test' => 'object_cache',
 	];
 
 	return $result;
