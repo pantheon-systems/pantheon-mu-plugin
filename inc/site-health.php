@@ -258,9 +258,17 @@ function get_compatibility_manual_fixes() {
  * @return array[]
  */
 function add_plugin_names_to_known_issues( $plugins ) {
+	if ( ! function_exists( 'get_plugin_data' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
 	foreach ( $plugins as $key => $plugin ) {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['plugin_slug'] );
-		$plugins[ $key ]['plugin_name'] = $plugin_data['Name'];
+		$file = WP_PLUGIN_DIR . '/' . $plugin['plugin_slug'];
+		if ( ! file_exists( $file ) ) {
+			$plugins[ $key ]['plugin_name'] = ucfirst( $key );
+		} else {
+			$plugin_data = get_plugin_data( $file, false, false );
+			$plugins[ $key ]['plugin_name'] = $plugin_data['Name'];
+		}
 	}
 
 	return $plugins;

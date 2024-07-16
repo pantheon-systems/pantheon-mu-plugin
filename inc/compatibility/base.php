@@ -7,10 +7,17 @@
 
 namespace Pantheon\Compatibility;
 
+use function file_exists;
+use function function_exists;
+use function get_plugin_data;
+
+use const WP_PLUGIN_DIR;
+
 /**
  * Base class for plugin compatibility fixes.
  */
 abstract class Base {
+
 	/**
 	 * The plugin's slug.
 	 *
@@ -65,8 +72,16 @@ abstract class Base {
 	 */
 	public function __construct( $slug ) {
 		static::$plugin_slug = $slug;
-		static::$plugin_name =
-			get_plugin_data( WP_PLUGIN_DIR . '/' . static::$plugin_slug )['Name'] ?: static::$plugin_slug;
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$file = WP_PLUGIN_DIR . '/' . $slug;
+		if ( ! file_exists( $file ) ) {
+			static::$plugin_name = static::$plugin_slug;
+		} else {
+			$plugin_data = get_plugin_data( $file, false, false );
+			static::$plugin_name = $plugin_data['Name'];
+		}
 		register_deactivation_hook( WP_PLUGIN_DIR . '/' . static::$plugin_slug, [ $this, 'deactivate' ] );
 		if ( $this->is_plugin_active() ) {
 			$this->activate();

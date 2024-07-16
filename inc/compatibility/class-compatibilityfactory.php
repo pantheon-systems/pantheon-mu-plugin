@@ -27,6 +27,7 @@ use function wp_schedule_event;
  * @package Pantheon\Compatibility
  */
 class CompatibilityFactory {
+
 	/**
 	 * Plugins targeted by the automated compatibility layer.
 	 *
@@ -115,10 +116,9 @@ class CompatibilityFactory {
 
 				return;
 			}
-
-			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['slug'] );
+			$plugin_data = get_plugin_data( $file, false, false );
 			$plugin['name'] = $plugin_data['Name'];
-		} );
+		});
 	}
 
 	/**
