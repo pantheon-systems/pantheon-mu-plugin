@@ -194,15 +194,15 @@ abstract class Base {
 	 * @return void
 	 */
 	protected function persist_data( array $plugin_methods = [] ) {
-		$pantheon_applied_fixes                         = get_option( 'pantheon_applied_fixes' ) ?: [];
-		$old                                            = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
+		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
+		$old = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
 		$pantheon_applied_fixes[ static::$plugin_slug ] = [
-			'plugin_slug'      => static::$plugin_slug,
-			'plugin_name'      => static::$plugin_name,
-			'plugin_status'    => $plugin_methods ? 'automated' : 'waiting',
-			'plugin_message'   => 'Manual fixes can be safely removed.',
-			'plugin_class'     => static::class,
-			'plugin_methods'   => implode( ',', $plugin_methods ),
+			'plugin_slug' => static::$plugin_slug,
+			'plugin_name' => static::$plugin_name,
+			'plugin_status' => $plugin_methods ? 'automated' : 'waiting',
+			'plugin_message' => 'Manual fixes can be safely removed.',
+			'plugin_class' => static::class,
+			'plugin_methods' => implode( ',', $plugin_methods ),
 			'plugin_timestamp' => time(),
 		];
 		// Update the option with the modified array.

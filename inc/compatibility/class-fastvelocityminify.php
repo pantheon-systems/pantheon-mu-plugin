@@ -33,6 +33,5 @@ class FastVelocityMinify extends Base {
 	/**
 	 * @return void
 	 */
-	public function remove_fix() {
-	}
+	public function remove_fix() {}
 }
