@@ -847,7 +847,7 @@ function test_compatibility() {
 function object_cache_tests( $tests ) {
 	$tests['direct']['object_cache'] = [
 		'label' => __( 'Object Cache', 'pantheon' ),
-		'test' => 'test_object_cache',
+		'test' =>  __NAMESPACE__ . '\\test_object_cache',
 	];
 
 	return $tests;
