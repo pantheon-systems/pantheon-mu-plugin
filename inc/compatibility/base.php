@@ -215,7 +215,7 @@ abstract class Base {
 			'plugin_slug' => static::$plugin_slug,
 			'plugin_name' => static::$plugin_name,
 			'plugin_status' => $plugin_methods ? 'automated' : 'waiting',
-			'plugin_message' => 'Manual fixes can be safely removed.',
+			'plugin_message' => esc_html__( 'Manual fixes can be safely removed.', 'pantheon' ),
 			'plugin_class' => static::class,
 			'plugin_methods' => implode( ',', $plugin_methods ),
 			'plugin_timestamp' => time(),
