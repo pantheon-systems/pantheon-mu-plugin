@@ -69,6 +69,9 @@ abstract class Base {
 
 	/**
 	 * Base constructor registering deactivation hook and conditionally executing activate method.
+	 *
+	 * @param string $slug The plugin's basename.
+	 * @see https://developer.wordpress.org/reference/functions/plugin_basename/
 	 */
 	public function __construct( $slug ) {
 		static::$plugin_slug = $slug;
