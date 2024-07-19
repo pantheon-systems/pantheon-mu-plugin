@@ -104,7 +104,7 @@ function get_clean_basedomain() {
  *
  * Applies the 'pantheon.subdirectory_networks_message' filter.
  *
- * @since 1.4.4
+ * @since 1.4.5
  * @return string Warning message or empty string.
  */
 function pantheon_get_subdirectory_networks_message() {
