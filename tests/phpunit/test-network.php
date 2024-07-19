@@ -77,8 +77,11 @@ class Test_Network extends WP_UnitTestCase {
 	public function test_disable_subdirectory_custom_wp_content_warning() {
 		// Test the default condition.
 		$this->assertNotEmpty( pantheon_get_subdirectory_networks_message() );
+	}
 
+	public function test_disable_subdirectory_custom_wp_content_warning_filtered() {
 		add_filter( 'pantheon.enable_subdirectory_networks_message', '__return_false' );
 		$this->assertEmpty( pantheon_get_subdirectory_networks_message() );
 	}
+
 }
