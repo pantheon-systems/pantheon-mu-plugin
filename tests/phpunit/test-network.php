@@ -83,5 +83,4 @@ class Test_Network extends WP_UnitTestCase {
 		add_filter( 'pantheon.enable_subdirectory_networks_message', '__return_false' );
 		$this->assertEmpty( pantheon_get_subdirectory_networks_message() );
 	}
-
 }
