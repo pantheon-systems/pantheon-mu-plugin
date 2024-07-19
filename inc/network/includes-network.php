@@ -109,7 +109,7 @@ function get_clean_basedomain() {
  */
 function pantheon_get_subdirectory_networks_message() {
 	if ( apply_filters( 'pantheon.enable_subdirectory_networks_message', true ) ) {
-		return '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
+		return '<div class="error inline"><p><strong>' . __( 'Warning:' ) . '</strong> ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</p></div>';
 	}
 
 	return '';
