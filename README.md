@@ -26,6 +26,9 @@ What does that mean? We're glad you asked!
 ### Maintenance Mode
 **Put your site into a maintenance mode.** Prevent users from accessing your sites during major updates by enabling Maintenance Mode either in the WordPress admin or via WP-CLI.
 
+### Compatibility Layer
+**Ensure your WordPress website is compatible with Pantheon.** Automatically apply & report status of compatibility fixes for common issues that arise when running WordPress on Pantheon.
+
 ## Hooks
 
 The Pantheon Must-Use Plugin provides the following hooks that can be used in your code:
