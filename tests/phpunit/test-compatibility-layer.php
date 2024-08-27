@@ -87,4 +87,25 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 		$this->assertIsArray( $applied_fixes );
 		$this->assertArrayHasKey( 'wp-force-login/wp-force-login.php', $applied_fixes );
 	}
+
+	public function test_output_compatibility_status_table() {
+		$plugins = get_option( 'active_plugins' );
+		foreach ( [ 'tuxedo-big-file-uploads/tuxedo_big_file_uploads.php', 'phastpress/phastpress.php' ] as $plugin ) {
+			$plugins[] = $plugin;
+		}
+		update_option( 'active_plugins', $plugins );
+		wp_cache_delete( 'plugins', 'plugins' );
+
+		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
+		$review_fixes = Pantheon\Site_Health\get_compatibility_review_fixes();
+		
+		$manual_table = Pantheon\Site_Health\output_compatibility_status_table( $manual_fixes, false );
+
+		$this->assertStringContainsString( 'Big-file-uploads', $manual_table );
+		$this->assertStringContainsString( 'Manual Fix Required', $manual_table );
+
+		$review_table = Pantheon\Site_Health\output_compatibility_status_table( $review_fixes, false, true );
+		$this->assertStringContainsString( 'Phastpress', $review_table );
+		$this->assertStringContainsString( 'Incompatible', $review_table );
+	}
 }
