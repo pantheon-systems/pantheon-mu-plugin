@@ -817,6 +817,28 @@ function test_compatibility() {
 	}
 
 	if ( ! empty( $manual_fixes ) ) {
+		$description = sprintf(
+			'<p>%s</p>%s',
+			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
+				output_compatibility_status_table( $manual_fixes, false )
+		);
+
+		if ( ! empty( $review_fixes ) ) {
+			ob_start();
+			output_compatibility_status_table( $manual_fixes, true );
+			$manual_table = ob_get_clean();
+			ob_start();
+			output_compatibility_status_table( $review_fixes, true, true );
+			$review_table = ob_get_clean();
+			$description = sprintf(
+				'<p>%1$s</p>%2$s<p>%3$s</p>%4$s',
+				__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
+				$manual_table,
+				__( 'There are known incompatibility issues with the following plugins.', 'pantheon' ),
+				$review_table
+			);
+		}
+
 		return [
 			'label' => __( 'One or more active plugins require a manual compatibility fix', 'pantheon' ),
 			'status' => 'critical',
@@ -824,11 +846,7 @@ function test_compatibility() {
 				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'red',
 			],
-			'description' => sprintf(
-				'<p>%s</p>%s',
-				__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
-				output_compatibility_status_table( $manual_fixes, false )
-			),
+			'description' => $description,
 			'test' => 'compatibility',
 		];
 	}
