@@ -151,8 +151,8 @@ function output_compatibility_status_table( $plugins, $output = true, $incompati
 		<?php
 
 		// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
-		if ( $incompatible && ( ! isset( $plugin['plugin_compatibility'] ) || $plugin['plugin_compatibility'] !== 'incompatible' ) ) {
-			$plugins = array_filter( $plugins, function( $plugins ) {
+		if ( $incompatible && ( ! isset( $plugins['plugin_compatibility'] ) || $plugins['plugin_compatibility'] !== 'incompatible' ) ) {
+			$plugins = array_filter( $plugins, function ( $plugins ) {
 				return $plugins['plugin_compatibility'] === 'incompatible';
 			} );
 		}
@@ -768,7 +768,7 @@ function get_compatibility_review_fixes() {
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
-		]
+		],
 	];
 
 	return add_plugin_names_to_known_issues(
@@ -845,7 +845,7 @@ function test_compatibility() {
 		$description = sprintf(
 			'<p>%s</p>%s',
 			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
-				output_compatibility_status_table( $manual_fixes, false )
+			output_compatibility_status_table( $manual_fixes, false )
 		);
 
 		if ( ! empty( $review_fixes ) ) {
