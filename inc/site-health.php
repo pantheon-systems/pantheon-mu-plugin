@@ -732,6 +732,18 @@ function get_compatibility_review_fixes() {
 				)
 			),
 		],
+		'phastpress' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'phastpress/phastpress.php',
+			'plugin_message' => wp_kses_post(
+				sprintf(
+					/* translators: %s: the link to relevant documentation. */
+					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+					'https://docs.pantheon.io/plugins-known-issues#phastpress'
+				)
+			),
+			'plugin_compatibility' => 'incompatible',
+		]
 	];
 
 	return add_plugin_names_to_known_issues(
