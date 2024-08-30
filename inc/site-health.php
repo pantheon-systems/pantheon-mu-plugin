@@ -842,14 +842,14 @@ function test_compatibility() {
 	}
 
 	if ( ! empty( $manual_fixes ) ) {
+		$manual_table = output_compatibility_status_table( $manual_fixes, false );
 		$description = sprintf(
 			'<p>%s</p>%s',
 			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
-			output_compatibility_status_table( $manual_fixes, false )
+			$manual_table
 		);
 
 		if ( ! empty( $review_fixes ) ) {
-			$manual_table = output_compatibility_status_table( $manual_fixes, false );
 			$review_table = output_compatibility_status_table( $review_fixes, false, true );
 			$description = sprintf(
 				'<p>%1$s</p>%2$s<p>%3$s</p>%4$s',
