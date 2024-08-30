@@ -1,6 +1,6 @@
 <?php
 /**
- * WP Rocket compatibility fix.
+ * WP Cerber compatibility fix.
  *
  * @link https://docs.pantheon.io/plugins-known-issues#wp-rocket
  * @package Pantheon\Compatibility\Fixes
@@ -9,7 +9,7 @@
 namespace Pantheon\Compatibility\Fixes;
 
 /**
- * WP Rocket compatibility fix class.
+ * WP Cerber compatibility fix class.
  */
 class WPCerberFix {
 	/**
