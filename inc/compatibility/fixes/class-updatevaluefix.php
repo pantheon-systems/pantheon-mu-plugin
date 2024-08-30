@@ -19,7 +19,7 @@ class UpdateValueFix {
 	 * @return void
 	 */
 	public static function apply( $option_name, $option_key, $option_value ) {
-		$options              = json_decode( get_option( $option_name ) );
+		$options = json_decode( get_option( $option_name ) );
 		$options->$option_key = $option_value;
 		update_option( $option_name, json_encode( $options ) );
 	}
