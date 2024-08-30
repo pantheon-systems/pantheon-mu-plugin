@@ -135,8 +135,9 @@ function output_compatibility_content( $tab ) {
  *
  * @param array $plugins
  * @param bool $output
+ * @param bool $incompatible True if only incompatible plugin issues should be displayed.
  */
-function output_compatibility_status_table( $plugins, $output = true ) {
+function output_compatibility_status_table( $plugins, $output = true, $incompatible = false ) {
 	ob_start();
 	?>
 	<table class='widefat striped health-check-table' role='presentation'>
@@ -148,6 +149,14 @@ function output_compatibility_status_table( $plugins, $output = true ) {
 		</thead>
 		<tbody>
 		<?php
+
+		// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
+		if ( $incompatible && ( ! isset( $plugins['plugin_compatibility'] ) || $plugins['plugin_compatibility'] !== 'incompatible' ) ) {
+			$plugins = array_filter( $plugins, function ( $plugins ) {
+				return $plugins['plugin_compatibility'] === 'incompatible';
+			} );
+		}
+
 		foreach ( $plugins as $field ) {
 			/* translators: %s: A plugin's compatibility status. */
 			$status = sprintf( __( '%s', 'pantheon' ), ucfirst( $field['plugin_status'] ) );
@@ -291,6 +300,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#adthrive-ads'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'all-in-one-wp-migration' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -302,6 +312,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#all-in-one-wp-migration'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'bookly' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -313,6 +324,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#bookly'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'coming-soon' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -390,6 +402,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#h5p'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'hm-require-login' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -401,6 +414,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#hm-require-login'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'hummingbird-performance' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -423,6 +437,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#hyperdb'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'iwp-client' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -434,6 +449,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#infinitewp'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'instashow' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -445,6 +461,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#instashow'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'wp-maintenance-mode' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -456,6 +473,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#maintenance-mode'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'worker' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -478,6 +496,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#monarch-social-sharing'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'new-relic' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -533,6 +552,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#query-monitor'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'site24x7' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -555,6 +575,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#smush-pro'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'better-wp-security' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -577,6 +598,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#unbounce-landing-pages'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'unyson' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -610,6 +632,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#weather-station'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'webp-express' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -676,6 +699,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#wp-phpmyadmin'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'wp-reset' => [
 			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
@@ -687,6 +711,7 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#wp-reset'
 				)
 			),
+			'plugin_compatibility' => 'incompatible',
 		],
 		'wp-ban' => [
 			'plugin_status' => esc_html__( 'Partial Compatibility', 'pantheon' ),
@@ -731,6 +756,18 @@ function get_compatibility_review_fixes() {
 					'https://docs.pantheon.io/plugins-known-issues#yoast-indexables'
 				)
 			),
+		],
+		'phastpress' => [
+			'plugin_status' => esc_html__( 'Incompatible', 'pantheon' ),
+			'plugin_slug' => 'phastpress/phastpress.php',
+			'plugin_message' => wp_kses_post(
+				sprintf(
+					/* translators: %s: the link to relevant documentation. */
+					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+					'https://docs.pantheon.io/plugins-known-issues#phastpress'
+				)
+			),
+			'plugin_compatibility' => 'incompatible',
 		],
 	];
 
@@ -805,6 +842,24 @@ function test_compatibility() {
 	}
 
 	if ( ! empty( $manual_fixes ) ) {
+		$manual_table = output_compatibility_status_table( $manual_fixes, false );
+		$description = sprintf(
+			'<p>%s</p>%s',
+			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
+			$manual_table
+		);
+
+		if ( ! empty( $review_fixes ) ) {
+			$review_table = output_compatibility_status_table( $review_fixes, false, true );
+			$description = sprintf(
+				'<p>%1$s</p>%2$s<p>%3$s</p>%4$s',
+				__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
+				$manual_table,
+				__( 'There are known incompatibility issues with the following plugins.', 'pantheon' ),
+				$review_table
+			);
+		}
+
 		return [
 			'label' => __( 'One or more active plugins require a manual compatibility fix', 'pantheon' ),
 			'status' => 'critical',
@@ -812,11 +867,7 @@ function test_compatibility() {
 				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'red',
 			],
-			'description' => sprintf(
-				'<p>%s</p>%s',
-				__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
-				output_compatibility_status_table( $manual_fixes, false )
-			),
+			'description' => $description,
 			'test' => 'compatibility',
 		];
 	}
