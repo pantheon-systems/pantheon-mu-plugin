@@ -291,7 +291,12 @@ function add_plugin_names_to_known_issues( $plugins ) {
 		}
 	}
 
-	return $plugins;
+	/**
+	 * Allow the list of plugins with known issues to be filtered.
+	 *
+	 * @param array $plugins The list of plugins with known issues.
+	 */
+	return apply_filters( 'pantheon_compatibility_known_issues_plugins', $plugins );
 }
 
 /**
@@ -854,6 +859,7 @@ function test_compatibility() {
 
 	if ( ! empty( $manual_fixes ) ) {
 		$manual_table = output_compatibility_status_table( $manual_fixes, false );
+
 		$description = sprintf(
 			'<p>%s</p>%s',
 			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
