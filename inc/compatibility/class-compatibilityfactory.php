@@ -95,7 +95,6 @@ class CompatibilityFactory {
 			TweetOldPost::class => [ 'slug' => 'tweet-old-post/tweet-old-post.php' ],
 			WPRocket::class => [ 'slug' => 'wp-rocket/wp-rocket.php' ],
 			WooZone::class => [ 'slug' => 'woozone/plugin.php' ],
-			WPCerber::class => [ 'slug' => 'wp-cerber/wp-cerber.php' ],
 			YITHWoocommerce::class => [ 'slug' => 'yith-woocommerce-request-a-quote/yith-woocommerce-request-a-quote.php' ],
 		];
 		$this->add_names_to_targets();
