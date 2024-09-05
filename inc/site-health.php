@@ -250,6 +250,17 @@ function get_compatibility_manual_fixes() {
 				)
 			),
 		],
+		'wp-cerber' => [
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'wp-cerber/wp-cerber.php',
+			'plugin_message' => wp_kses_post(
+				sprintf(
+					/* translators: %s: the link to relevant documentation. */
+					__( 'WP Cerber conflicts with Pantheon\'s Global CDN caching. Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+					'https://docs.pantheon.io/plugins-known-issues#wp-cerber'
+				)
+			)
+		]
 	];
 
 	return add_plugin_names_to_known_issues(
