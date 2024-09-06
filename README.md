@@ -93,6 +93,59 @@ Allows you to disable the cache control headers that are sent by the Pantheon Pa
 add_filter( 'pantheon_skip_cache_control', '__return_true' );
 ```
 
+#### `pantheon_compatibility_known_issues_plugins`
+Allows you to filter plugins with known compatibility issues on Pantheon so they are excluded from the Site Health check.
+
+**Default Value:** An array of plugins with known issues, e.g.:
+```php
+[
+	'big-file-uploads' => [
+		'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+		'plugin_slug' => 'tuxedo-big-file-uploads/tuxedo_big_file_uploads.php',
+		'plugin_message' => wp_kses_post(
+			sprintf(
+				/* translators: %s: the link to relevant documentation. */
+				__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+				'https://docs.pantheon.io/plugins-known-issues#big-file-uploads'
+			)
+		),
+	],
+	'jetpack' => [
+		'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+		'plugin_slug' => 'jetpack/jetpack.php',
+		'plugin_message' => wp_kses_post(
+			sprintf(
+				/* translators: %s: the link to relevant documentation. */
+				__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+				'https://docs.pantheon.io/plugins-known-issues#jetpack'
+			)
+		),
+	],
+	'wordfence' => [
+		'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+		'plugin_slug' => 'wordfence/wordfence.php',
+		'plugin_message' => wp_kses_post(
+			sprintf(
+				/* translators: %s: the link to relevant documentation. */
+				__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+				'https://docs.pantheon.io/plugins-known-issues#wordfence'
+			)
+		),
+	],
+]
+```
+
+**Example:**
+```php
+// Filter a specific plugin out of the known issues list.
+add_filter( 'pantheon_compatibility_known_issues_plugins', function( $plugins ) {
+	if ( isset( $plugins['plugin-slug'] ) ) {
+		unset( $plugins['plugin-slug'] );
+	}
+	return $plugins;
+} );
+```
+
 ### Actions
 #### `pantheon_cache_settings_page_top`
 Runs at the top of the Pantheon Page Cache settings page.

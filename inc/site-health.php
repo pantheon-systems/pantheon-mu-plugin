@@ -250,6 +250,17 @@ function get_compatibility_manual_fixes() {
 				)
 			),
 		],
+		'wp-cerber' => [
+			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
+			'plugin_slug' => 'wp-cerber/wp-cerber.php',
+			'plugin_message' => wp_kses_post(
+				sprintf(
+					/* translators: %s: the link to relevant documentation. */
+					__( 'WP Cerber conflicts with Pantheon\'s Global CDN caching. Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
+					'https://docs.pantheon.io/plugins-known-issues#wp-cerber'
+				)
+			)
+		]
 	];
 
 	return add_plugin_names_to_known_issues(
@@ -280,7 +291,12 @@ function add_plugin_names_to_known_issues( $plugins ) {
 		}
 	}
 
-	return $plugins;
+	/**
+	 * Allow the list of plugins with known issues to be filtered.
+	 *
+	 * @param array $plugins The list of plugins with known issues.
+	 */
+	return apply_filters( 'pantheon_compatibility_known_issues_plugins', $plugins );
 }
 
 /**
@@ -843,6 +859,7 @@ function test_compatibility() {
 
 	if ( ! empty( $manual_fixes ) ) {
 		$manual_table = output_compatibility_status_table( $manual_fixes, false );
+
 		$description = sprintf(
 			'<p>%s</p>%s',
 			__( 'There are known compatibility issues with your active plugins that require manual fixes.', 'pantheon' ),
