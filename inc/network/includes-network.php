@@ -383,8 +383,6 @@ function network_step2( $errors = false ) {
 	$home_path         = 0 === strpos( $abspath_fix, $document_root_fix ) ? $document_root_fix . $base : get_home_path();
 	$wp_siteurl_subdir = preg_replace( '#^' . preg_quote( $home_path, '#' ) . '#', '', $abspath_fix );
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
-
-	$config_filename = 'wp-config.php';
 	$config_filename = apply_filters( 'pantheon.multisite.config_filename', 'wp-config.php' );
 
 	$location_of_wp_config = $abspath_fix;
