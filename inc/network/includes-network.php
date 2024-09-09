@@ -389,7 +389,7 @@ function network_step2( $errors = false ) {
 	if ( ! file_exists( ABSPATH . $config_filename ) && file_exists( dirname( ABSPATH ) . '/' . $config_filename ) ) {
 		$location_of_wp_config = dirname( $abspath_fix );
 	}
-	$location_of_wp_config = trailingslashit( $location_of_wp_config );
+	$location_of_wp_config = apply_filters( 'pantheon.multisite.location_of_wp_config', trailingslashit( $location_of_wp_config ) );
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) ) {
