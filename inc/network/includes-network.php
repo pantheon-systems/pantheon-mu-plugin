@@ -446,6 +446,8 @@ function network_step2( $errors = false ) {
 		</p></div>
 		<?php
 	}
+
+	$happy_publishing_msg = apply_filters( 'pantheon.multisite.end_of_file_message', '<code>/* ' . esc_html__( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>' );
 	?>
 	<ol>
 		<li><p id="network-wpconfig-rules-description">
@@ -455,9 +457,7 @@ function network_step2( $errors = false ) {
 			wp_kses_post( __( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ) ),
 			'<code>' . $config_filename . '</code>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'<code>' . $location_of_wp_config . '</code>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			// translators: This string should only be translated if wp-config-sample.php is localized.
-			// You can check the localized release package or https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php.
-			'<code>/* ' . esc_html__( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>'
+			$happy_publishing_msg // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 		?>
 		</p>
