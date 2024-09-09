@@ -259,8 +259,8 @@ function get_compatibility_manual_fixes() {
 					__( 'WP Cerber conflicts with Pantheon\'s Global CDN caching. Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
 					'https://docs.pantheon.io/plugins-known-issues#wp-cerber'
 				)
-			)
-		]
+			),
+		],
 	];
 
 	return add_plugin_names_to_known_issues(
