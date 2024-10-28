@@ -10,10 +10,11 @@
  * @package pantheon
  */
 
-define( 'PANTHEON_MU_PLUGIN_VERSION', '1.5.1' );
+define( 'PANTHEON_MU_PLUGIN_VERSION', '1.5.2' );
 
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	require_once 'inc/functions.php';
+	require_once 'inc/pantheon-media.php';
 	require_once 'inc/pantheon-page-cache.php';
 	require_once 'inc/site-health.php';
 	if ( ! defined( 'DISABLE_PANTHEON_UPDATE_NOTICES' ) || ! DISABLE_PANTHEON_UPDATE_NOTICES ) {
