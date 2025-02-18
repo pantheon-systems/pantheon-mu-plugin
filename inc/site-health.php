@@ -150,15 +150,16 @@ function output_compatibility_status_table( $plugins, $output = true, $incompati
 		<tbody>
 		<?php
 
-		// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
-		$plugin_compatibility = isset( $plugins['plugin_compatibility'] ) ? $plugins['plugin_compatibility'] : false;
-		if ( $incompatible && ( ! $plugin_compatibility || $plugin_compatibility !== 'incompatible' ) ) {
-			$plugins = array_filter( $plugins, function ( $plugin_compatibility ) {
-				return $plugin_compatibility === 'incompatible';
-			} );
-		}
+		foreach ( $plugins as $plugin => $field ) {
+			// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
+			$plugin_compatibility = isset( $plugin['plugin_compatibility'] ) ? $plugin['plugin_compatibility'] : false;
+			// var_dump( $plugin_compatibility, wp_list_pluck( $plugins, 'plugin_compatibility' ) );
+			if ( $incompatible && ( ! $plugin_compatibility || $plugin_compatibility !== 'incompatible' ) ) {
+				$plugins = array_filter( $plugins, function ( $plugin_compatibility ) {
+					return $plugin_compatibility === 'incompatible';
+				} );
+			}
 
-		foreach ( $plugins as $field ) {
 			/* translators: %s: A plugin's compatibility status. */
 			$status = sprintf( __( '%s', 'pantheon' ), ucfirst( $field['plugin_status'] ) );
 			/* translators: %s: A plugin's compatibility status message. */
