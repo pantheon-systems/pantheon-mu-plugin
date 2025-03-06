@@ -136,7 +136,7 @@ class CompatibilityFactory {
 	}
 
 	/**
-	 * Instantiate classes.
+	 * Instantiate classes & register cron job.
 	 *
 	 * @access public
 	 *
@@ -148,6 +148,10 @@ class CompatibilityFactory {
 		}
 
 		$this->instantiate_compatibility_layers();
+
+		if ( ! wp_next_scheduled( 'pantheon_cron' ) ) {
+			wp_schedule_event( time(), 'daily', 'pantheon_cron' );
+		}
 	}
 
 	/**
