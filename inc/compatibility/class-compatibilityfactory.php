@@ -48,8 +48,8 @@ class CompatibilityFactory {
 		$this->require_files();
 		$this->setup_targets();
 
-		add_action( 'muplugins_loaded', [ $this, 'init' ] );
-		add_action( 'plugins_loaded', [ $this, 'init_cron' ] );
+		add_action( 'muplugins_loaded', [ $this, 'init_constant_fixes' ] );
+		add_action( 'plugins_loaded', [ $this, 'init' ] );
 		add_action( 'pantheon_cron', [ $this, 'daily_pantheon_cron' ] );
 	}
 
@@ -155,15 +155,27 @@ class CompatibilityFactory {
 	}
 
 	/**
-	 * Register cron job.
+	 * Instantiate fixes that update constants.
 	 *
 	 * @access public
 	 *
 	 * @return void
 	 */
-	public function init_cron() {
-		if ( ! wp_next_scheduled( 'pantheon_cron' ) ) {
-			wp_schedule_event( time(), 'daily', 'pantheon_cron' );
+	public function init_constant_fixes() {
+		// Instantiate only the classes that define constant fixes.
+		$constant_fixes = [
+			ContactFormSeven::class,
+			FastVelocityMinify::class,
+			Polylang::class,
+			WooZone::class,
+			Autoptimize::class,
+			WPRocket::class,
+		];
+
+		foreach ( $constant_fixes as $class ) {
+			if ( isset( static::$targets[ $class ] ) ) {
+				new $class( static::$targets[ $class ]['slug'] );
+			}
 		}
 	}
 
