@@ -48,7 +48,7 @@ class CompatibilityFactory {
 		$this->require_files();
 		$this->setup_targets();
 
-		add_action( 'plugins_loaded', [ $this, 'init' ] );
+		add_action( 'muplugins_loaded', [ $this, 'init' ] );
 		add_action( 'pantheon_cron', [ $this, 'daily_pantheon_cron' ] );
 	}
 
