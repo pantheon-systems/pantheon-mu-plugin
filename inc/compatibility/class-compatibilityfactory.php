@@ -49,6 +49,7 @@ class CompatibilityFactory {
 		$this->setup_targets();
 
 		add_action( 'muplugins_loaded', [ $this, 'init' ] );
+		add_action( 'plugins_loaded', [ $this, 'init_cron' ] );
 		add_action( 'pantheon_cron', [ $this, 'daily_pantheon_cron' ] );
 	}
 
@@ -135,7 +136,7 @@ class CompatibilityFactory {
 	}
 
 	/**
-	 * Instantiate classes and register cron job.
+	 * Instantiate classes.
 	 *
 	 * @access public
 	 *
@@ -147,7 +148,16 @@ class CompatibilityFactory {
 		}
 
 		$this->instantiate_compatibility_layers();
+	}
 
+	/**
+	 * Register cron job.
+	 *
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function init_cron() {
 		if ( ! wp_next_scheduled( 'pantheon_cron' ) ) {
 			wp_schedule_event( time(), 'daily', 'pantheon_cron' );
 		}
