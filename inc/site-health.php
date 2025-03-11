@@ -152,8 +152,8 @@ function output_compatibility_status_table( $plugins, $output = true, $show_only
 
 		foreach ( $plugins as $plugin => $field ) {
 			// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
-			$plugin_compatibility = isset( $plugin['plugin_compatibility'] ) ? $plugin['plugin_compatibility'] : false;
-			if ( $show_only_incompatible && ( ! $plugin_compatibility || $plugin_compatibility !== 'incompatible' ) ) {
+			$plugin_compatibility = isset( $plugin['plugin_compatibility'] ) ? $plugin['plugin_compatibility'] : '';
+			if ( $show_only_incompatible && $plugin_compatibility !== 'incompatible' ) {
 				$plugins = array_filter( $plugins, function ( $plugin_compatibility ) {
 					return $plugin_compatibility === 'incompatible';
 				} );
