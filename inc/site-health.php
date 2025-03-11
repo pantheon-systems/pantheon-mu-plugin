@@ -66,7 +66,7 @@ function output_compatibility_content( $tab ) {
 					/* translators: %s: URL to Known Issues page. */
 					__( 'This page lists active plugins that have known compatibility issues with Pantheon\'s infrastructure. For additional details, see the <a href="%s" target="_blank">Known Issues</a> page.', 'pantheon' )
 				),
-				esc_url( 'https://docs.pantheon.io/plugins-known-issues' )
+				esc_url( 'https://docs.pantheon.io/wordpress-known-issues' )
 			);
 			?>
 		</p>
@@ -214,7 +214,7 @@ function get_compatibility_manual_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#big-file-uploads'
+					'https://docs.pantheon.io/wordpress-known-issues#big-file-uploads'
 				)
 			),
 		],
@@ -225,7 +225,7 @@ function get_compatibility_manual_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#jetpack'
+					'https://docs.pantheon.io/wordpress-known-issues#jetpack'
 				)
 			),
 		],
@@ -236,7 +236,7 @@ function get_compatibility_manual_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wordfence'
+					'https://docs.pantheon.io/wordpress-known-issues#wordfence'
 				)
 			),
 		],
@@ -247,7 +247,7 @@ function get_compatibility_manual_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wpml-the-wordpress-multilingual-plugin'
+					'https://docs.pantheon.io/wordpress-known-issues#wpml-the-wordpress-multilingual-plugin'
 				)
 			),
 		],
@@ -258,7 +258,7 @@ function get_compatibility_manual_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'WP Cerber conflicts with Pantheon\'s Global CDN caching. Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-cerber'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-cerber'
 				)
 			),
 		],
@@ -314,7 +314,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#adthrive-ads'
+					'https://docs.pantheon.io/wordpress-known-issues#adthrive-ads'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -326,7 +326,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#all-in-one-wp-migration'
+					'https://docs.pantheon.io/wordpress-known-issues#all-in-one-wp-migration'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -338,7 +338,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#bookly'
+					'https://docs.pantheon.io/wordpress-known-issues#bookly'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -350,7 +350,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#coming-soon'
+					'https://docs.pantheon.io/wordpress-known-issues#coming-soon'
 				)
 			),
 		],
@@ -361,7 +361,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#disable-rest-api-and-require-jwt--oauth-authentication'
+					'https://docs.pantheon.io/wordpress-known-issues#disable-rest-api-and-require-jwt--oauth-authentication'
 				)
 			),
 		],
@@ -372,7 +372,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#divi-wordpress-theme--visual-page-builder'
+					'https://docs.pantheon.io/wordpress-known-issues#divi-wordpress-theme--visual-page-builder'
 				)
 			),
 		],
@@ -383,7 +383,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#elementor'
+					'https://docs.pantheon.io/wordpress-known-issues#elementor'
 				)
 			),
 		],
@@ -394,7 +394,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#facetwp'
+					'https://docs.pantheon.io/wordpress-known-issues#facetwp'
 				)
 			),
 		],
@@ -405,7 +405,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#gdpr-cookie-consent'
+					'https://docs.pantheon.io/wordpress-known-issues#gdpr-cookie-consent'
 				)
 			),
 		],
@@ -416,7 +416,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#h5p'
+					'https://docs.pantheon.io/wordpress-known-issues#h5p'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -428,7 +428,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#hm-require-login'
+					'https://docs.pantheon.io/wordpress-known-issues#hm-require-login'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -440,7 +440,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#hummingbird'
+					'https://docs.pantheon.io/wordpress-known-issues#hummingbird'
 				)
 			),
 		],
@@ -451,7 +451,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#hyperdb'
+					'https://docs.pantheon.io/wordpress-known-issues#hyperdb'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -463,7 +463,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#infinitewp'
+					'https://docs.pantheon.io/wordpress-known-issues#infinitewp'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -475,7 +475,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#instashow'
+					'https://docs.pantheon.io/wordpress-known-issues#instashow'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -487,7 +487,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#maintenance-mode'
+					'https://docs.pantheon.io/wordpress-known-issues#maintenance-mode'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -499,7 +499,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#managewp-worker'
+					'https://docs.pantheon.io/wordpress-known-issues#managewp-worker'
 				)
 			),
 		],
@@ -510,7 +510,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#monarch-social-sharing'
+					'https://docs.pantheon.io/wordpress-known-issues#monarch-social-sharing'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -522,7 +522,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#new-relic-reporting-for-wordpress'
+					'https://docs.pantheon.io/wordpress-known-issues#new-relic-reporting-for-wordpress'
 				)
 			),
 		],
@@ -533,7 +533,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#object-sync-for-salesforce'
+					'https://docs.pantheon.io/wordpress-known-issues#object-sync-for-salesforce'
 				)
 			),
 		],
@@ -544,7 +544,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#one-click-demo-import'
+					'https://docs.pantheon.io/wordpress-known-issues#one-click-demo-import'
 				)
 			),
 		],
@@ -555,7 +555,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#posts-2-posts'
+					'https://docs.pantheon.io/wordpress-known-issues#posts-2-posts'
 				)
 			),
 		],
@@ -566,7 +566,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#query-monitor'
+					'https://docs.pantheon.io/wordpress-known-issues#query-monitor'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -578,7 +578,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#site24x7'
+					'https://docs.pantheon.io/wordpress-known-issues#site24x7'
 				)
 			),
 		],
@@ -589,7 +589,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#smush-pro'
+					'https://docs.pantheon.io/wordpress-known-issues#smush-pro'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -601,7 +601,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#solid-security-previously-ithemes-security'
+					'https://docs.pantheon.io/wordpress-known-issues#solid-security-previously-ithemes-security'
 				)
 			),
 		],
@@ -612,7 +612,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#unbounce-landing-pages'
+					'https://docs.pantheon.io/wordpress-known-issues#unbounce-landing-pages'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -624,7 +624,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#unyson-theme-framework'
+					'https://docs.pantheon.io/wordpress-known-issues#unyson-theme-framework'
 				)
 			),
 		],
@@ -635,7 +635,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#updraft--updraft-plus-backup'
+					'https://docs.pantheon.io/wordpress-known-issues#updraft--updraft-plus-backup'
 				)
 			),
 		],
@@ -646,7 +646,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#weather-station'
+					'https://docs.pantheon.io/wordpress-known-issues#weather-station'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -658,7 +658,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#webp-express'
+					'https://docs.pantheon.io/wordpress-known-issues#webp-express'
 				)
 			),
 		],
@@ -669,7 +669,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#woocommerce'
+					'https://docs.pantheon.io/wordpress-known-issues#woocommerce'
 				)
 			),
 		],
@@ -680,7 +680,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wordpress-download-manager'
+					'https://docs.pantheon.io/wordpress-known-issues#wordpress-download-manager'
 				)
 			),
 		],
@@ -691,7 +691,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-all-import--export'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-all-import--export'
 				)
 			),
 		],
@@ -702,7 +702,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-migrate-db'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-migrate-db'
 				)
 			),
 		],
@@ -713,7 +713,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-phpmyadmin'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-phpmyadmin'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -725,7 +725,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-reset'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-reset'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
@@ -737,7 +737,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wp-ban'
+					'https://docs.pantheon.io/wordpress-known-issues#wp-ban'
 				)
 			),
 		],
@@ -748,7 +748,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#wpfront-notification-bar'
+					'https://docs.pantheon.io/wordpress-known-issues#wpfront-notification-bar'
 				)
 			),
 		],
@@ -759,7 +759,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#yoast-seo'
+					'https://docs.pantheon.io/wordpress-known-issues#yoast-seo'
 				)
 			),
 		],
@@ -770,7 +770,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#yoast-indexables'
+					'https://docs.pantheon.io/wordpress-known-issues#yoast-indexables'
 				)
 			),
 		],
@@ -781,7 +781,7 @@ function get_compatibility_review_fixes() {
 				sprintf(
 					/* translators: %s: the link to relevant documentation. */
 					__( 'Read more about the issue <a href="%s" target="_blank">here</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/plugins-known-issues#phastpress'
+					'https://docs.pantheon.io/wordpress-known-issues#phastpress'
 				)
 			),
 			'plugin_compatibility' => 'incompatible',
