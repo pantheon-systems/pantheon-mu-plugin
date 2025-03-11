@@ -135,9 +135,9 @@ function output_compatibility_content( $tab ) {
  *
  * @param array $plugins
  * @param bool $output
- * @param bool $incompatible True if only incompatible plugin issues should be displayed.
+ * @param bool $show_only_incompatible True if only incompatible plugin issues should be displayed.
  */
-function output_compatibility_status_table( $plugins, $output = true, $incompatible = false ) {
+function output_compatibility_status_table( $plugins, $output = true, $show_only_incompatible = false ) {
 	ob_start();
 	?>
 	<table class='widefat striped health-check-table' role='presentation'>
@@ -153,7 +153,7 @@ function output_compatibility_status_table( $plugins, $output = true, $incompati
 		foreach ( $plugins as $plugin => $field ) {
 			// Filter out incompatible plugins. This allows us to re-use the status table for different types of compatibility issues.
 			$plugin_compatibility = isset( $plugin['plugin_compatibility'] ) ? $plugin['plugin_compatibility'] : false;
-			if ( $incompatible && ( ! $plugin_compatibility || $plugin_compatibility !== 'incompatible' ) ) {
+			if ( $show_only_incompatible && ( ! $plugin_compatibility || $plugin_compatibility !== 'incompatible' ) ) {
 				$plugins = array_filter( $plugins, function ( $plugin_compatibility ) {
 					return $plugin_compatibility === 'incompatible';
 				} );
