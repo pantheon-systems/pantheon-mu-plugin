@@ -21,7 +21,7 @@ jobs:
               echo "cbf=false" >> $GITHUB_ENV
             fi
         - name: Commit changes to PR
-          if: env.cbf == 'true'
+          if: ${{ env.cbf == 'true' }}
           run: |
             git config --global user.email "bot@getpantheon.com"
             git config --global user.name "Pantheon Robot"
@@ -35,7 +35,7 @@ jobs:
               echo "changes_detected=false" >> $GITHUB_ENV
             fi
         - name: Add PR Comment
-          if: changes_detected == 'true'
+          if: ${{ env.changes_detected == 'true' }}
           env:
             GH_TOKEN: ${{ github.token }}
           run: |
