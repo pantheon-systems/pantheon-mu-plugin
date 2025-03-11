@@ -25,4 +25,9 @@ class WPRocketFix {
 		DefineConstantFix::apply( 'WP_ROCKET_CACHE_ROOT_URL',
 		sprintf( '%s/wp-content/uploads/wp-rocket/cache/', $home_url ) );
 	}
+
+	/**
+	 * @return void
+	 */
+	public static function remove() {}
 }
