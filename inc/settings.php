@@ -25,7 +25,7 @@ function set_default_fair_avatar_to_gravatar() {
 
 	// Check for FAIR settings.
 	$fair_settings = get_option( 'fair_settings', [] );
-	if ( empty( $fair_settings ) ) {
+	if ( ! empty( $fair_settings ) ) {
 		return;
 	}
 
