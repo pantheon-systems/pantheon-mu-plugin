@@ -28,7 +28,7 @@ jobs:
         image: mariadb:10.6
     strategy:
       matrix:
-        php_version: [7.4, 8.1, 8.3] # Versions represent newest 7.x, WP supported with exclusions, and beta support.
+        php_version: [7.4, 8.1, 8.3, 8.4] # Versions represent newest 7.x, WP supported with exclusions, and beta support.
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
