@@ -433,7 +433,7 @@ class Pantheon_Cache {
 			if ( isset( $nocache_headers['Cache-Control'] ) && is_string( $nocache_headers['Cache-Control'] ) ) {
 				$directives = array_diff(
 					(array) preg_split( '/\s*,\s*/', $nocache_headers['Cache-Control'] ),
-					array( 'max-age=0' )
+					[ 'max-age=0' ]
 				);
 			} else {
 				// Note that `no-store` is intentionally omitted to enable bfcache per <https://core.trac.wordpress.org/ticket/63636>.
@@ -485,7 +485,7 @@ class Pantheon_Cache {
 	 */
 	public function filter_nocache_headers( $headers ): array {
 		if ( ! is_array( $headers ) ) {
-			$headers = array();
+			$headers = [];
 		}
 
 		if ( $this->should_skip_cache_control_header() ) {
@@ -497,7 +497,7 @@ class Pantheon_Cache {
 				', ',
 				array_diff(
 					(array) preg_split( '/\s*,\s*/', $headers['Cache-Control'] ),
-					array( 'max-age=0' )
+					[ 'max-age=0' ]
 				)
 			);
 		}
@@ -513,7 +513,7 @@ class Pantheon_Cache {
 	 */
 	public function filter_wp_headers( $headers ): array {
 		if ( ! is_array( $headers ) ) {
-			$headers = array();
+			$headers = [];
 		}
 
 		if ( $this->should_skip_cache_control_header() ) {
