@@ -116,7 +116,7 @@ class Pantheon_Cache {
 
 		add_filter( 'nocache_headers', [ $this, 'filter_nocache_headers' ] );
 		add_filter( 'wp_headers', [ $this, 'filter_wp_headers' ] );
-		add_filter( 'rest_post_dispatch', [ $this, 'filter_rest_post_dispatch_send_cache_control' ], 10, 2 );
+		add_filter( 'rest_post_dispatch', [ $this, 'filter_rest_post_dispatch_send_cache_control' ] );
 
 		add_action( 'admin_notices', function () {
 			global $wp_object_cache;
