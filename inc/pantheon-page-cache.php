@@ -436,11 +436,11 @@ class Pantheon_Cache {
 	}
 
 	/**
-	 * Add the cache-control header.
+	 * Determines whether the Cache-Control header should be sent.
 	 *
-	 * @return void
+	 * @return bool Whether the Cache-Control header should be sent.
 	 */
-	public function cache_add_headers() {
+	private function should_skip_cache_control_header(): bool {
 		/**
 		 * Filter to skip the cache control header.
 		 *
@@ -448,9 +448,17 @@ class Pantheon_Cache {
 		 * @see https://github.com/pantheon-systems/pantheon-mu-plugin/issues/37
 		 * @return bool
 		 */
-		$skip_cache_control = apply_filters( 'pantheon_skip_cache_control', false );
+		return (bool) apply_filters( 'pantheon_skip_cache_control', false );
+	}
 
-		if ( $skip_cache_control ) {
+	/**
+	 * Add the cache-control header.
+	 *
+	 * @todo On the frontend this should rather filter wp_headers.
+	 * @return void
+	 */
+	public function cache_add_headers() {
+		if ( $this->should_skip_cache_control_header() ) {
 			return;
 		}
 
@@ -464,7 +472,9 @@ class Pantheon_Cache {
 	 * @return WP_REST_Response Response.
 	 */
 	public function filter_rest_post_dispatch_send_cache_control( $response ) {
-		$response->header( 'Cache-Control', $this->get_cache_control_header_value() );
+		if ( ! $this->should_skip_cache_control_header() ) {
+			$response->header( 'Cache-Control', $this->get_cache_control_header_value() );
+		}
 		return $response;
 	}
 
