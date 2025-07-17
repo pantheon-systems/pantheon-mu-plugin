@@ -431,7 +431,8 @@ class Pantheon_Cache {
 
 			return sprintf( 'public, max-age=%d', $ttl );
 		} else {
-			return 'no-cache, no-store, must-revalidate';
+			$nocache_headers = wp_get_nocache_headers();
+			return $nocache_headers['Cache-Control'] ?? 'no-cache, must-revalidate, max-age=0, private';
 		}
 	}
 
