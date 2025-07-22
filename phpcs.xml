@@ -68,5 +68,10 @@
 		<exclude name="Generic.Commenting.DocComment.MissingShort">
 			<exclude-pattern>inc/pantheon-page-cache.php</exclude-pattern>
 		</exclude>
+
+		<!-- Ignore long lines in includes-network.php -->
+		<exclude name="Pantheon_WP.Commenting.DisallowMultilineSlashComment.LongLine">
+			<exclude-pattern>inc/network/includes-network.php</exclude-pattern>
+		</exclude>
 	</rule>
 </ruleset>

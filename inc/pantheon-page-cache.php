@@ -114,8 +114,9 @@ class Pantheon_Cache {
 
 		add_action( 'admin_post_pantheon_cache_flush_site', [ $this, 'flush_site' ] );
 
-		add_action( 'send_headers', [ $this, 'cache_add_headers' ] );
-		add_filter( 'rest_post_dispatch', [ $this, 'filter_rest_post_dispatch_send_cache_control' ], 10, 2 );
+		add_filter( 'nocache_headers', [ $this, 'filter_nocache_headers' ] );
+		add_filter( 'wp_headers', [ $this, 'filter_wp_headers' ] );
+		add_filter( 'rest_post_dispatch', [ $this, 'filter_rest_post_dispatch_send_cache_control' ] );
 
 		add_action( 'admin_notices', function () {
 			global $wp_object_cache;
@@ -417,30 +418,38 @@ class Pantheon_Cache {
 	/**
 	 * Get the cache-control header value.
 	 *
-	 * This removes "max-age=0" which could hypothetically be used by
-	 * Varnish on an immediate subsequent request.
-	 *
-	 * @return string
+	 * @return non-empty-string Header value.
 	 */
-	private function get_cache_control_header_value() {
+	private function get_cache_control_header_value(): string {
 		if ( ! is_admin() && ! is_user_logged_in() ) {
-			$ttl = apply_filters( 'pantheon_cache_default_max_age', absint( $this->options['default_ttl'] ) );
+			$ttl = (int) apply_filters( 'pantheon_cache_default_max_age', absint( $this->options['default_ttl'] ) );
 			if ( $ttl < 60 && isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && 'live' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
 				$ttl = 60;
 			}
 
-			return sprintf( 'public, max-age=%d', $ttl );
+			$directives = [ 'public', "max-age={$ttl}" ];
 		} else {
-			return 'no-cache, no-store, must-revalidate';
+			$nocache_headers = wp_get_nocache_headers();
+			if ( isset( $nocache_headers['Cache-Control'] ) && is_string( $nocache_headers['Cache-Control'] ) ) {
+				$directives = array_diff(
+					(array) preg_split( '/\s*,\s*/', $nocache_headers['Cache-Control'] ),
+					[ 'max-age=0' ]
+				);
+			} else {
+				// Note that `no-store` is intentionally omitted to enable bfcache per <https://core.trac.wordpress.org/ticket/63636>.
+				$directives = [ 'no-cache', 'must-revalidate', 'private' ];
+			}
 		}
+
+		return implode( ', ', $directives );
 	}
 
 	/**
-	 * Add the cache-control header.
+	 * Determines whether the Cache-Control header should be sent.
 	 *
-	 * @return void
+	 * @return bool Whether the Cache-Control header should be sent.
 	 */
-	public function cache_add_headers() {
+	private function should_skip_cache_control_header(): bool {
 		/**
 		 * Filter to skip the cache control header.
 		 *
@@ -448,9 +457,17 @@ class Pantheon_Cache {
 		 * @see https://github.com/pantheon-systems/pantheon-mu-plugin/issues/37
 		 * @return bool
 		 */
-		$skip_cache_control = apply_filters( 'pantheon_skip_cache_control', false );
+		return (bool) apply_filters( 'pantheon_skip_cache_control', false );
+	}
 
-		if ( $skip_cache_control ) {
+	/**
+	 * Add the cache-control header.
+	 *
+	 * @deprecated
+	 * @return void
+	 */
+	public function cache_add_headers() {
+		if ( $this->should_skip_cache_control_header() ) {
 			return;
 		}
 
@@ -458,13 +475,70 @@ class Pantheon_Cache {
 	}
 
 	/**
+	 * Filters nocache_headers so that max-age=0 is omitted.
+	 *
+	 * This removes "max-age=0" which could hypothetically be used by
+	 * Varnish on an immediate subsequent request.
+	 *
+	 * @param array<string, string>|mixed $headers Nocache headers.
+	 * @return array<string, string> Filtered nocache headers.
+	 */
+	public function filter_nocache_headers( $headers ): array {
+		if ( ! is_array( $headers ) ) {
+			$headers = [];
+		}
+
+		if ( $this->should_skip_cache_control_header() ) {
+			return $headers;
+		}
+
+		if ( isset( $headers['Cache-Control'] ) && is_string( $headers['Cache-Control'] ) ) {
+			$headers['Cache-Control'] = implode(
+				', ',
+				array_diff(
+					(array) preg_split( '/\s*,\s*/', $headers['Cache-Control'] ),
+					[ 'max-age=0' ]
+				)
+			);
+		}
+
+		return $headers;
+	}
+
+	/**
+	 * Filters wp_headers to add Cache-Control directives.
+	 *
+	 * @param array<string, string>|mixed $headers Headers to send.
+	 * @return array<string, string> Modified headers to send.
+	 */
+	public function filter_wp_headers( $headers ): array {
+		if ( ! is_array( $headers ) ) {
+			$headers = [];
+		}
+
+		if ( $this->should_skip_cache_control_header() ) {
+			return $headers;
+		}
+
+		$headers['Cache-Control'] = $this->get_cache_control_header_value();
+		return $headers;
+	}
+
+	/**
 	 * Send the cache control header for REST API requests
+	 *
+	 * This will be overridden when a user is logged in and the REST API {@see \WP_REST_Server::serve_request()} is
+	 * sending nocache headers already. In this case, it is important to rely on filtering `nocache_headers` to add
+	 * any critical Cache-Control directives. So this method is primarily relevant for public REST API responses,
+	 * unless `rest_send_nocache_headers` has been filtered to be false.
 	 *
 	 * @param WP_REST_Response $response Response.
 	 * @return WP_REST_Response Response.
 	 */
 	public function filter_rest_post_dispatch_send_cache_control( $response ) {
-		$response->header( 'Cache-Control', $this->get_cache_control_header_value() );
+		if ( ! $this->should_skip_cache_control_header() ) {
+			$response->header( 'Cache-Control', $this->get_cache_control_header_value() );
+		}
 		return $response;
 	}
 
