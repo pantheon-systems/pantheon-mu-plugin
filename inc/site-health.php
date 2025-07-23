@@ -928,7 +928,35 @@ function object_cache_tests( $tests ) {
  * @return array
  */
 function test_object_cache() {
-	if ( ! isset( $_ENV['CACHE_HOST'] ) ) {
+	$cache_host = isset( $_ENV['CACHE_HOST'] ) ? $_ENV['CACHE_HOST'] : null;
+	$service_level = isset( $_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] ) ? $_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] : null;
+	$redis_unavailable = [ 'basic', 'basic_small' ];
+
+	/**
+	 * If Redis is unavailable, the CACHE_HOST will not exist and the service
+	 * level will be basic.
+	 */
+	if ( ! $cache_host && in_array( $service_level, $redis_unavailable, true ) ) {
+		$result = [
+			'label' => __( 'Redis Object Cache Unavailable for Your Plan', 'pantheon' ),
+			'status' => 'good',
+			'badge' => [
+				'label' => __( 'Performance', 'pantheon' ),
+				'color' => 'green',
+			],
+			'description' => sprintf(
+				'<p>%1$s</p><p>%2$s</p>',
+				__( 'Redis object cache is not available for Basic plans. We recommend upgrading your plan if you would like to make use of Redis object caching.', 'pantheon' ),
+				sprintf( __( 'For more information see our <a href="%s">Object Cache documentation</a>.', 'pantheon' ), 'https://docs.pantheon.io/object-cache' )
+			),
+			'test' => 'object_cache',
+		];
+
+		return $result;
+	}
+
+	// Redis is available on the plan, but not active.
+	if ( ! $cache_host ) {
 		$result = [
 			'label' => __( 'Redis Object Cache', 'pantheon' ),
 			'status' => 'critical',
