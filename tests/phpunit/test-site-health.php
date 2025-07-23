@@ -56,7 +56,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 
 	public function test_object_cache_no_redis_unavailable() {
 		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'basic';
-		unset($_ENV['CACHE_HOST']);
+		unset( $_ENV['CACHE_HOST'] );
 
 		$result = Pantheon\Site_Health\test_object_cache();
 		$this->assertEquals( 'good', $result['status'] );

@@ -947,6 +947,7 @@ function test_object_cache() {
 			'description' => sprintf(
 				'<p>%1$s</p><p>%2$s</p>',
 				__( 'Redis object cache is not available for Basic plans. We recommend upgrading your plan if you would like to make use of Redis object caching.', 'pantheon' ),
+				// Translators: %s is a URL to the Pantheon documentation for Object Cache.
 				sprintf( __( 'For more information see our <a href="%s">Object Cache documentation</a>.', 'pantheon' ), 'https://docs.pantheon.io/object-cache' )
 			),
 			'test' => 'object_cache',
