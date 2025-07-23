@@ -54,7 +54,17 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'background_updates', $result['async'] );
 	}
 
+	public function test_object_cache_no_redis_unavailable() {
+		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'basic';
+		$_ENV['CACHE_HOST'] = null;
+
+		$result = Pantheon\Site_Health\test_object_cache();
+		$this->assertEquals( 'good', $result['status'] );
+		$this->assertStringContainsString( 'Redis object cache is not available for Basic plans. We recommend upgrading your plan if you would like to make use of Redis object caching.', $result['description'] );
+	}
+
 	public function test_object_cache_no_redis() {
+		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'performance_small';
 		$result = Pantheon\Site_Health\test_object_cache();
 
 		$this->assertEquals( 'critical', $result['status'] );
@@ -62,6 +72,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_object_cache_with_redis_no_plugin() {
+		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'performance_small';
 		$_ENV['CACHE_HOST'] = 'cacheserver'; // Ensure CACHE_HOST is set.
 
 		$result = Pantheon\Site_Health\test_object_cache();
@@ -71,6 +82,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_object_cache_with_wpredis_active() {
+		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'performance_small';
 		$_ENV['CACHE_HOST'] = 'cacheserver'; // Ensure CACHE_HOST is set.
 		$this->set_active_plugin( 'wp-redis/wp-redis.php' );
 
@@ -81,6 +93,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_object_cache_with_ocp_active() {
+		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'performance_small';
 		$_ENV['CACHE_HOST'] = 'cacheserver'; // Ensure CACHE_HOST is set.
 		$this->set_active_plugin( 'object-cache-pro/object-cache-pro.php' );
 
