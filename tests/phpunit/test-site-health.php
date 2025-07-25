@@ -55,12 +55,23 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_object_cache_no_redis_unavailable() {
-		$_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'basic';
+		$_SERVER['HTTP_PCONTEXT_SERVICE_LEVEL'] = 'basic';
 		unset( $_ENV['CACHE_HOST'] );
 
 		$result = Pantheon\Site_Health\test_object_cache();
-		$this->assertEquals( 'good', $result['status'] );
-		$this->assertStringContainsString( 'Redis object cache is not available for Basic plans.', $result['description'] );
+		
+		// Result should be empty for basic plans without Redis.
+		$this->assertEmpty( $result );
+	}
+
+	public function test_object_cache_no_headers() {
+		unset( $_SERVER['HTTP_PCONTEXT_SERVICE_LEVEL'] );
+		unset( $_ENV['CACHE_HOST'] );
+
+		$result = Pantheon\Site_Health\test_object_cache();
+
+		// Result should be empty when no headers are set.
+		$this->assertEmpty( $result );
 	}
 
 	public function test_object_cache_no_redis() {
