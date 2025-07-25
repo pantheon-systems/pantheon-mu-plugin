@@ -952,7 +952,7 @@ function test_object_cache() {
 			'label' => __( 'Redis Object Cache', 'pantheon' ),
 			'status' => 'critical',
 			'badge' => [
-				'label' => __( 'Performance', 'pantheon' ),
+				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'red',
 			],
 			'description' => sprintf(
@@ -973,7 +973,7 @@ function test_object_cache() {
 			'label' => __( 'WP Redis Active', 'pantheon' ),
 			'status' => 'recommended',
 			'badge' => [
-				'label' => __( 'Performance', 'pantheon' ),
+				'label' => __( 'Pantheon', 'pantheon' ),
 				'color' => 'orange',
 			],
 			'description' => sprintf(
@@ -993,8 +993,8 @@ function test_object_cache() {
 			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
 			'status' => 'good',
 			'badge' => [
-				'label' => __( 'Performance', 'pantheon' ),
-				'color' => 'green',
+				'label' => __( 'Pantheon', 'pantheon' ),
+				'color' => 'blue',
 			],
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
@@ -1012,7 +1012,7 @@ function test_object_cache() {
 		'label' => __( 'No Object Cache Plugin Active', 'pantheon' ),
 		'status' => 'critical',
 		'badge' => [
-			'label' => __( 'Performance', 'pantheon' ),
+			'label' => __( 'Pantheon', 'pantheon' ),
 			'color' => 'red',
 		],
 		'description' => sprintf(
