@@ -21,6 +21,7 @@ use function get_option;
 use function get_plugin_data;
 use function in_array;
 use function number_format_i18n;
+use function Pantheon\_pantheon_get_header;
 use function printf;
 use function sprintf;
 use function ucfirst;
@@ -929,31 +930,20 @@ function object_cache_tests( $tests ) {
  */
 function test_object_cache() {
 	$cache_host = isset( $_ENV['CACHE_HOST'] ) ? $_ENV['CACHE_HOST'] : null;
-	$service_level = isset( $_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] ) ? $_ENV['HTTP_PCONTEXT_SERVICE_LEVEL'] : null;
+	$service_level = _pantheon_get_header( 'Pcontext-Service-Level' );
 	$redis_unavailable = [ 'basic', 'basic_small' ];
 
+	// If we can't find a service level or cache host, bail early.
+	if ( ! $service_level && ! $cache_host ) {
+		return [];
+	}
+
 	/**
-	 * If Redis is unavailable, the CACHE_HOST will not exist and the service
-	 * level will be basic.
+	 * If Redis is unavailable and the service level is basic, we cannot use
+	 * Redis. Bail early, this test is not helpful.
 	 */
 	if ( ! $cache_host && in_array( $service_level, $redis_unavailable, true ) ) {
-		$result = [
-			'label' => __( 'Redis Object Cache Unavailable for Your Plan', 'pantheon' ),
-			'status' => 'good',
-			'badge' => [
-				'label' => __( 'Performance', 'pantheon' ),
-				'color' => 'green',
-			],
-			'description' => sprintf(
-				'<p>%1$s</p><p>%2$s</p>',
-				__( 'Redis object cache is not available for Basic plans. We recommend upgrading your plan if you would like to make use of Redis object caching.', 'pantheon' ),
-				// Translators: %s is a URL to the Pantheon documentation for Object Cache.
-				sprintf( __( 'For more information see our <a href="%s">Object Cache documentation</a>.', 'pantheon' ), 'https://docs.pantheon.io/object-cache' )
-			),
-			'test' => 'object_cache',
-		];
-
-		return $result;
+		return [];
 	}
 
 	// Redis is available on the plan, but not active.
