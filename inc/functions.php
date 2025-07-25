@@ -47,3 +47,14 @@ function _pantheon_get_request_headers( array $headers = [] ): array {
 
 	return $headers;
 }
+
+/**
+ * Helper function to get a specific header value.
+ *
+ * @param string $key The header key to retrieve.
+ * @return string The value of the specified header, or an empty string if not found.
+ */
+function _pantheon_get_header( string $key ): string {
+	$headers = _pantheon_get_request_headers();
+	return ! empty( $headers[ $key ] ) ? esc_textarea( $headers[ $key ] ) : '';
+}
