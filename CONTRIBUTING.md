@@ -98,4 +98,4 @@ Use this method when you can fix an incompatibility with code. This involves cre
     * In `inc/compatibility/class-compatibilityfactory.php`, add your new **Compatibility Class** and the target plugin's slug to the `$targets` array in the `setup_targets()` method.
 
 4. **Add a Test:**
-    *   In `tests/phpunit/test-compatibility-layer.php`, add a test to ensure your component is instantiated correctly.
+    * In `tests/phpunit/test-compatibility-layer.php`, add a test to ensure your component is instantiated correctly.
