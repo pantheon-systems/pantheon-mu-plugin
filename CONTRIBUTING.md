@@ -58,7 +58,7 @@ Use this method when you can fix an incompatibility with code. This involves cre
     * Create a new file in `inc/compatibility/` named `class-{plugin-name}.php`.
     * The class must extend `Pantheon\Compatibility\Base`.
     * You must implement the `apply_fix()` and `remove_fix()` methods, even if their bodies are empty.
-    *   Set a property like `$run_fix_everytime = true;` to control when the fix runs.
+    * Set a property like `$run_fix_everytime = true;` to control when the fix runs.
 
 2.  **Implement the Fix Logic (Choose One):**
 
