@@ -62,7 +62,7 @@ Use this method when you can fix an incompatibility with code. This involves cre
 
 2. **Implement the Fix Logic (Choose One):**
 
-    *   **Option A (Simple Fix, No Fix Class):** Place your logic directly inside the `apply_fix` method of your new Compatibility Class.
+    * **Option A (Simple Fix, No Fix Class):** Place your logic directly inside the `apply_fix` method of your new Compatibility Class.
 
         *Example:*
         ```php
