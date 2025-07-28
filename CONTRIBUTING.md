@@ -94,7 +94,7 @@ Use this method when you can fix an incompatibility with code. This involves cre
         }
         ```
 
-3.  **Register the Compatibility Class:**
+3. **Register the Compatibility Class:**
     *   In `inc/compatibility/class-compatibilityfactory.php`, add your new **Compatibility Class** and the target plugin's slug to the `$targets` array in the `setup_targets()` method.
 
 4.  **Add a Test:**
