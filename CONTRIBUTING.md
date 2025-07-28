@@ -23,11 +23,11 @@ There are two main ways to contribute to the compatibility layer: reporting an i
 
 Use this method when a plugin is incompatible and requires manual user action, or when there is no programmatic fix. These notices appear in the WordPress Site Health tool.
 
-1.  **Choose the correct category in `inc/site-health.php`:**
-    *   **`get_compatibility_manual_fixes()`**: For plugins that require specific manual configuration. The user will be told a "Manual Fix Required".
-    *   **`get_compatibility_review_fixes()`**: For plugins that are partially or fully incompatible. The user will see statuses like "Incompatible" or "Partial Compatibility".
+1. **Choose the correct category in `inc/site-health.php`:**
+    * **`get_compatibility_manual_fixes()`**: For plugins that require specific manual configuration. The user will be told a "Manual Fix Required".
+    * **`get_compatibility_review_fixes()`**: For plugins that are partially or fully incompatible. The user will see statuses like "Incompatible" or "Partial Compatibility".
 
-2.  **Add the plugin to the appropriate function's `$plugins` array.**
+2. **Add the plugin to the appropriate function's `$plugins` array.**
 
     *Example (Adding a "Manual Fix Required" notice):*
     ```php
@@ -48,16 +48,16 @@ Use this method when you can fix an incompatibility with code. This involves cre
 
 #### Understanding the Classes
 
-*   **Compatibility Class (The "When"):** This class is the trigger. It tells the system *when* to run a fix for a specific plugin. It extends `Pantheon\Compatibility\Base` and is stored in `inc/compatibility/`. Its primary job is to define the conditions for the fix (e.g., run on every page load, only on activation).
+* **Compatibility Class (The "When"):** This class is the trigger. It tells the system *when* to run a fix for a specific plugin. It extends `Pantheon\Compatibility\Base` and is stored in `inc/compatibility/`. Its primary job is to define the conditions for the fix (e.g., run on every page load, only on activation).
 
-*   **Fix Class (The "What"):** This class contains the *actual code* that solves the problem (e.g., defines a constant, adds a filter). It is stored in `inc/compatibility/fixes/`. **Using a separate Fix Class is optional but highly recommended for clarity and reusability.** For very simple, one-line fixes, you can place the logic directly in the Compatibility Class. For anything more complex, or for logic that could be reused (like `DefineConstantFix`), a Fix Class is the best practice.
+* **Fix Class (The "What"):** This class contains the *actual code* that solves the problem (e.g., defines a constant, adds a filter). It is stored in `inc/compatibility/fixes/`. **Using a separate Fix Class is optional but highly recommended for clarity and reusability.** For very simple, one-line fixes, you can place the logic directly in the Compatibility Class. For anything more complex, or for logic that could be reused (like `DefineConstantFix`), a Fix Class is the best practice.
 
 #### How to Implement an Automated Fix
 
-1.  **Create the Compatibility Class (Required):**
-    *   Create a new file in `inc/compatibility/` named `class-{plugin-name}.php`.
-    *   The class must extend `Pantheon\Compatibility\Base`.
-    *   You must implement the `apply_fix()` and `remove_fix()` methods, even if their bodies are empty.
+1. **Create the Compatibility Class (Required):**
+    * Create a new file in `inc/compatibility/` named `class-{plugin-name}.php`.
+    * The class must extend `Pantheon\Compatibility\Base`.
+    * You must implement the `apply_fix()` and `remove_fix()` methods, even if their bodies are empty.
     *   Set a property like `$run_fix_everytime = true;` to control when the fix runs.
 
 2.  **Implement the Fix Logic (Choose One):**
