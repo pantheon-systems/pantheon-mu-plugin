@@ -77,7 +77,7 @@ Use this method when you can fix an incompatibility with code. This involves cre
     * **Option B (Recommended, Using a Fix Class):**
         * Create a new file in `inc/compatibility/fixes/` named `class-{plugin-name}fix.php`.
         * Create a static `apply()` method in this class containing your fix logic.
-        *   Call this static method from your Compatibility Class's `apply_fix()` method.
+        * Call this static method from your Compatibility Class's `apply_fix()` method.
 
         *Example:*
         ```php
