@@ -60,7 +60,7 @@ Use this method when you can fix an incompatibility with code. This involves cre
     * You must implement the `apply_fix()` and `remove_fix()` methods, even if their bodies are empty.
     * Set a property like `$run_fix_everytime = true;` to control when the fix runs.
 
-2.  **Implement the Fix Logic (Choose One):**
+2. **Implement the Fix Logic (Choose One):**
 
     *   **Option A (Simple Fix, No Fix Class):** Place your logic directly inside the `apply_fix` method of your new Compatibility Class.
 
