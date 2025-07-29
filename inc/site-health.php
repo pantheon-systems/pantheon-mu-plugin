@@ -265,7 +265,13 @@ function get_compatibility_manual_fixes() {
 		'tin-canny-reporting' => [
 			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
 			'plugin_slug' => 'tin-canny-reporting/tin-canny-reporting.php',
-			'plugin_message' => wp_kses_post( 'The Tin Canny Reporting for LearnDash plugin is not compatible with Pantheon\'s filesystem. The <code>rename()</code> function must be replaced with a <code>copy()</code> and <code>unlink()</code> workflow. See <a href="https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting" target="_blank">our documentation</a> for details.' ),
+			'plugin_message' => wp_kses_post(
+				sprintf(
+					/* translators: %s: the link to relevant documentation. */
+					__( 'The Tin Canny Reporting for LearnDash plugin is not compatible with Pantheon\'s filesystem. The <code>rename()</code> function must be replaced with a <code>copy()</code> and <code>unlink()</code> workflow. See <a href="%s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+					'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+				)
+			),
 		],
 	];
 
