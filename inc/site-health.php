@@ -201,6 +201,53 @@ function add_compatibility_tab( $tabs ) {
 
 
 /**
+ * Check the status of the Tin Canny Reporting for LearnDash plugin.
+ *
+ * @return string|false
+ */
+function check_tincanny_reporting_status() {
+	$active_plugins = get_option( 'active_plugins' );
+	if (
+		// We're not sure about the naming convention so check multiple possible options.
+		! in_array( 'tin-canny-reporting/tin-canny-reporting.php', $active_plugins, true ) &&
+		! in_array( 'tincanny-reporting/tincanny-reporting.php', $active_plugins, true ) &&
+		! in_array( 'tincanny-zip-uploader/tincanny-zip-uploader.php', $active_plugins, true )
+	) {
+		return false;
+	}
+
+	$possible_paths = [
+		WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader/tincanny-zip-uploader.php',
+		WP_PLUGIN_DIR . '/tincanny-reporting/tincanny-zip-uploader/tincanny-zip-uploader.php',
+		WP_PLUGIN_DIR . '/tincanny-zip-uploader/tincanny-zip-uploader.php',
+	];
+
+	$plugin_file = false;
+	foreach ( $possible_paths as $path ) {
+		if ( file_exists( $path ) ) {
+			$plugin_file = $path;
+			break;
+		}
+	}
+
+	if ( ! $plugin_file || ! is_readable( $plugin_file ) ) {
+		return false;
+	}
+
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$file_contents = file_get_contents( $plugin_file );
+	if ( false === $file_contents ) {
+		return false;
+	}
+
+	if ( strpos( $file_contents, 'rename(' ) !== false ) {
+		return 'unpatched';
+	}
+
+	return 'patched';
+}
+
+/**
  * Get list of plugins that require manual fixes.
  *
  * @return array[]
@@ -262,7 +309,11 @@ function get_compatibility_manual_fixes() {
 				)
 			),
 		],
-		'tin-canny-reporting' => [
+	];
+
+	$tincanny_status = check_tincanny_reporting_status();
+	if ( 'unpatched' === $tincanny_status ) {
+		$plugins['tin-canny-reporting'] = [
 			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
 			'plugin_slug' => 'tin-canny-reporting/tin-canny-reporting.php',
 			'plugin_message' => wp_kses_post(
@@ -272,8 +323,8 @@ function get_compatibility_manual_fixes() {
 					'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
 				)
 			),
-		],
-	];
+		];
+	}
 
 	return add_plugin_names_to_known_issues(
 		array_filter( $plugins, static function ( $plugin ) {
@@ -798,6 +849,21 @@ function get_compatibility_review_fixes() {
 			'plugin_compatibility' => 'incompatible',
 		],
 	];
+
+	$tincanny_status = check_tincanny_reporting_status();
+	if ( 'patched' === $tincanny_status ) {
+		$plugins['tin-canny-reporting'] = [
+			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
+			'plugin_slug'    => 'tin-canny-reporting/tin-canny-reporting.php',
+			'plugin_message' => wp_kses_post(
+				// translators: %s is the link to the Tin Canny Reporting documentation on the Pantheon docs site.
+				sprintf(
+					__( 'The Tin Canny Reporting for LearnDash plugin appears to be modified to work on Pantheon. Please be aware that future plugin updates may overwrite your changes. For more information, <a href="%s" target="_blank">see our documentation</a>.', 'pantheon' ),
+					'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+				)
+			),
+		];
+	}
 
 	return add_plugin_names_to_known_issues(
 		array_filter( $plugins, static function ( $plugin ) {

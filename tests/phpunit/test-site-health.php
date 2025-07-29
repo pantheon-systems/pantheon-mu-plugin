@@ -28,6 +28,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 		update_option( 'active_plugins', $this->original_active_plugins );
+		$this->cleanup_dummy_plugin();
 	}
 
 	private function set_active_plugin( $plugin ) {
@@ -90,12 +91,58 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Object Cache Pro is active for your site.', $result['description'] );
 	}
 
-	public function test_tin_canny_reporting_manual_fix() {
-		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
-		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
+	public function test_tin_canny_reporting_unpatched() {
+		// Create a dummy plugin file with the rename function.
+		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader';
+		if ( ! is_dir( $plugin_dir ) ) {
+			mkdir( $plugin_dir, 0777, true );
+		}
+		
+		if ( ! file_exists( $plugin_dir . '/tincanny-zip-uploader.php' ) ) {
+			touch( $plugin_dir . '/tincanny-zip-uploader.php' );
+			file_put_contents( $plugin_dir . '/tincanny-zip-uploader.php', '<?php rename("foo", "bar");' );
+		}
 
-		$this->assertNotEmpty( $manual_fixes );
-		$this->assertEquals( esc_html__( 'Manual Fix Required', 'pantheon' ), $manual_fixes['tin-canny-reporting']['plugin_status'] );
-		$this->assertStringContainsString( 'The Tin Canny Reporting for LearnDash plugin is not compatible with Pantheon\'s filesystem.', $manual_fixes['tin-canny-reporting']['plugin_message'] );
+		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
+
+		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
+		$this->assertArrayHasKey( 'tin-canny-reporting', $manual_fixes );
+		$this->assertEquals( 'Manual Fix Required', $manual_fixes['tin-canny-reporting']['plugin_status'] );
+	}
+
+	public function test_tin_canny_reporting_patched() {
+		// Create a dummy plugin file without the rename function.
+		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader';
+		if ( ! is_dir( $plugin_dir ) ) {
+			mkdir( $plugin_dir, 0777, true );
+		}
+
+		if ( ! file_exists( $plugin_dir . '/tincanny-zip-uploader.php' ) ) {
+			touch( $plugin_dir . '/tincanny-zip-uploader.php' );
+			file_put_contents( $plugin_dir . '/tincanny-zip-uploader.php', '<?php copy("foo", "bar");' );
+		}
+
+		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
+
+		$review_fixes = Pantheon\Site_Health\get_compatibility_review_fixes();
+		$this->assertArrayHasKey( 'tin-canny-reporting', $review_fixes );
+		$this->assertEquals( 'Partial Compatibility', $review_fixes['tin-canny-reporting']['plugin_status'] );
+	}
+
+	private function cleanup_dummy_plugin() {
+		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting';
+		if ( is_dir( $plugin_dir ) ) {
+			$files = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator( $plugin_dir, RecursiveDirectoryIterator::SKIP_DOTS ),
+				RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			foreach ( $files as $fileinfo ) {
+				$todo = ( $fileinfo->isDir() ? 'rmdir' : 'unlink' );
+				$todo( $fileinfo->getRealPath() );
+			}
+
+			rmdir( $plugin_dir );
+		}
 	}
 }
