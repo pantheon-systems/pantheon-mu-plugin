@@ -89,4 +89,13 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertEquals( 'good', $result['status'] );
 		$this->assertStringContainsString( 'Object Cache Pro is active for your site.', $result['description'] );
 	}
+
+	public function test_tin_canny_reporting_manual_fix() {
+		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
+		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
+
+		$this->assertNotEmpty( $manual_fixes );
+		$this->assertEquals( esc_html__( 'Manual Fix Required', 'pantheon' ), $manual_fixes['tin-canny-reporting']['plugin_status'] );
+		$this->assertStringContainsString( 'The Tin Canny Reporting for LearnDash plugin is not compatible with Pantheon\'s filesystem.', $manual_fixes['tin-canny-reporting']['plugin_message'] );
+	}
 }
