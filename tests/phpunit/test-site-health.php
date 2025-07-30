@@ -36,6 +36,39 @@ class Test_Site_Health extends WP_UnitTestCase {
 		wp_cache_delete( 'plugins', 'plugins' );
 	}
 
+	/**
+	 * Add a dummy plugin for testing purposes.
+	 *
+	 * @param string $plugin_filename The filename of the plugin in plugin-directory/plugin-filename.php format.
+	 * @param string $plugin_content The content of the plugin file.
+	 * @param bool $activate_plugin Whether to activate the plugin after adding it.
+	 */
+	private function add_dummy_plugin_file( string $plugin_filename, string $plugin_content, bool $activate_plugin = true ) {
+		$plugin_dir = WP_PLUGIN_DIR . '/' . dirname( $plugin_filename );
+		if ( ! is_dir( $plugin_dir ) ) {
+			mkdir( $plugin_dir, 0755, true );
+		}
+
+		file_put_contents( WP_PLUGIN_DIR . '/' . $plugin_filename, $plugin_content );
+
+		if ( ! file_exists( WP_PLUGIN_DIR . '/' . $plugin_filename ) ) {
+			throw new Exception( 'Failed to create dummy plugin file: ' . WP_PLUGIN_DIR . '/' . $plugin_filename );
+		}
+
+		/**
+		 * End here if we don't want to activate the plugin or if the file
+		 * is not a plugin to activate.
+		 */
+		if ( ! $activate_plugin ) {
+			return;
+		}
+
+		// Activate the plugin.
+		$this->set_active_plugin( [ $plugin_filename ] );
+		// We need to clear the plugins cache so the new plugin is recognized.
+		wp_cache_delete( 'plugins', 'plugins' );
+	}
+
 	public function test_site_health_mods() {
 		// Mock array to represent the structure passed to the filter.
 		$mock_tests = [
