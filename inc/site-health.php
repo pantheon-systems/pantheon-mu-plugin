@@ -199,6 +199,20 @@ function add_compatibility_tab( $tabs ) {
 	return $tabs;
 }
 
+/**
+ * Get the version for Tin Canny Reporting if it's installed.
+ *
+ * @return string
+ */
+function get_tincanny_reporting_version() : string {
+	$plugin_file = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/tin-canny-learndash-reporting.php';
+	if ( ! is_readable( $plugin_file ) ) {
+		return '';
+	}
+	$plugin_data = get_plugin_data( $plugin_file, false, false );
+
+	return $plugin_data['Version'] ?? '';
+}
 
 /**
  * Check the status of the Tin Canny Reporting for LearnDash plugin.
