@@ -28,7 +28,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 		update_option( 'active_plugins', $this->original_active_plugins );
-		$this->cleanup_dummy_plugin();
+		$this->cleanup_dummy_plugin( 'tin-canny-learndash-reporting' );
 	}
 
 	private function set_active_plugin( $plugin ) {
