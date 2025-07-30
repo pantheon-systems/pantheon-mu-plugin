@@ -161,6 +161,61 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertEquals( '5.1.0', Pantheon\Site_Health\get_tincanny_reporting_version() );
 	}
 
+	public function test_check_tincanny_reporting_status() {
+		// Test with no Tin Canny Reporting plugin installed.
+		$this->assertFalse( Pantheon\Site_Health\check_tincanny_reporting_status() );
+
+		// Test with a newer version of Tin Canny Reporting.
+		$tin_canny_dummy_content = '<?php
+		/*		 
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.2.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+		$this->assertFalse( Pantheon\Site_Health\check_tincanny_reporting_status() );
+
+		$this->cleanup_dummy_plugin( 'tin-canny-learndash-reporting' );
+
+		// Test with an unpatched version of Tin Canny Reporting.
+		$tin_canny_dummy_content = '<?php
+		/*		 
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+		$tin_canny_zip_uploader_content = '<?php
+		function finalize_module_upload() {
+			if ( ! rename( "{$target}/{$directory}", "{$target}/{$database_id}" ) ) {
+				return $this->error_response( esc_html_x( "Could not rename directory.", "Tin Canny Zip Uploader", "uncanny-learndash-reporting" ) );
+			}	
+		}';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
+		$this->assertEquals( 'unpatched', Pantheon\Site_Health\check_tincanny_reporting_status() );
+
+		$this->cleanup_dummy_plugin( 'tin-canny-learndash-reporting' );
+
+		// Test with a patched version of Tin Canny Reporting.
+		$tin_canny_dummy_content = '<?php
+		/*		 
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+		$tin_canny_zip_uploader_content = '<?php
+		function finalize_module_upload() {
+			copy("{$target}/{$directory}", "{$target}/{$database_id}");
+			unlink("{$target}/{$directory}");	
+		}';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
+		$this->assertEquals( 'patched', Pantheon\Site_Health\check_tincanny_reporting_status() );
+		
+	}
+
 	public function test_tin_canny_reporting_unpatched() {
 		$tin_canny_dummy_content = '<?php
 		/*		 
