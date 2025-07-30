@@ -322,19 +322,41 @@ function get_compatibility_manual_fixes() {
 		],
 	];
 
+	/**
+	 * If Tin Canny Reporting is active, we should check the version and patch
+	 * status.
+	 */
 	$tincanny_status = check_tincanny_reporting_status();
-	if ( 'unpatched' === $tincanny_status ) {
-		$plugins['tin-canny-reporting'] = [
-			'plugin_status' => esc_html__( 'Manual Fix Required', 'pantheon' ),
-			'plugin_slug' => 'tin-canny-reporting/tin-canny-reporting.php',
-			'plugin_message' => wp_kses_post(
-				sprintf(
-					/* translators: %s: the link to relevant documentation. */
-					__( 'The Tin Canny Reporting for LearnDash plugin is not compatible with Pantheon\'s filesystem. The <code>rename()</code> function must be replaced with a <code>copy()</code> and <code>unlink()</code> workflow. See <a href="%s" target="_blank">our documentation</a> for details.', 'pantheon' ),
-					'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
-				)
-			),
-		];
+	var_dump( $tincanny_status );
+	if ( $tincanny_status ) {
+		$tin_canny_version = get_tincanny_reporting_version();
+		if ( 'unpatched' === $tincanny_status ) {
+			$plugins['tin-canny-learndash-reporting'] = [
+				'plugin_status' => esc_html__( 'Update Required', 'pantheon' ),
+				'plugin_slug' => 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php',
+				'plugin_message' => wp_kses_post(
+					sprintf(
+						/* translators: %s: the link to relevant documentation. */
+						__( 'The version of Tin Canny Reporting for LearnDash that you are using ($1$s) is not compatible with Pantheon\'s filesystem. The plugin uses the <code>rename()</code> function which is not allowed on Pantheon\'s read-only filesystem. This issue is resolved in a newer version of Tin Canny Reporting. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+						esc_html( $tin_canny_version ),
+						'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+					)
+				),
+			];
+		} elseif ( 'patched' === $tincanny_status ) {
+			$plugins['tin-canny-learndash-reporting'] = [
+				'plugin_status' => esc_html__( 'Update Required', 'pantheon' ),
+				'plugin_slug' => 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php',
+				'plugin_message' => wp_kses_post(
+					sprintf(
+						/* translators: %s: the link to relevant documentation. */
+						__( 'The version of Tin Canny Reporting for LearnDash that you are using (%1$s) appears to be modified to work on Pantheon. A newer version is available that is compatible with Pantheon. Please upgrade to the latest version. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+						esc_html( $tin_canny_version ),
+						'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+					)
+				),
+			];
+		}
 	}
 
 	return add_plugin_names_to_known_issues(
@@ -860,21 +882,6 @@ function get_compatibility_review_fixes() {
 			'plugin_compatibility' => 'incompatible',
 		],
 	];
-
-	$tincanny_status = check_tincanny_reporting_status();
-	if ( 'patched' === $tincanny_status ) {
-		$plugins['tin-canny-reporting'] = [
-			'plugin_status'  => esc_html__( 'Partial Compatibility', 'pantheon' ),
-			'plugin_slug'    => 'tin-canny-reporting/tin-canny-reporting.php',
-			'plugin_message' => wp_kses_post(
-				// translators: %s is the link to the Tin Canny Reporting documentation on the Pantheon docs site.
-				sprintf(
-					__( 'The Tin Canny Reporting for LearnDash plugin appears to be modified to work on Pantheon. Please be aware that future plugin updates may overwrite your changes. For more information, <a href="%s" target="_blank">see our documentation</a>.', 'pantheon' ),
-					'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
-				)
-			),
-		];
-	}
 
 	return add_plugin_names_to_known_issues(
 		array_filter( $plugins, static function ( $plugin ) {
