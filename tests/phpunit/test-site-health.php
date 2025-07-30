@@ -125,22 +125,26 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_tin_canny_reporting_unpatched() {
-		// Create a dummy plugin file with the rename function.
-		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader';
-		if ( ! is_dir( $plugin_dir ) ) {
-			mkdir( $plugin_dir, 0777, true );
-		}
-		
-		if ( ! file_exists( $plugin_dir . '/tincanny-zip-uploader.php' ) ) {
-			touch( $plugin_dir . '/tincanny-zip-uploader.php' );
-			file_put_contents( $plugin_dir . '/tincanny-zip-uploader.php', '<?php rename("foo", "bar");' );
-		}
+		$tin_canny_dummy_content = '<?php
+		/*		 
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+		$tin_canny_zip_uploader_content = '<?php
+		function finalize_module_upload() {
+			if ( ! rename( "{$target}/{$directory}", "{$target}/{$database_id}" ) ) {
+				return $this->error_response( esc_html_x( "Could not rename directory.", "Tin Canny Zip Uploader", "uncanny-learndash-reporting" ) );
+			}	
+		}';
 
-		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
 
 		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
-		$this->assertArrayHasKey( 'tin-canny-reporting', $manual_fixes );
-		$this->assertEquals( 'Manual Fix Required', $manual_fixes['tin-canny-reporting']['plugin_status'] );
+		$this->assertArrayHasKey( 'tin-canny-learndash-reporting', $manual_fixes );
+		$this->assertEquals( 'Update Required', $manual_fixes['tin-canny-learndash-reporting']['plugin_status'] );
 	}
 
 	public function test_tin_canny_reporting_patched() {
