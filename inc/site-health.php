@@ -219,46 +219,43 @@ function get_tincanny_reporting_version() : string {
  *
  * @return string|false
  */
-function check_tincanny_reporting_status() {
+function check_tincanny_reporting_status() : string|false {
 	$active_plugins = get_option( 'active_plugins' );
-	if (
-		// We're not sure about the naming convention so check multiple possible options.
-		! in_array( 'tin-canny-reporting/tin-canny-reporting.php', $active_plugins, true ) &&
-		! in_array( 'tincanny-reporting/tincanny-reporting.php', $active_plugins, true ) &&
-		! in_array( 'tincanny-zip-uploader/tincanny-zip-uploader.php', $active_plugins, true )
-	) {
+	// Check if the Tin Canny Reporting plugin is active.
+	if ( ! in_array( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $active_plugins, true )) {
 		return false;
 	}
 
-	$possible_paths = [
-		WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader/tincanny-zip-uploader.php',
-		WP_PLUGIN_DIR . '/tincanny-reporting/tincanny-zip-uploader/tincanny-zip-uploader.php',
-		WP_PLUGIN_DIR . '/tincanny-zip-uploader/tincanny-zip-uploader.php',
-	];
-
-	$plugin_file = false;
-	foreach ( $possible_paths as $path ) {
-		if ( file_exists( $path ) ) {
-			$plugin_file = $path;
-			break;
-		}
+	$plugin_file = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/tin-canny-learndash-reporting.php';
+	if ( ! is_readable( $plugin_file ) ) {
+		return false;
 	}
+	$plugin_data = get_plugin_data( $plugin_file, false, false );
+	$tin_canny_version = $plugin_data['Version'] ?? '';
 
-	if ( ! $plugin_file || ! is_readable( $plugin_file ) ) {
+	// The rename issue was resolved in versions newer than 5.1.0.2.
+	if ( version_compare( $tin_canny_version, '5.1.0.2', '>' ) ) {
 		return false;
 	}
 
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-	$file_contents = file_get_contents( $plugin_file );
+	// Check the specific upload function file for the rename() function.
+	$tincanny_zip_uploader_path = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php';
+	if ( ! file_exists( $tincanny_zip_uploader_path ) ) {
+		return false;
+	}
+
+	// Read the file contents.
+	$file_contents = file_get_contents( $tincanny_zip_uploader_path );
 	if ( false === $file_contents ) {
 		return false;
 	}
 
-	if ( strpos( $file_contents, 'rename(' ) !== false ) {
-		return 'unpatched';
+	// Check if the rename() function is present in the file.
+	if ( strpos( $file_contents, 'rename(' ) === false ) {
+		return 'patched';
 	}
 
-	return 'patched';
+	return 'unpatched';
 }
 
 /**
