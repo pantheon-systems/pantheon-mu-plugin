@@ -146,6 +146,21 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Object Cache Pro is active for your site.', $result['description'] );
 	}
 
+	public function test_get_tincanny_reporting_version() {
+		// Test with no Tin Canny Reporting plugin installed.
+		$this->assertEquals( '', Pantheon\Site_Health\get_tincanny_reporting_version() );
+
+		$tin_canny_dummy_content = '<?php
+		/*		 
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+
+		$this->assertEquals( '5.1.0', Pantheon\Site_Health\get_tincanny_reporting_version() );
+	}
+
 	public function test_tin_canny_reporting_unpatched() {
 		$tin_canny_dummy_content = '<?php
 		/*		 
