@@ -166,20 +166,25 @@ class Test_Site_Health extends WP_UnitTestCase {
 		$this->assertEquals( 'Partial Compatibility', $review_fixes['tin-canny-reporting']['plugin_status'] );
 	}
 
-	private function cleanup_dummy_plugin() {
-		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting';
-		if ( is_dir( $plugin_dir ) ) {
-			$files = new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator( $plugin_dir, RecursiveDirectoryIterator::SKIP_DOTS ),
-				RecursiveIteratorIterator::CHILD_FIRST
-			);
-
-			foreach ( $files as $fileinfo ) {
-				$todo = ( $fileinfo->isDir() ? 'rmdir' : 'unlink' );
-				$todo( $fileinfo->getRealPath() );
-			}
-
-			rmdir( $plugin_dir );
+	private function cleanup_dummy_plugin( string $plugin_slug ) {
+		$plugin_dir = WP_PLUGIN_DIR . "/$plugin_slug";
+		if ( ! is_dir( $plugin_dir ) ) {
+			return;
 		}
+		$this->rmdir_recursive( $plugin_dir );
+	}
+
+	private function rmdir_recursive( $dir ) {
+		foreach ( scandir( $dir ) as $file ) {
+			if ( '.' === $file || '..' === $file ) {
+				continue;
+			}
+			if ( is_dir( "$dir/$file" ) ) {
+				$this->rmdir_recursive( "$dir/$file" );
+			} else {
+				unlink( "$dir/$file" );
+			}
+		}
+		rmdir( $dir );
 	}
 }
