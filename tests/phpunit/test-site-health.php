@@ -69,6 +69,28 @@ class Test_Site_Health extends WP_UnitTestCase {
 		wp_cache_delete( 'plugins', 'plugins' );
 	}
 
+	private function cleanup_dummy_plugin( string $plugin_slug ) {
+		$plugin_dir = WP_PLUGIN_DIR . "/$plugin_slug";
+		if ( ! is_dir( $plugin_dir ) ) {
+			return;
+		}
+		$this->rmdir_recursive( $plugin_dir );
+	}
+
+	private function rmdir_recursive( $dir ) {
+		foreach ( scandir( $dir ) as $file ) {
+			if ( '.' === $file || '..' === $file ) {
+				continue;
+			}
+			if ( is_dir( "$dir/$file" ) ) {
+				$this->rmdir_recursive( "$dir/$file" );
+			} else {
+				unlink( "$dir/$file" );
+			}
+		}
+		rmdir( $dir );
+	}
+
 	public function test_site_health_mods() {
 		// Mock array to represent the structure passed to the filter.
 		$mock_tests = [
