@@ -42,6 +42,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 	 * @param string $plugin_filename The filename of the plugin in plugin-directory/plugin-filename.php format.
 	 * @param string $plugin_content The content of the plugin file.
 	 * @param bool $activate_plugin Whether to activate the plugin after adding it.
+	 * @throws Exception If the plugin file cannot be created.
 	 */
 	private function add_dummy_plugin_file( string $plugin_filename, string $plugin_content, bool $activate_plugin = true ) {
 		$plugin_dir = WP_PLUGIN_DIR . '/' . dirname( $plugin_filename );
