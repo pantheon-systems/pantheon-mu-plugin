@@ -219,35 +219,35 @@ function get_tincanny_reporting_version(): string {
  *
  * @return string|false
  */
-function check_tincanny_reporting_status(): string|false {
+function check_tincanny_reporting_status(): string {
 	$active_plugins = get_option( 'active_plugins' );
 	// Check if the Tin Canny Reporting plugin is active.
 	if ( ! in_array( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $active_plugins, true ) ) {
-		return false;
+		return '';
 	}
 
 	$plugin_file = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/tin-canny-learndash-reporting.php';
 	if ( ! is_readable( $plugin_file ) ) {
-		return false;
+		return '';
 	}
 	$plugin_data = get_plugin_data( $plugin_file, false, false );
 	$tin_canny_version = $plugin_data['Version'] ?? '';
 
 	// The rename issue was resolved in versions newer than 5.1.0.2.
 	if ( version_compare( $tin_canny_version, '5.1.0.2', '>' ) ) {
-		return false;
+		return '';
 	}
 
 	// Check the specific upload function file for the rename() function.
 	$tincanny_zip_uploader_path = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php';
 	if ( ! file_exists( $tincanny_zip_uploader_path ) ) {
-		return false;
+		return '';
 	}
 
 	// Read the file contents.
 	$file_contents = file_get_contents( $tincanny_zip_uploader_path );
 	if ( false === $file_contents ) {
-		return false;
+		return '';
 	}
 
 	// Check if the rename() function is present in the file.
@@ -327,7 +327,7 @@ function get_compatibility_manual_fixes() {
 	 * status.
 	 */
 	$tincanny_status = check_tincanny_reporting_status();
-	if ( $tincanny_status ) {
+	if ( ! empty( $tincanny_status ) ) {
 		$tin_canny_version = get_tincanny_reporting_version();
 		if ( 'unpatched' === $tincanny_status ) {
 			$plugins['tin-canny-learndash-reporting'] = [

@@ -164,7 +164,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 
 	public function test_check_tincanny_reporting_status() {
 		// Test with no Tin Canny Reporting plugin installed.
-		$this->assertFalse( Pantheon\Site_Health\check_tincanny_reporting_status() );
+		$this->assertEmpty( Pantheon\Site_Health\check_tincanny_reporting_status() );
 
 		// Test with a newer version of Tin Canny Reporting.
 		$tin_canny_dummy_content = '<?php
@@ -174,7 +174,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 		 * Description: A dummy plugin for testing purposes.
 		 */';
 		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
-		$this->assertFalse( Pantheon\Site_Health\check_tincanny_reporting_status() );
+		$this->assertEmpty( Pantheon\Site_Health\check_tincanny_reporting_status() );
 
 		$this->cleanup_dummy_plugin( 'tin-canny-learndash-reporting' );
 
