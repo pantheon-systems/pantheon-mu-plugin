@@ -327,7 +327,6 @@ function get_compatibility_manual_fixes() {
 	 * status.
 	 */
 	$tincanny_status = check_tincanny_reporting_status();
-	var_dump( $tincanny_status );
 	if ( $tincanny_status ) {
 		$tin_canny_version = get_tincanny_reporting_version();
 		if ( 'unpatched' === $tincanny_status ) {
