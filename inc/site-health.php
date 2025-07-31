@@ -239,13 +239,13 @@ function check_tincanny_reporting_status(): string {
 	}
 
 	// Check the specific upload function file for the rename() function.
-	$tincanny_zip_uploader_path = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php';
-	if ( ! file_exists( $tincanny_zip_uploader_path ) ) {
+	$zip_uploader_path = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php';
+	if ( ! file_exists( $zip_uploader_path ) ) {
 		return '';
 	}
 
 	// Read the file contents.
-	$file_contents = file_get_contents( $tincanny_zip_uploader_path );
+	$file_contents = file_get_contents( $zip_uploader_path );
 	if ( false === $file_contents ) {
 		return '';
 	}
