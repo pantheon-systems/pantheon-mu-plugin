@@ -213,7 +213,6 @@ class Test_Site_Health extends WP_UnitTestCase {
 		}';
 		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
 		$this->assertEquals( 'patched', Pantheon\Site_Health\check_tincanny_reporting_status() );
-		
 	}
 
 	public function test_tin_canny_reporting_unpatched() {
