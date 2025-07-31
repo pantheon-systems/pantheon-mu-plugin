@@ -222,7 +222,7 @@ function get_tincanny_reporting_version() : string {
 function check_tincanny_reporting_status() : string|false {
 	$active_plugins = get_option( 'active_plugins' );
 	// Check if the Tin Canny Reporting plugin is active.
-	if ( ! in_array( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $active_plugins, true )) {
+	if ( ! in_array( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $active_plugins, true ) ) {
 		return false;
 	}
 
