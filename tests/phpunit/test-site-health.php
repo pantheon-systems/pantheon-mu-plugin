@@ -218,7 +218,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 
 	public function test_tin_canny_reporting_unpatched() {
 		$tin_canny_dummy_content = '<?php
-		/*		 
+		/*
 		 * Plugin Name: Tin Canny Reporting
 		 * Version: 5.1.0
 		 * Description: A dummy plugin for testing purposes.
@@ -227,7 +227,7 @@ class Test_Site_Health extends WP_UnitTestCase {
 		function finalize_module_upload() {
 			if ( ! rename( "{$target}/{$directory}", "{$target}/{$database_id}" ) ) {
 				return $this->error_response( esc_html_x( "Could not rename directory.", "Tin Canny Zip Uploader", "uncanny-learndash-reporting" ) );
-			}	
+			}
 		}';
 
 		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
@@ -240,43 +240,44 @@ class Test_Site_Health extends WP_UnitTestCase {
 	}
 
 	public function test_tin_canny_reporting_patched() {
-		// Create a dummy plugin file without the rename function.
-		$plugin_dir = WP_PLUGIN_DIR . '/tin-canny-reporting/tincanny-zip-uploader';
-		if ( ! is_dir( $plugin_dir ) ) {
-			mkdir( $plugin_dir, 0777, true );
-		}
+		$tin_canny_dummy_content = '<?php
+		/*
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+		$tin_canny_zip_uploader_content = '<?php
+		function finalize_module_upload() {
+			if ( ! copy( "{$target}/{$directory}", "{$target}/{$database_id}" ) ) {
+				return $this->error_response( esc_html_x( "Could not copy directory.", "Tin Canny Zip Uploader", "uncanny-learndash-reporting" ) );
+			}
+		}';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
 
-		if ( ! file_exists( $plugin_dir . '/tincanny-zip-uploader.php' ) ) {
-			touch( $plugin_dir . '/tincanny-zip-uploader.php' );
-			file_put_contents( $plugin_dir . '/tincanny-zip-uploader.php', '<?php copy("foo", "bar");' );
-		}
-
-		$this->set_active_plugin( [ 'tin-canny-reporting/tin-canny-reporting.php' ] );
-
-		$review_fixes = Pantheon\Site_Health\get_compatibility_review_fixes();
-		$this->assertArrayHasKey( 'tin-canny-reporting', $review_fixes );
-		$this->assertEquals( 'Partial Compatibility', $review_fixes['tin-canny-reporting']['plugin_status'] );
+		$manual_fixes = Pantheon\Site_Health\get_compatibility_manual_fixes();
+		$this->assertArrayHasKey( 'tin-canny-learndash-reporting', $manual_fixes );
+		$this->assertEquals( 'Update Required', $manual_fixes['tin-canny-learndash-reporting']['plugin_status'] );
 	}
 
-	private function cleanup_dummy_plugin( string $plugin_slug ) {
-		$plugin_dir = WP_PLUGIN_DIR . "/$plugin_slug";
-		if ( ! is_dir( $plugin_dir ) ) {
-			return;
-		}
-		$this->rmdir_recursive( $plugin_dir );
-	}
+	public function test_tin_canny_reporting_in_status_page() {
+		$tin_canny_dummy_content = '<?php
+		/*
+		 * Plugin Name: Tin Canny Reporting
+		 * Version: 5.1.0
+		 * Description: A dummy plugin for testing purposes.
+		 */';
+		$tin_canny_zip_uploader_content = '<?php
+		function finalize_module_upload() {
+			if ( ! rename( "{$target}/{$directory}", "{$target}/{$database_id}" ) ) {
+				return $this->error_response( esc_html_x( "Could not rename directory.", "Tin Canny Zip Uploader", "uncanny-learndash-reporting" ) );
+			}
+		}';
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $tin_canny_dummy_content );
+		$this->add_dummy_plugin_file( 'tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php', $tin_canny_zip_uploader_content, false );
 
-	private function rmdir_recursive( $dir ) {
-		foreach ( scandir( $dir ) as $file ) {
-			if ( '.' === $file || '..' === $file ) {
-				continue;
-			}
-			if ( is_dir( "$dir/$file" ) ) {
-				$this->rmdir_recursive( "$dir/$file" );
-			} else {
-				unlink( "$dir/$file" );
-			}
-		}
-		rmdir( $dir );
+		$result = Pantheon\Site_Health\test_compatibility();
+		$this->assertEquals( 'critical', $result['status'] );
+		$this->assertStringContainsString( 'Tin Canny Reporting for LearnDash', $result['description'] );
 	}
 }
