@@ -337,7 +337,7 @@ function get_compatibility_manual_fixes() {
 				'plugin_message' => wp_kses_post(
 					sprintf(
 						/* translators: %s: the link to relevant documentation. */
-						__( 'The version of Tin Canny Reporting for LearnDash that you are using ($1$s) is not compatible with Pantheon\'s filesystem. The plugin uses the <code>rename()</code> function which is not allowed on Pantheon\'s read-only filesystem. This issue is resolved in a newer version of Tin Canny Reporting. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+						__( 'The version of Tin Canny Reporting for LearnDash that you are using (%1$s) is not compatible with Pantheon\'s filesystem. The plugin uses the <code>rename()</code> function which is not allowed on Pantheon\'s read-only filesystem. This issue is resolved in a newer version of Tin Canny Reporting. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
 						esc_html( $tin_canny_version ),
 						'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
 					)
