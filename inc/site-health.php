@@ -933,16 +933,16 @@ function test_object_cache() {
 	$service_level = _pantheon_get_header( 'Pcontext-Service-Level' );
 	$redis_unavailable = [ 'basic', 'basic_small' ];
 
-	// If we can't find a service level or cache host, bail early.
+	// If we can't find a service level nor cache host, bail early.
 	if ( ! $service_level && ! $cache_host ) {
 		return [];
 	}
 
 	/**
-	 * If Redis is unavailable and the service level is basic, we cannot use
+	 * If the service level is basic, we cannot use
 	 * Redis. Bail early, this test is not helpful.
 	 */
-	if ( ! $cache_host && in_array( $service_level, $redis_unavailable, true ) ) {
+	if ( in_array( $service_level, $redis_unavailable, true ) ) {
 		return [];
 	}
 
