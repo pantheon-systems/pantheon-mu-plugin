@@ -939,8 +939,8 @@ function test_object_cache() {
 	}
 
 	/**
-	 * If the service level is basic, we cannot use
-	 * Redis. Bail early, this test is not helpful.
+	 * If the service level is basic, we cannot use Redis. Bail early, this
+	 * test is not helpful.
 	 */
 	if ( in_array( $service_level, $redis_unavailable, true ) ) {
 		return [];
