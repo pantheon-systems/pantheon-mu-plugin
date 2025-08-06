@@ -965,9 +965,11 @@ function test_object_cache() {
 		return $result;
 	}
 
+	// Redis is available and active. Check which object cache plugin is active.
 	$wp_redis_active = is_plugin_active( 'wp-redis/wp-redis.php' );
 	$ocp_active = is_plugin_active( 'object-cache-pro/object-cache-pro.php' );
 
+	// If WP Redis is active, we recommend using Object Cache Pro.
 	if ( $wp_redis_active ) {
 		$result = [
 			'label' => __( 'WP Redis Active', 'pantheon' ),
@@ -988,6 +990,7 @@ function test_object_cache() {
 		return $result;
 	}
 
+	// If Object Cache Pro is active, we can return a good status.
 	if ( $ocp_active ) {
 		$result = [
 			'label' => __( 'Object Cache Pro Active', 'pantheon' ),
@@ -1008,6 +1011,7 @@ function test_object_cache() {
 		return $result;
 	}
 
+	// Redis is active but no object cache plugin is installed. Recommend OCP.
 	$result = [
 		'label' => __( 'No Object Cache Plugin Active', 'pantheon' ),
 		'status' => 'critical',
