@@ -40,6 +40,7 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 		 */
 		define( 'FS_METHOD', 'direct' );
 	}
+
 	/**
 	 * When developing a WordPress Multisite locally, ensure that this constant 
 	 * is set.

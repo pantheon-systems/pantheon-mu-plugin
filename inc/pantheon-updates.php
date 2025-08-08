@@ -89,6 +89,10 @@ function _pantheon_upstream_update_notice() {
 	$div_style = esc_attr( 'display: table;' );
 	$paragraph_style = esc_attr( 'font-size: 14px; font-weight: bold; margin: 0 0 0.5em 0;' );
 
+	/**
+	 * If WP core is out of date, alter the message and show the nag
+	 * everywhere.
+	 */
 	if ( ! _pantheon_is_wordpress_core_latest() ) {
 		/**
 		 * If WP core is out of date, alter the message and show the nag

@@ -85,6 +85,8 @@
 		</exclude>
 		<exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
 			<exclude-pattern>tests/*.php</exclude-pattern>
+		<exclude name="Pantheon_WP.Commenting.DisallowMultilineSlashComment.LongLine">
+			<exclude-pattern>inc/network/includes-network.php</exclude-pattern>
 		</exclude>
 	</rule>
 </ruleset>
