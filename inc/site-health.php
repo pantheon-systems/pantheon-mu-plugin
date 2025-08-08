@@ -233,8 +233,8 @@ function check_tincanny_reporting_status(): string {
 	$plugin_data = get_plugin_data( $plugin_file, false, false );
 	$tin_canny_version = $plugin_data['Version'] ?? '';
 
-	// The rename issue was resolved in versions newer than 5.1.0.2.
-	if ( version_compare( $tin_canny_version, '5.1.0.2', '>' ) ) {
+	// The rename issue was resolved in versions newer than 5.1.0.3.
+	if ( version_compare( $tin_canny_version, '5.1.0.3', '>' ) ) {
 		return '';
 	}
 
