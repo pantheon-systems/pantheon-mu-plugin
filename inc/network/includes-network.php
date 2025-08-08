@@ -453,7 +453,11 @@ function network_step2( $errors = false ) {
 		<li><p id="network-wpconfig-rules-description">
 		<?php
 		printf(
-			/* translators: 1: wp-config.php, 2: Location of wp-config file, 3: Translated version of "That's all, stop editing! Happy publishing." */
+			/*
+			 * translators: 1: wp-config.php, 2: Location of wp-config file,
+			 * 3: Translated version of "That's all, stop editing! Happy
+			 * publishing."
+			 */
 			wp_kses_post( __( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ) ),
 			'<code>' . $config_filename . '</code>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'<code>' . $location_of_wp_config . '</code>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

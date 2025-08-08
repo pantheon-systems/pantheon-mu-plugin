@@ -200,6 +200,64 @@ function add_compatibility_tab( $tabs ) {
 	return $tabs;
 }
 
+/**
+ * Get the version for Tin Canny Reporting if it's installed.
+ *
+ * @return string
+ */
+function get_tincanny_reporting_version(): string {
+	$plugin_file = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/tin-canny-learndash-reporting.php';
+	if ( ! is_readable( $plugin_file ) ) {
+		return '';
+	}
+	$plugin_data = get_plugin_data( $plugin_file, false, false );
+
+	return $plugin_data['Version'] ?? '';
+}
+
+/**
+ * Check the status of the Tin Canny Reporting for LearnDash plugin.
+ *
+ * @return string|false
+ */
+function check_tincanny_reporting_status(): string {
+	$active_plugins = get_option( 'active_plugins' );
+	// Check if the Tin Canny Reporting plugin is active.
+	if ( ! in_array( 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php', $active_plugins, true ) ) {
+		return '';
+	}
+
+	$plugin_file = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/tin-canny-learndash-reporting.php';
+	if ( ! is_readable( $plugin_file ) ) {
+		return '';
+	}
+	$plugin_data = get_plugin_data( $plugin_file, false, false );
+	$tin_canny_version = $plugin_data['Version'] ?? '';
+
+	// The rename issue was resolved in versions newer than 5.1.0.3.
+	if ( version_compare( $tin_canny_version, '5.1.0.3', '>' ) ) {
+		return '';
+	}
+
+	// Check the specific upload function file for the rename() function.
+	$zip_uploader_path = WP_PLUGIN_DIR . '/tin-canny-learndash-reporting/src/tincanny-zip-uploader/tincanny-zip-uploader.php';
+	if ( ! file_exists( $zip_uploader_path ) ) {
+		return '';
+	}
+
+	// Read the file contents.
+	$file_contents = file_get_contents( $zip_uploader_path );
+	if ( false === $file_contents ) {
+		return '';
+	}
+
+	// Check if the rename() function is present in the file.
+	if ( strpos( $file_contents, 'rename(' ) === false ) {
+		return 'patched';
+	}
+
+	return 'unpatched';
+}
 
 /**
  * Get list of plugins that require manual fixes.
@@ -264,6 +322,42 @@ function get_compatibility_manual_fixes() {
 			),
 		],
 	];
+
+	/**
+	 * If Tin Canny Reporting is active, we should check the version and patch
+	 * status.
+	 */
+	$tincanny_status = check_tincanny_reporting_status();
+	if ( ! empty( $tincanny_status ) ) {
+		$tin_canny_version = get_tincanny_reporting_version();
+		if ( 'unpatched' === $tincanny_status ) {
+			$plugins['tin-canny-learndash-reporting'] = [
+				'plugin_status' => esc_html__( 'Update Required', 'pantheon' ),
+				'plugin_slug' => 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php',
+				'plugin_message' => wp_kses_post(
+					sprintf(
+						/* translators: %s: the link to relevant documentation. */
+						__( 'The version of Tin Canny Reporting for LearnDash that you are using (%1$s) is not compatible with Pantheon\'s filesystem. The plugin uses the <code>rename()</code> function which is not allowed on Pantheon\'s read-only filesystem. This issue is resolved in a newer version of Tin Canny Reporting. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+						esc_html( $tin_canny_version ),
+						'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+					)
+				),
+			];
+		} elseif ( 'patched' === $tincanny_status ) {
+			$plugins['tin-canny-learndash-reporting'] = [
+				'plugin_status' => esc_html__( 'Update Required', 'pantheon' ),
+				'plugin_slug' => 'tin-canny-learndash-reporting/tin-canny-learndash-reporting.php',
+				'plugin_message' => wp_kses_post(
+					sprintf(
+						/* translators: %s: the link to relevant documentation. */
+						__( 'The version of Tin Canny Reporting for LearnDash that you are using (%1$s) appears to be modified to work on Pantheon. A newer version is available that is compatible with Pantheon. Please upgrade to the latest version. See <a href="%2$s" target="_blank">our documentation</a> for details.', 'pantheon' ),
+						esc_html( $tin_canny_version ),
+						'https://docs.pantheon.io/wordpress-known-issues#tin-canny-reporting'
+					)
+				),
+			];
+		}
+	}
 
 	return add_plugin_names_to_known_issues(
 		array_filter( $plugins, static function ( $plugin ) {

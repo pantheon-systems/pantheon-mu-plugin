@@ -94,6 +94,10 @@ function _pantheon_upstream_update_notice() {
 	 * everywhere.
 	 */
 	if ( ! _pantheon_is_wordpress_core_latest() ) {
+		/**
+		 * If WP core is out of date, alter the message and show the nag
+		 * everywhere.
+		 */
 		// Translators: %s is a URL to the user's Pantheon Dashboard.
 		$notice_message = sprintf( __( 'A new WordPress update is available! Please update from <a href="%s">your Pantheon dashboard</a>.', 'pantheon-systems' ), 'https://dashboard.pantheon.io/sites/' . $_ENV['PANTHEON_SITE'] );
 	}
