@@ -214,6 +214,20 @@ abstract class Base {
 	protected function persist_data( array $plugin_methods = [] ) {
 		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
 		$old = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
+
+		// Deal with the timestamp to prevent overwriting with updated times.
+		$plugin_timestamp = $old['plugin_timestamp'];
+		$cached_plugin_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
+		// If there is a cached version but nothing from $old, use the cached version.
+		if ( $cached_plugin_timestamp && empty( $plugin_timestamp ) ) {
+			$plugin_timestamp = $cached_plugin_timestamp;
+		}
+		// If there's still no value, set a new value and cache it.
+		if ( empty( $plugin_timestamp )  ) {
+			$plugin_timestamp = time();
+			wp_cache_set( 'plugin_timestamp', $plugin_timestamp, 'pantheon_compatibility' );
+		}
+
 		$pantheon_applied_fixes[ static::$plugin_slug ] = [
 			'plugin_slug' => static::$plugin_slug,
 			'plugin_name' => static::$plugin_name,
@@ -221,7 +235,7 @@ abstract class Base {
 			'plugin_message' => esc_html__( 'Manual fixes can be safely removed.', 'pantheon' ),
 			'plugin_class' => static::class,
 			'plugin_methods' => implode( ',', $plugin_methods ),
-			'plugin_timestamp' => time(),
+			'plugin_timestamp' => $plugin_timestamp,
 		];
 		// Update the option with the modified array.
 		if ( $pantheon_applied_fixes[ static::$plugin_slug ] !== $old ) {
