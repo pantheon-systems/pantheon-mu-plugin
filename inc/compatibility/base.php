@@ -214,17 +214,22 @@ abstract class Base {
 	protected function persist_data( array $plugin_methods = [] ) {
 		$pantheon_applied_fixes = get_option( 'pantheon_applied_fixes' ) ?: [];
 		$old = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
+		$cached_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
 
 		// Deal with the timestamp to prevent overwriting with updated times.
-		$plugin_timestamp = isset( $old['plugin_timestamp'] ) ? $old['plugin_timestamp'] : null;
-		$cached_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
-		// If there is a cached version but nothing from $old, use the cached version.
-		if ( $cached_timestamp && empty( $plugin_timestamp ) ) {
+		if ( $cached_timestamp ) {
+			// Prioritize the cached timestamp.
 			$plugin_timestamp = $cached_timestamp;
-		}
-		// If there's still no value, set a new value and cache it.
-		if ( empty( $plugin_timestamp ) ) {
-			$plugin_timestamp = time();
+		} else {
+			// Fall back to the timestamp from $old if it exists.
+			$plugin_timestamp = isset( $old['plugin_timestamp'] ) ? $old['plugin_timestamp'] : null;
+
+			// If $old was empty, generate a new timestamp.
+			if ( empty( $plugin_timestamp ) ) {
+				$plugin_timestamp = time();
+			}
+
+			// Cache the determined timestamp (either from $old or newly generated).
 			wp_cache_set( 'plugin_timestamp', $plugin_timestamp, 'pantheon_compatibility' );
 		}
 
