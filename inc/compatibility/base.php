@@ -223,7 +223,7 @@ abstract class Base {
 			$plugin_timestamp = $cached_plugin_timestamp;
 		}
 		// If there's still no value, set a new value and cache it.
-		if ( empty( $plugin_timestamp )  ) {
+		if ( empty( $plugin_timestamp ) ) {
 			$plugin_timestamp = time();
 			wp_cache_set( 'plugin_timestamp', $plugin_timestamp, 'pantheon_compatibility' );
 		}
