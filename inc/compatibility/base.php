@@ -216,7 +216,7 @@ abstract class Base {
 		$old = $pantheon_applied_fixes[ static::$plugin_slug ] ?? [];
 
 		// Deal with the timestamp to prevent overwriting with updated times.
-		$plugin_timestamp = isset( $old['plugin_timestamp' ] ) ? $old['plugin_timestamp'] : null;
+		$plugin_timestamp = isset( $old['plugin_timestamp'] ) ? $old['plugin_timestamp'] : null;
 		$cached_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
 		// If there is a cached version but nothing from $old, use the cached version.
 		if ( $cached_timestamp && empty( $plugin_timestamp ) ) {
