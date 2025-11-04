@@ -217,10 +217,10 @@ abstract class Base {
 
 		// Deal with the timestamp to prevent overwriting with updated times.
 		$plugin_timestamp = $old['plugin_timestamp'];
-		$cached_plugin_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
+		$cached_timestamp = wp_cache_get( 'plugin_timestamp', 'pantheon_compatibility' );
 		// If there is a cached version but nothing from $old, use the cached version.
-		if ( $cached_plugin_timestamp && empty( $plugin_timestamp ) ) {
-			$plugin_timestamp = $cached_plugin_timestamp;
+		if ( $cached_timestamp && empty( $plugin_timestamp ) ) {
+			$plugin_timestamp = $cached_timestamp;
 		}
 		// If there's still no value, set a new value and cache it.
 		if ( empty( $plugin_timestamp ) ) {
