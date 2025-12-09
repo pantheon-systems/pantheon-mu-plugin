@@ -7,22 +7,8 @@
 
 use Pantheon\Compatibility\CompatibilityFactory;
 use Pantheon\Compatibility\ForceLogin;
-use Pantheon\Compatibility\Base;
 
-/**
- * Stub compatibility class for testing Base::persist_data().
- */
-class Stub_Compatibility_Plugin extends Base {
-	protected $run_fix_everytime = true;
-
-	public function apply_fix() {}
-
-	public function remove_fix() {}
-
-	public function call_persist_data( array $plugin_methods = [] ) {
-		$this->persist_data( $plugin_methods );
-	}
-}
+require_once __DIR__ . '/stubs/class-stub-compatibility-plugin.php';
 
 /**
  * Pantheon Compatibility Layer Test Case
