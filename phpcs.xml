@@ -68,7 +68,24 @@
 		<exclude name="Generic.Commenting.DocComment.MissingShort">
 			<exclude-pattern>inc/pantheon-page-cache.php</exclude-pattern>
 		</exclude>
-
+		<exclude name="Squiz.Commenting.BlockComment.NoEmptyLineBefore">
+			<exclude-pattern>inc/includes-network.php</exclude-pattern>
+		</exclude>
+		<exclude name="WordPressVIPMinimum.Functions.RestrictedFunctions.directory_mkdir">
+			<exclude-pattern>tests/*.php</exclude-pattern>
+		</exclude>
+		<exclude name="WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_file_put_contents">
+			<exclude-pattern>tests/*.php</exclude-pattern>
+		</exclude>
+		<exclude name="WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir">
+			<exclude-pattern>tests/*.php</exclude-pattern>
+		</exclude>
+		<exclude name="WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_unlink">
+			<exclude-pattern>tests/*.php</exclude-pattern>
+		</exclude>
+		<exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+			<exclude-pattern>tests/*.php</exclude-pattern>
+		</exclude>
 		<exclude name="Pantheon_WP.Commenting.DisallowMultilineSlashComment.LongLine">
 			<exclude-pattern>inc/network/includes-network.php</exclude-pattern>
 		</exclude>
