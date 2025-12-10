@@ -8,6 +8,7 @@
 use Pantheon\Compatibility\CompatibilityFactory;
 use Pantheon\Compatibility\ForceLogin;
 
+require_once __DIR__ . '/stubs/class-stub-compatibility-plugin.php';
 
 /**
  * Pantheon Compatibility Layer Test Case
@@ -107,5 +108,30 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 		$review_table = Pantheon\Site_Health\output_compatibility_status_table( $review_fixes, false, true );
 		$this->assertStringContainsString( 'Phastpress', $review_table );
 		$this->assertStringContainsString( 'Incompatible', $review_table );
+	}
+
+	/**
+	 * Test that persist_data preserves the original timestamp across multiple calls.
+	 */
+	public function test_persist_data_preserves_timestamp() {
+		$slug = 'test-plugin/test-plugin.php';
+
+		delete_option( 'pantheon_applied_fixes' );
+		wp_cache_delete( 'plugin_timestamp', 'pantheon_compatibility' );
+
+		$plugin = new Stub_Compatibility_Plugin( $slug );
+
+		$plugin->call_persist_data( [ 'run_fix_everytime' ] );
+		$first_timestamp = get_option( 'pantheon_applied_fixes' )[ $slug ]['plugin_timestamp'];
+
+		wp_cache_delete( 'plugin_timestamp', 'pantheon_compatibility' );
+		sleep( 1 );
+
+		$plugin->call_persist_data( [ 'run_fix_everytime' ] );
+		$second_timestamp = get_option( 'pantheon_applied_fixes' )[ $slug ]['plugin_timestamp'];
+
+		$this->assertSame( $first_timestamp, $second_timestamp, 'Timestamp should not change between calls' );
+
+		delete_option( 'pantheon_applied_fixes' );
 	}
 }
