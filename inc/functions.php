@@ -125,12 +125,12 @@ function _pantheon_render_notice( $args = [] ) {
 	}
 	?>
 	<div class="<?php echo esc_attr( implode( ' ', $notice_classes ) ); ?>">
-		<div class="pantheon-notice__aside">
-			<div class="pantheon-notice__icon-wrapper">
+		<div class="pantheon-notice-aside">
+			<div class="pantheon-notice-icon-wrapper">
 				<img src="<?php echo esc_url( $args['logo_url'] ); ?>" alt="Pantheon" width="48" height="48">
 			</div>
 		</div>
-		<div class="pantheon-notice__content">
+		<div class="pantheon-notice-content">
 			<?php if ( $args['heading'] ) : ?>
 				<h3><?php echo esc_html( $args['heading'] ); ?></h3>
 			<?php endif; ?>
@@ -140,7 +140,7 @@ function _pantheon_render_notice( $args = [] ) {
 			<?php endif; ?>
 
 			<?php if ( $args['button_url'] && $args['button_text'] ) : ?>
-				<div class="pantheon-notice__actions">
+				<div class="pantheon-notice-actions">
 					<p>
 						<a href="<?php echo esc_url( $args['button_url'] ); ?>"
 							class="button"
