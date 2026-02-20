@@ -118,7 +118,7 @@ class Pantheon_Cache {
 		add_filter( 'rest_post_dispatch', [ $this, 'filter_rest_post_dispatch_send_cache_control' ], 10, 2 );
 
 		add_action( 'admin_notices', function () {
-			// Check if WP Redis plugin is active but Redis service is not available
+			// Check if WP Redis plugin is active but Redis service is not available.
 			if ( ! function_exists( 'is_plugin_active' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
@@ -126,18 +126,18 @@ class Pantheon_Cache {
 			$wp_redis_active = is_plugin_active( 'wp-redis/wp-redis.php' );
 			$redis_available = isset( $_ENV['CACHE_HOST'] ) && ! empty( $_ENV['CACHE_HOST'] );
 
-			// Only show notice if WP Redis is active but Redis is not available
+			// Only show notice if WP Redis is active but Redis is not available.
 			if ( ! $wp_redis_active || $redis_available ) {
 				return;
 			}
 
-			// Suppress the default WP Redis notice if it exists
+			// Suppress the default WP Redis notice if it exists.
 			global $wp_object_cache;
 			if ( isset( $wp_object_cache->missing_redis_message ) ) {
 				$wp_object_cache->missing_redis_message = '';
 			}
 
-			// Get the Pantheon dashboard URL for Redis settings
+			// Get the Pantheon dashboard URL for Redis settings.
 			$redis_path = '';
 			if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 				$redis_path = '#' . $_ENV['PANTHEON_ENVIRONMENT'] . '/redis';
@@ -145,19 +145,20 @@ class Pantheon_Cache {
 			$dashboard_url = Pantheon\_pantheon_get_dashboard_url( $redis_path );
 
 			$message = sprintf(
+				// translators: %s is a link to the Pantheon Redis documentation.
 				__( 'The Pantheon Redis service needs to be enabled before the WP Redis object cache will function properly. <a href="%s" target="_blank">Learn more about Redis on Pantheon</a>.', 'pantheon-cache' ),
 				'https://docs.pantheon.io/object-cache'
 			);
 
 			Pantheon\_pantheon_render_notice(
-				array(
+				[
 					'type'        => 'error',
 					'heading'     => __( 'Redis Service Not Enabled', 'pantheon-cache' ),
 					'message'     => $message,
 					'button_text' => __( 'Enable Redis', 'pantheon-cache' ),
 					'button_url'  => $dashboard_url,
 					'dismissible' => false,
-				)
+				]
 			);
 		}, 9 );
 
@@ -366,11 +367,11 @@ class Pantheon_Cache {
 			<?php
 			if ( ! empty( $_GET['cache-cleared'] ) && 'true' === $_GET['cache-cleared'] ) :
 				Pantheon\_pantheon_render_notice(
-					array(
+					[
 						'type'        => 'success',
 						'message'     => __( 'Site cache flushed.', 'pantheon-cache' ),
 						'dismissible' => true,
-					)
+					]
 				);
 			endif;
 			?>
@@ -383,11 +384,11 @@ class Pantheon_Cache {
 					'https://docs.pantheon.io/guides/wordpress-configurations/wordpress-cache-plugin'
 				);
 				Pantheon\_pantheon_render_notice(
-					array(
+					[
 						'type'    => 'success',
 						'heading' => __( 'Advanced Page Cache Active', 'pantheon-cache' ),
 						'message' => $message,
-					)
+					]
 				);
 			else :
 				$message = sprintf(
@@ -396,13 +397,13 @@ class Pantheon_Cache {
 					'https://docs.pantheon.io/guides/wordpress-configurations/wordpress-cache-plugin'
 				);
 				Pantheon\_pantheon_render_notice(
-					array(
+					[
 						'type'        => 'info',
 						'heading'     => __( 'Enhance Your Cache', 'pantheon-cache' ),
 						'message'     => $message,
 						'button_text' => __( 'Install Plugin', 'pantheon-cache' ),
 						'button_url'  => admin_url( 'plugin-install.php?s=pantheon+advanced+page+cache&tab=search&type=term' ),
-					)
+					]
 				);
 			endif;
 			?>

@@ -20,14 +20,14 @@ function _pantheon_plugin_install_notice() {
 		$message = __( 'If you wish to update or add plugins using the WordPress UI, switch your site to SFTP mode from your Pantheon dashboard.', 'pantheon-systems' );
 
 		Pantheon\_pantheon_render_notice(
-			array(
+			[
 				'type'        => 'warning',
 				'heading'     => __( 'Your Site is in Git Mode', 'pantheon-systems' ),
 				'message'     => $message,
 				'button_text' => __( 'Go to the Dashboard', 'pantheon-systems' ),
 				'button_url'  => $dashboard_url,
 				'dismissible' => true,
-			)
+			]
 		);
 	}
 }

@@ -72,7 +72,7 @@ function _pantheon_get_dashboard_url( $path = '' ) {
 
 	$site_id = $_ENV['PANTHEON_SITE'];
 
-	// Validate that PANTHEON_SITE matches expected UUID format
+	// Validate that PANTHEON_SITE matches expected UUID format.
 	if ( ! preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i', $site_id ) ) {
 		return '';
 	}
@@ -101,8 +101,8 @@ function _pantheon_get_dashboard_url( $path = '' ) {
  * }
  * @return void
  */
-function _pantheon_render_notice( $args = array() ) {
-	$defaults = array(
+function _pantheon_render_notice( $args = [] ) {
+	$defaults = [
 		'type'        => 'warning',
 		'heading'     => '',
 		'message'     => '',
@@ -110,15 +110,15 @@ function _pantheon_render_notice( $args = array() ) {
 		'button_url'  => '',
 		'logo_url'    => plugins_url( 'assets/images/logo-fist-black.webp', __FILE__ ),
 		'dismissible' => false,
-	);
+	];
 
 	$args = wp_parse_args( $args, $defaults );
 
-	$notice_classes = array(
+	$notice_classes = [
 		'notice',
 		'notice-' . esc_attr( $args['type'] ),
 		'pantheon-notice',
-	);
+	];
 
 	if ( $args['dismissible'] ) {
 		$notice_classes[] = 'is-dismissible';
@@ -143,9 +143,9 @@ function _pantheon_render_notice( $args = array() ) {
 				<div class="pantheon-notice__actions">
 					<p>
 						<a href="<?php echo esc_url( $args['button_url'] ); ?>"
-						   class="button"
-						   target="_blank"
-						   rel="noopener noreferrer">
+							class="button"
+							target="_blank"
+							rel="noopener noreferrer">
 							<?php echo esc_html( $args['button_text'] ); ?>
 						</a>
 					</p>
@@ -165,7 +165,7 @@ function _pantheon_enqueue_notice_styles() {
 	wp_enqueue_style(
 		'pantheon-notice',
 		plugin_dir_url( __FILE__ ) . 'assets/css/pantheon-notice.css',
-		array(),
+		[],
 		PANTHEON_MU_PLUGIN_VERSION
 	);
 }

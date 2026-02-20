@@ -25,14 +25,14 @@ function pantheon_multisite_install_finalize_message() {
 		);
 
 		Pantheon\_pantheon_render_notice(
-			array(
+			[
 				'type'        => 'info',
 				'heading'     => __( 'Your WordPress Multisite is almost ready!', 'pantheon' ),
 				'message'     => $message,
 				'button_text' => __( 'View Documentation', 'pantheon' ),
 				'button_url'  => $docs_url,
 				'dismissible' => true,
-			)
+			]
 		);
 	} else {
 		$support_url = 'https://pantheon.io/support';
@@ -43,14 +43,14 @@ function pantheon_multisite_install_finalize_message() {
 		);
 
 		Pantheon\_pantheon_render_notice(
-			array(
+			[
 				'type'        => 'warning',
 				'heading'     => __( 'You are trying to configure a WordPress Multisite with a wrong upstream!', 'pantheon' ),
 				'message'     => $message,
 				'button_text' => __( 'Contact Support', 'pantheon' ),
 				'button_url'  => $support_url,
 				'dismissible' => true,
-			)
+			]
 		);
 	}
 }

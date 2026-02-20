@@ -80,7 +80,7 @@ function _pantheon_is_wordpress_core_prerelease(): bool {
 function _pantheon_upstream_update_notice() {
 	$screen = get_current_screen();
 
-	// Check if using a pre-release version of WordPress
+	// Check if using a pre-release version of WordPress.
 	if ( _pantheon_is_wordpress_core_prerelease() ) {
 		_pantheon_prerelease_notice();
 		return;
@@ -90,34 +90,36 @@ function _pantheon_upstream_update_notice() {
 	$is_update_page = 'update-core' === $screen->id || 'update-core-network' === $screen->id;
 	$core_update_available = ! _pantheon_is_wordpress_core_latest();
 
-	// If core update is available, show the update notice on ALL pages
+	// If core update is available, show the update notice on ALL pages.
 	if ( $core_update_available ) {
 		$message = sprintf(
+			// translators: %s is a link to the Pantheon upstream updates documentation.
 			__( 'For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation. If you need help, contact an administrator for your Pantheon organization.', 'pantheon-systems' ),
 			'https://docs.pantheon.io/core-updates'
 		);
 
-		Pantheon\_pantheon_render_notice( array(
+		Pantheon\_pantheon_render_notice( [
 			'type'        => 'warning',
 			'heading'     => __( 'A new WordPress update is available!', 'pantheon-systems' ),
 			'message'     => $message,
 			'button_text' => __( 'Pantheon Dashboard', 'pantheon-systems' ),
 			'button_url'  => $dashboard_url,
-		) );
+		] );
 	} elseif ( $is_update_page ) {
-		// If no update is available but we're on the update pages, show the "Check for updates" message
+		// If no update is available but we're on the update pages, show the "Check for updates" message.
 		$message = sprintf(
+			// translators: %s is a link to the Pantheon upstream updates documentation.
 			__( 'WordPress core updates can be applied via the Pantheon Dashboard. For details on applying updates, see the <a href="%s">Applying Upstream Updates</a> documentation. If you need help, contact an administrator for your Pantheon organization.', 'pantheon-systems' ),
 			'https://docs.pantheon.io/core-updates'
 		);
 
-		Pantheon\_pantheon_render_notice( array(
+		Pantheon\_pantheon_render_notice( [
 			'type'        => 'warning',
 			'heading'     => __( 'Check for Updates', 'pantheon-systems' ),
 			'message'     => $message,
 			'button_text' => __( 'Pantheon Dashboard', 'pantheon-systems' ),
 			'button_url'  => $dashboard_url,
-		) );
+		] );
 	}
 }
 
@@ -135,16 +137,16 @@ function _pantheon_prerelease_notice() {
 		$wp_version
 	);
 
-	// Add extra info on the updates page
+	// Add extra info on the updates page.
 	if ( 'update-core' === $screen->id || 'update-core-network' === $screen->id ) {
 		$message .= ' ' . __( 'You are responsible for keeping WordPress up-to-date. Pantheon updates to WordPress will not appear in the dashboard as long as you\'re using a pre-release version. If you are using the Beta Tester plugin, you must have your site in SFTP mode to get the latest updates to your Pantheon Dev environment.', 'pantheon-systems' );
 	}
 
-	Pantheon\_pantheon_render_notice( array(
+	Pantheon\_pantheon_render_notice( [
 		'type'    => 'info',
 		'heading' => __( 'Development Version', 'pantheon-systems' ),
 		'message' => $message,
-	) );
+	] );
 }
 
 /**
