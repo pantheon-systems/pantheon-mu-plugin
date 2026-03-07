@@ -84,6 +84,7 @@ add_filter( 'pantheon_cache_allow_clear_all', '__return_false' );
 ```
 
 #### `pantheon_elasticpress_force_https_in_cli`
+
 Filter whether to force HTTPS for `home` and `siteurl` options during ElasticPress WP-CLI commands. When running `wp elasticpress sync` via Terminus, WordPress may fall back to `http://` URLs from the database, causing ElasticPress to index content with incorrect URLs. This filter is enabled by default.
 
 **Default Value:** `true`
