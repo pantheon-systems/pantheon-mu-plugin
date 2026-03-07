@@ -24,9 +24,9 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 
 		// Store original environment variables.
 		$this->original_env = [
-			'EP_HOST'         => isset( $_ENV['EP_HOST'] ) ? $_ENV['EP_HOST'] : null,
-			'EP_INDEX_PREFIX' => isset( $_ENV['EP_INDEX_PREFIX'] ) ? $_ENV['EP_INDEX_PREFIX'] : null,
-			'EP_CREDENTIALS'  => isset( $_ENV['EP_CREDENTIALS'] ) ? $_ENV['EP_CREDENTIALS'] : null,
+			'PANTHEON_SEARCH_HOST'        => isset( $_ENV['PANTHEON_SEARCH_HOST'] ) ? $_ENV['PANTHEON_SEARCH_HOST'] : null,
+			'PANTHEON_SEARCH_ENDPOINT_ID' => isset( $_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] ) ? $_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] : null,
+			'PANTHEON_SEARCH_CREDENTIALS' => isset( $_ENV['PANTHEON_SEARCH_CREDENTIALS'] ) ? $_ENV['PANTHEON_SEARCH_CREDENTIALS'] : null,
 		];
 	}
 
@@ -50,7 +50,7 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 * Test that EP_HOST constant is defined when environment variable is set.
 	 */
 	public function test_ep_host_constant_defined_from_env() {
-		$_ENV['EP_HOST'] = 'https://example.elasticpress.io';
+		$_ENV['PANTHEON_SEARCH_HOST'] = 'https://example.elasticpress.io';
 
 		// Re-include the config file to trigger constant definitions.
 		// Note: In actual tests, constants can only be defined once per test run.
@@ -67,7 +67,7 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 * Test that EP_INDEX_PREFIX constant is defined when environment variable is set.
 	 */
 	public function test_ep_index_prefix_constant_defined_from_env() {
-		$_ENV['EP_INDEX_PREFIX'] = 'test-subscription-id';
+		$_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] = 'test-subscription-id';
 
 		if ( ! defined( 'EP_INDEX_PREFIX' ) ) {
 			require_once dirname( __DIR__, 2 ) . '/inc/elasticpress-config.php';
@@ -81,7 +81,7 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 * Test that EP_CREDENTIALS constant is defined when environment variable is set.
 	 */
 	public function test_ep_credentials_constant_defined_from_env() {
-		$_ENV['EP_CREDENTIALS'] = 'subscription-id:subscription-token';
+		$_ENV['PANTHEON_SEARCH_CREDENTIALS'] = 'subscription-id:subscription-token';
 
 		if ( ! defined( 'EP_CREDENTIALS' ) ) {
 			require_once dirname( __DIR__, 2 ) . '/inc/elasticpress-config.php';
@@ -96,9 +96,9 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 */
 	public function test_constants_not_defined_without_env_vars() {
 		// Ensure environment variables are not set.
-		unset( $_ENV['EP_HOST'] );
-		unset( $_ENV['EP_INDEX_PREFIX'] );
-		unset( $_ENV['EP_CREDENTIALS'] );
+		unset( $_ENV['PANTHEON_SEARCH_HOST'] );
+		unset( $_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] );
+		unset( $_ENV['PANTHEON_SEARCH_CREDENTIALS'] );
 
 		// Since constants may already be defined in previous tests,
 		// we can only verify the logic doesn't error when env vars are missing.
@@ -122,9 +122,9 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 */
 	public function test_empty_env_vars_dont_define_constants() {
 		// Set environment variables to empty strings.
-		$_ENV['EP_HOST']         = '';
-		$_ENV['EP_INDEX_PREFIX'] = '';
-		$_ENV['EP_CREDENTIALS']  = '';
+		$_ENV['PANTHEON_SEARCH_HOST']        = '';
+		$_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] = '';
+		$_ENV['PANTHEON_SEARCH_CREDENTIALS'] = '';
 
 		// The config file uses ! empty() which returns true for empty strings.
 		// So empty env vars should not define constants.
