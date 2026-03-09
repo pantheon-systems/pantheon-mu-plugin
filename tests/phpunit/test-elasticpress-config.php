@@ -52,13 +52,12 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	public function test_ep_host_constant_defined_from_env() {
 		$_ENV['PANTHEON_SEARCH_HOST'] = 'https://example.elasticpress.io';
 
-		// Re-include the config file to trigger constant definitions.
-		// Note: In actual tests, constants can only be defined once per test run.
-/** 
- * Re-include the config file to trigger constant definitions.
- * Note: In actual tests, constants can only be defined once per test run.
- * This test verifies the logic would work if run fresh.
- */
+		/** 
+		 * Re-include the config file to trigger constant definitions.
+		 * Note: In actual tests, constants can only be defined once per test 
+		 * run.
+		 * This test verifies the logic would work if run fresh.
+		 */
 		if ( ! defined( 'EP_HOST' ) ) {
 			require_once dirname( __DIR__, 2 ) . '/inc/elasticpress-config.php';
 		}
@@ -104,13 +103,11 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 		unset( $_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] );
 		unset( $_ENV['PANTHEON_SEARCH_CREDENTIALS'] );
 
-		// Since constants may already be defined in previous tests,
-		// we can only verify the logic doesn't error when env vars are missing.
-/** 
- * Since constants may already be defined in previous tests,
- * we can only verify the logic doesn't error when env vars are missing.
- * The actual check happens in the config file: ! empty( $_ENV['...'] )
- */
+		/** 
+		 * Since constants may already be defined in previous tests,
+		 * we can only verify the logic doesn't error when env vars are missing.
+		 * The actual check happens in the config file: ! empty( $_ENV['...'] )
+		 */
 		$this->assertTrue( true );
 	}
 
@@ -118,15 +115,13 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 	 * Test that constants are not overridden if already defined.
 	 */
 	public function test_constants_not_overridden_if_already_defined() {
-		// This test documents the behavior: if constants are already defined,
-		// they won't be overridden by the config file.
-		// The actual test would require defining constants before including the file,
-/**
- * This test documents the behavior: if constants are already defined,
- * they won't be overridden by the config file.
- * The actual test would require defining constants before including the file,
- * which is not practical in PHPUnit where constants persist across tests.
- */
+		/**
+		 * This test documents the behavior: if constants are already defined,
+		 * they won't be overridden by the config file.
+		 * The actual test would require defining constants before including 
+		 * the file, which is not practical in PHPUnit where constants persist 
+		 * across tests.
+		 */
 		$this->assertTrue( true );
 	}
 
@@ -139,13 +134,12 @@ class Test_ElasticPress_Config extends WP_UnitTestCase {
 		$_ENV['PANTHEON_SEARCH_ENDPOINT_ID'] = '';
 		$_ENV['PANTHEON_SEARCH_CREDENTIALS'] = '';
 
-		// The config file uses ! empty() which returns true for empty strings.
-		// So empty env vars should not define constants.
-/** 
- * The config file uses ! empty() which returns true for empty strings.
- * So empty env vars should not define constants.
- * We can't easily test this in isolation, but we document the expected behavior.
- */
+		/** 
+		 * The config file uses ! empty() which returns true for empty strings.
+		 * So empty env vars should not define constants.
+		 * We can't easily test this in isolation, but we document the expected
+		 * behavior.
+		 */
 		$this->assertTrue( true );
 	}
 
