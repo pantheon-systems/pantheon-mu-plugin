@@ -10,41 +10,38 @@
  */
 class Test_ElasticPress_CLI extends WP_UnitTestCase {
 	/**
-	 * Test that _pantheon_ep_force_https_url replaces http with https.
+	 * Data provider for force_https_url tests.
+	 *
+	 * @return array[] Test cases with input and expected output.
 	 */
-	public function test_force_https_url_replaces_http() {
-		$this->assertEquals(
-			'https://example.com',
-			_pantheon_ep_force_https_url( 'http://example.com' )
-		);
+	public function force_https_url_provider() {
+		return [
+			'http to https'       => [ 'http://example.com', 'https://example.com' ],
+			'https unchanged'     => [ 'https://example.com', 'https://example.com' ],
+			'http with path'      => [ 'http://example.com/path', 'https://example.com/path' ],
+			'https with path'     => [ 'https://example.com/path', 'https://example.com/path' ],
+			'non-url string'      => [ 'not a url', 'not a url' ],
+			'empty string'        => [ '', '' ],
+			'http in middle'      => [ 'prefix http://example.com', 'prefix http://example.com' ],
+			'null value'          => [ null, null ],
+			'false value'         => [ false, false ],
+			'integer value'       => [ 123, 123 ],
+		];
 	}
 
 	/**
-	 * Test that _pantheon_ep_force_https_url does not modify https URLs.
+	 * Test _pantheon_ep_force_https_url with various inputs.
+	 *
+	 * @dataProvider force_https_url_provider
+	 *
+	 * @param mixed $input    The input value.
+	 * @param mixed $expected The expected output.
 	 */
-	public function test_force_https_url_preserves_https() {
-		$this->assertEquals(
-			'https://example.com',
-			_pantheon_ep_force_https_url( 'https://example.com' )
+	public function test_force_https_url( $input, $expected ) {
+		$this->assertSame(
+			$expected,
+			\Pantheon\CLI\_pantheon_ep_force_https_url( $input )
 		);
-	}
-
-	/**
-	 * Test that _pantheon_ep_force_https_url does not modify non-URL strings.
-	 */
-	public function test_force_https_url_ignores_non_url_strings() {
-		$this->assertEquals(
-			'not a url',
-			_pantheon_ep_force_https_url( 'not a url' )
-		);
-	}
-
-	/**
-	 * Test that _pantheon_ep_force_https_url handles non-string values.
-	 */
-	public function test_force_https_url_handles_non_string() {
-		$this->assertNull( _pantheon_ep_force_https_url( null ) );
-		$this->assertFalse( _pantheon_ep_force_https_url( false ) );
 	}
 
 	/**
@@ -57,22 +54,29 @@ class Test_ElasticPress_CLI extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test that the option_home filter works when applied.
+	 * Data provider for option filter tests.
+	 *
+	 * @return array[] Test cases with option name.
 	 */
-	public function test_option_home_filter_forces_https() {
-		add_filter( 'option_home', '_pantheon_ep_force_https_url' );
-		update_option( 'home', 'http://example.com' );
-		$this->assertEquals( 'https://example.com', get_option( 'home' ) );
-		remove_filter( 'option_home', '_pantheon_ep_force_https_url' );
+	public function option_filter_provider() {
+		return [
+			'home option'    => [ 'home' ],
+			'siteurl option' => [ 'siteurl' ],
+		];
 	}
 
 	/**
-	 * Test that the option_siteurl filter works when applied.
+	 * Test that option filters force HTTPS.
+	 *
+	 * @dataProvider option_filter_provider
+	 *
+	 * @param string $option The option name to test.
 	 */
-	public function test_option_siteurl_filter_forces_https() {
-		add_filter( 'option_siteurl', '_pantheon_ep_force_https_url' );
-		update_option( 'siteurl', 'http://example.com' );
-		$this->assertEquals( 'https://example.com', get_option( 'siteurl' ) );
-		remove_filter( 'option_siteurl', '_pantheon_ep_force_https_url' );
+	public function test_option_filter_forces_https( $option ) {
+		$filter_name = 'option_' . $option;
+		add_filter( $filter_name, '\\Pantheon\\CLI\\_pantheon_ep_force_https_url' );
+		update_option( $option, 'http://example.com' );
+		$this->assertEquals( 'https://example.com', get_option( $option ) );
+		remove_filter( $filter_name, '\\Pantheon\\CLI\\_pantheon_ep_force_https_url' );
 	}
 }
