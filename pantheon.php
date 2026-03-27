@@ -27,6 +27,7 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	}
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		require_once 'inc/cli.php';
+		require_once 'inc/elasticpress-cli.php';
 	}
 	if ( ! defined( 'FS_METHOD' ) ) {
 		/**
