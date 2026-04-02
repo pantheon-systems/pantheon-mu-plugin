@@ -83,6 +83,17 @@ Allows you to disable the ability to clear the entire cache from the WordPress a
 add_filter( 'pantheon_cache_allow_clear_all', '__return_false' );
 ```
 
+#### `pantheon_elasticpress_force_https_in_cli`
+
+Filter whether to force HTTPS for `home` and `siteurl` options during ElasticPress WP-CLI commands. When running `wp elasticpress sync` via Terminus, WordPress may fall back to `http://` URLs from the database, causing ElasticPress to index content with incorrect URLs. This filter is enabled by default.
+
+**Default Value:** `true`
+
+**Example:**
+```php
+add_filter( 'pantheon_elasticpress_force_https_in_cli', '__return_false' );
+```
+
 #### `pantheon_skip_cache_control`
 Allows you to disable the cache control headers that are sent by the Pantheon Page Cache plugin.
 
