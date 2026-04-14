@@ -9,44 +9,33 @@
  * Server-side operations (indexing, admin queries, WP_Query integration)
  * continue to route through the mtlsproxy for authenticated access.
  *
- * @package pantheonex
+ * @package pantheon
  */
 
 namespace Pantheon\ElasticPress;
-
-if ( ! defined( 'EP_DIRECT_HOST' ) && ! empty( $_ENV['EP_DIRECT_HOST'] ) ) {
-	define( 'EP_DIRECT_HOST', $_ENV['EP_DIRECT_HOST'] );
-}
 
 if ( ! defined( 'EP_DIRECT_HOST' ) ) {
 	return;
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\override_autosuggest_endpoint', 5 );
+add_filter( 'ep_autosuggest_options', __NAMESPACE__ . '\\filter_autosuggest_options' );
 add_filter( 'ep_instant_results_search_endpoint', __NAMESPACE__ . '\\filter_instant_results_endpoint', 10, 2 );
 
 /**
- * Define EP_AUTOSUGGEST_ENDPOINT to point at the direct ElasticPress.io host.
+ * Override the Autosuggest endpoint URL to use the direct ElasticPress.io host.
  *
- * Runs at plugins_loaded so that the ElasticPress plugin and its Indexables
- * registry are available.
+ * @param array $options The autosuggest options passed to the browser JS.
+ * @return array Modified options with the direct endpoint URL.
  */
-function override_autosuggest_endpoint() {
-	if ( defined( 'EP_AUTOSUGGEST_ENDPOINT' ) ) {
-		return;
-	}
-
-	if ( ! class_exists( '\\ElasticPress\\Indexables' ) ) {
-		return;
-	}
-
+function filter_autosuggest_options( $options ) {
 	$post_indexable = \ElasticPress\Indexables::factory()->get( 'post' );
 	if ( ! $post_indexable ) {
-		return;
+		return $options;
 	}
 
 	$index = $post_indexable->get_index_name();
-	define( 'EP_AUTOSUGGEST_ENDPOINT', EP_DIRECT_HOST . '/' . $index . '/autosuggest' );
+	$options['endpointUrl'] = EP_DIRECT_HOST . '/' . $index . '/autosuggest';
+	return $options;
 }
 
 /**
