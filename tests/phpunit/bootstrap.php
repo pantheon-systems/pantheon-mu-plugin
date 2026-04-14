@@ -19,6 +19,7 @@ require_once $_tests_dir . '/includes/functions.php';
 function _manually_load_plugin() {
 	// Set the Pantheon environment variable.
 	$_ENV['PANTHEON_ENVIRONMENT'] = 'dev';
+	$_ENV['EP_DIRECT_HOST'] = 'https://test.hosted-elasticpress.io';
 
 	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		putenv( 'FRAMEWORK=wordpress_network' ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv
