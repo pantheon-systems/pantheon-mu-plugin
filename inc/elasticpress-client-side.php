@@ -19,7 +19,7 @@ if ( ! defined( 'EP_DIRECT_HOST' ) ) {
 }
 
 add_filter( 'ep_autosuggest_options', __NAMESPACE__ . '\\filter_autosuggest_options' );
-add_filter( 'ep_instant_results_search_endpoint', __NAMESPACE__ . '\\filter_instant_results_endpoint', 10, 2 );
+add_filter( 'ep_instant_results_search_endpoint', __NAMESPACE__ . '\\filter_instant_results_endpoint' );
 
 /**
  * Override the Autosuggest endpoint URL to use the direct ElasticPress.io host.
@@ -28,12 +28,11 @@ add_filter( 'ep_instant_results_search_endpoint', __NAMESPACE__ . '\\filter_inst
  * @return array Modified options with the direct endpoint URL.
  */
 function filter_autosuggest_options( $options ) {
-	$post_indexable = \ElasticPress\Indexables::factory()->get( 'post' );
-	if ( ! $post_indexable ) {
+	$index = get_post_index_name();
+	if ( ! $index ) {
 		return $options;
 	}
 
-	$index = $post_indexable->get_index_name();
 	$options['endpointUrl'] = EP_DIRECT_HOST . '/' . $index . '/autosuggest';
 	return $options;
 }
@@ -42,9 +41,27 @@ function filter_autosuggest_options( $options ) {
  * Filter the Instant Results search endpoint to use the direct ElasticPress.io URL.
  *
  * @param string $endpoint The default endpoint path.
- * @param string $index    The Elasticsearch index name.
  * @return string The full direct ElasticPress.io endpoint URL.
  */
-function filter_instant_results_endpoint( $endpoint, $index ) {
+function filter_instant_results_endpoint( $endpoint ) {
+	$index = get_post_index_name();
+	if ( ! $index ) {
+		return $endpoint;
+	}
+
 	return EP_DIRECT_HOST . '/api/v1/search/posts/' . $index;
+}
+
+/**
+ * Get the ElasticPress post index name.
+ *
+ * @return string|false The index name, or false if unavailable.
+ */
+function get_post_index_name() {
+	$post_indexable = \ElasticPress\Indexables::factory()->get( 'post' );
+	if ( ! $post_indexable ) {
+		return false;
+	}
+
+	return $post_indexable->get_index_name();
 }
