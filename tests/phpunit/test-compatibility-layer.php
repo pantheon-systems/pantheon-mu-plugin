@@ -110,6 +110,29 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Incompatible', $review_table );
 	}
 
+	public function test_independent_analytics_defines_constant() {
+		$this->set_active_plugin( 'independent-analytics/iawp.php' );
+		$ia = new \Pantheon\Compatibility\IndependentAnalytics( 'independent-analytics/iawp.php' );
+		$ia->apply_fix();
+
+		$this->assertTrue( defined( 'IAWP_TEMP_DIR' ) );
+		$this->assertSame( '/code/wp-content/uploads/iawp/', IAWP_TEMP_DIR );
+	}
+
+	public function test_independent_analytics_registers_deactivation_hook() {
+		$this->set_active_plugin( 'independent-analytics/iawp.php' );
+		new \Pantheon\Compatibility\IndependentAnalytics( 'independent-analytics/iawp.php' );
+		global $wp_filter;
+		$this->assertTrue( array_key_exists( 'deactivate_independent-analytics/iawp.php', $wp_filter ) );
+	}
+
+	public function test_independent_analytics_pro_registers_deactivation_hook() {
+		$this->set_active_plugin( 'independent-analytics-pro/iawp.php' );
+		new \Pantheon\Compatibility\IndependentAnalyticsPro( 'independent-analytics-pro/iawp.php' );
+		global $wp_filter;
+		$this->assertTrue( array_key_exists( 'deactivate_independent-analytics-pro/iawp.php', $wp_filter ) );
+	}
+
 	/**
 	 * Test that persist_data preserves the original timestamp across multiple calls.
 	 */
