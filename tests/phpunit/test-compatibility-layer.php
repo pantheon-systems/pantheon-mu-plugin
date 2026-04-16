@@ -112,8 +112,8 @@ class Test_Compatibility_Layer extends WP_UnitTestCase {
 
 	public function test_independent_analytics_defines_constant() {
 		$this->set_active_plugin( 'independent-analytics/iawp.php' );
-		$ia = new \Pantheon\Compatibility\IndependentAnalytics( 'independent-analytics/iawp.php' );
-		$ia->apply_fix();
+		$iawp = new \Pantheon\Compatibility\IndependentAnalytics( 'independent-analytics/iawp.php' );
+		$iawp->apply_fix();
 
 		$this->assertTrue( defined( 'IAWP_TEMP_DIR' ) );
 		$this->assertSame( '/code/wp-content/uploads/iawp/', IAWP_TEMP_DIR );
