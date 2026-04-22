@@ -22,6 +22,7 @@ class SliderRevolution extends Base {
 	protected $run_fix_everytime = true;
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function apply_fix() {
