@@ -25,7 +25,7 @@ When a commit lands on `main`, the release workflow reads the version and applie
   1. Creates a Git tag for that version (no `v` prefix, per existing convention).
   2. Publishes a GitHub Release with auto-generated release notes.
   3. Increments the patch version and appends `-dev` (e.g. `1.5.7` → `1.5.8-dev`), updating both occurrences in `pantheon.php`.
-  4. Opens a PR with the bump and enables auto-merge — it merges automatically.
+  4. Opens a PR with the bump and enables auto-merge.
 
 ### Shipping a release
 
