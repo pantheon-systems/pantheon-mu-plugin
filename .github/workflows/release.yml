@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: release
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Tag, Release, and Version Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Read version from pantheon.php
+        id: version
+        run: |
+          VERSION=$(grep -oP "define\( 'PANTHEON_MU_PLUGIN_VERSION', '\K[^']+" pantheon.php)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Detected version: $VERSION"
+
+      - name: Check whether this is a release version
+        id: check
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if [[ "$VERSION" == *-dev ]]; then
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
+            echo "Version $VERSION ends in -dev — skipping release."
+          else
+            echo "is_release=true" >> "$GITHUB_OUTPUT"
+            echo "Version $VERSION is a release candidate — proceeding."
+          fi
+
+      - name: Configure git identity
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          git config user.email "bot@getpantheon.com"
+          git config user.name "Pantheon Robot"
+
+      - name: Create Git tag
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          git tag "$VERSION"
+          git push origin "$VERSION"
+
+      - name: Create GitHub Release
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          gh release create "$VERSION" \
+            --generate-notes \
+            --title "$VERSION"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute next dev version
+        if: steps.check.outputs.is_release == 'true'
+        id: next
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          NEXT_PATCH=$(( PATCH + 1 ))
+          NEXT_VERSION="${MAJOR}.${MINOR}.${NEXT_PATCH}-dev"
+          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Next dev version: $NEXT_VERSION"
+
+      - name: Bump version in pantheon.php
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          NEXT="${{ steps.next.outputs.next_version }}"
+          sed -i "s/^\( \* Version: \).*/\1${NEXT}/" pantheon.php
+          sed -i "s/\(define( 'PANTHEON_MU_PLUGIN_VERSION', '\)[^']*\(.*\)/\1${NEXT}\2/" pantheon.php
+
+      - name: Verify both version strings were updated
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          NEXT="${{ steps.next.outputs.next_version }}"
+          COUNT=$(grep -c "$NEXT" pantheon.php)
+          if [ "$COUNT" -lt 2 ]; then
+            echo "ERROR: Expected at least 2 occurrences of $NEXT in pantheon.php, found $COUNT"
+            grep -n "Version\|PANTHEON_MU_PLUGIN_VERSION" pantheon.php
+            exit 1
+          fi
+          echo "Both version strings updated to $NEXT"
+          grep -n "Version\|PANTHEON_MU_PLUGIN_VERSION" pantheon.php
+
+      - name: Open version bump PR
+        if: steps.check.outputs.is_release == 'true'
+        run: |
+          NEXT="${{ steps.next.outputs.next_version }}"
+          BRANCH="chore/bump-version-${NEXT}"
+          git checkout -b "$BRANCH"
+          git add pantheon.php
+          git commit -m "chore: bump version to ${NEXT}"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: bump version to ${NEXT}" \
+            --body "Automated version bump after release. Merges automatically." \
+            --base main \
+            --head "$BRANCH"
+          gh pr merge "$BRANCH" --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

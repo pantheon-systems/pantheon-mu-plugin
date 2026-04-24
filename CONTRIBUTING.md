@@ -9,11 +9,40 @@ Because the WordPress upstream is only updated when a new WordPress release is c
 
 ## Release Process
 
-When you are ready for a new `pantheon-mu-plugin` release, before cutting a new release, there are a few steps that need to be taken before you do so.
+Releases are automated via GitHub Actions and gated by the version string in `pantheon.php`.
 
-1. Update the version number in `pantheon.php` in the plugin header and the `PANTHEON_MU_PLUGIN_VERSION` constant.
-1. If there were any new files that were added to the plugin that should be excluded from the WordPress upstream, add them to the `.gitattributes` file with `export-ignore` and be sure to add them to the `$files_to_delete` array in [`update-tool/src/Update/Filters/CopyMuPlugin.php`](https://github.com/pantheon-systems/update-tool/blob/master/src/Update/Filters/CopyMuPlugin.php).
-1. Use the GitHub UI to create a new release. The tag should be the version number only (not prefixed with `v`, e.g. `1.2.1`). Use the GitHub tools to autocomplete the title and body of the release with the changelog. The release should be created from the `main` branch.
+### How it works
+
+The version appears in two places in `pantheon.php` that must always match:
+
+1. The plugin header comment: `* Version: 1.5.7-dev`
+2. The PHP constant: `define( 'PANTHEON_MU_PLUGIN_VERSION', '1.5.7-dev' );`
+
+When a commit lands on `main`, the release workflow reads the version and applies the following logic:
+
+- **Ends in `-dev`** (e.g. `1.5.7-dev`): do nothing. This is the normal working state.
+- **Does not end in `-dev`** (e.g. `1.5.7`): the workflow automatically:
+  1. Creates a Git tag for that version (no `v` prefix, per existing convention).
+  2. Publishes a GitHub Release with auto-generated release notes.
+  3. Increments the patch version and appends `-dev` (e.g. `1.5.7` → `1.5.8-dev`), updating both occurrences in `pantheon.php`.
+  4. Opens a PR with the bump and enables auto-merge — it merges automatically.
+
+### Shipping a release
+
+Update both version strings in `pantheon.php` on your PR before merging:
+
+| Goal | Change in `pantheon.php` |
+|---|---|
+| No release (normal PR) | Leave as `X.Y.Z-dev` |
+| Patch release | `1.5.7-dev` → `1.5.7` |
+| Minor release | `1.5.7-dev` → `1.6.0` |
+| Major release | `1.5.7-dev` → `2.0.0` |
+
+After a release, automation sets the working version to the next patch `-dev`. If the next release should be a minor or major bump, update `pantheon.php` again on a subsequent PR.
+
+### Manual steps that remain
+
+If new files were added that should be excluded from the WordPress upstream, add them to `.gitattributes` with `export-ignore` and update the `$files_to_delete` array in [`update-tool/src/Update/Filters/CopyMuPlugin.php`](https://github.com/pantheon-systems/update-tool/blob/master/src/Update/Filters/CopyMuPlugin.php).
 
 ## Contributing to the Compatibility Layer
 
