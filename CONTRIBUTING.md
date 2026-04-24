@@ -42,7 +42,7 @@ After a release, automation sets the working version to the next patch `-dev`. I
 
 ### Manual steps that remain
 
-If new files were added that should be excluded from the WordPress upstream, add them to `.gitattributes` with `export-ignore` and update the `$files_to_delete` array in [`update-tool/src/Update/Filters/CopyMuPlugin.php`](https://github.com/pantheon-systems/update-tool/blob/master/src/Update/Filters/CopyMuPlugin.php).
+If new files were added that should be excluded from the WordPress upstream, add them to `.gitattributes` with `export-ignore`.
 
 ## Contributing to the Compatibility Layer
 
