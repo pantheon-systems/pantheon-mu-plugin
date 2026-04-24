@@ -38,7 +38,7 @@ Update both version strings in `pantheon.php` on your PR before merging:
 | Minor release | `1.5.7-dev` → `1.6.0` |
 | Major release | `1.5.7-dev` → `2.0.0` |
 
-After a release, automation sets the working version to the next patch `-dev`. If the next release should be a minor or major bump, update `pantheon.php` again on a subsequent PR.
+After a release, automation sets the working version to the next patch `-dev`.
 
 ### Manual steps that remain
 
