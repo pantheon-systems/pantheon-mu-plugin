@@ -170,3 +170,16 @@ function _pantheon_enqueue_notice_styles() {
 	);
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\_pantheon_enqueue_notice_styles' );
+
+/**
+ * Replace http:// with https:// at the start of a URL string.
+ *
+ * @param mixed $url The option value.
+ * @return mixed The URL with https:// scheme, or the original value if not an http:// string.
+ */
+function _pantheon_ep_force_https_url( $url ) {
+	if ( is_string( $url ) && strpos( $url, 'http://' ) === 0 ) {
+		return 'https://' . substr( $url, 7 );
+	}
+	return $url;
+}

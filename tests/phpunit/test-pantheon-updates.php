@@ -131,7 +131,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		_pantheon_upstream_update_notice();
 		$output = ob_get_clean();
 	
-		$this->assertStringContainsString( 'Check for updates on', $output );
+		$this->assertStringContainsString( 'Check for Updates', $output );
 	}
 	
 	/**
@@ -144,26 +144,26 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 
 		set_current_screen( 'update-core' );
 	
-		// Simulate that the core is not the latest version.
+		// Simulate that the core is not the latest version by using a version higher than any installed WP.
 		set_site_transient(
 			'update_core',
 			(object) [
 				'updates' => [
 					(object) [
-						'current' => '6.3.1',
-						'response' => 'upgrade', 
+						'current' => '99.0.0',
+						'response' => 'upgrade',
 						'locale' => 'en_us',
 					],
 				],
-				'version_checked' => '6.2',
+				'version_checked' => self::$wp_version,
 			],
 		);
-	
+
 		ob_start();
 		_pantheon_upstream_update_notice();
 		$output = ob_get_clean();
-	
-		$this->assertStringContainsString( 'Check for updates on <a href="https://dashboard.pantheon.io/sites/test-site">your Pantheon dashboard</a>', $output );
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
 	}
 	
 	/**
