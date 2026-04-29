@@ -1,5 +1,5 @@
 name: Lint
-on: [pull_request]
+on: [pull_request_target]
 permissions:
   contents: write
   pull-requests: write
@@ -11,8 +11,20 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v4
           with:
+            repository: ${{ github.event.pull_request.head.repo.full_name }}
             ref: ${{ github.event.pull_request.head.ref }}
+        - name: Check if PHPCBF should be run
+          run: |
+            git fetch origin ${{ github.event.pull_request.base.ref }}
+            FILES_CHANGED=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD)
+            echo "$FILES_CHANGED"
+            if echo "$FILES_CHANGED" | grep -q '\.php$'; then
+              echo "php_changes=true" >> $GITHUB_ENV
+            else
+              echo "php_changes=false" >> $GITHUB_ENV
+            fi
         - name: PHPCBF
+          if: ${{ env.php_changes == 'true' }}
           run: |
             composer install
             if ! composer phpcbf; then
@@ -21,7 +33,7 @@ jobs:
               echo "cbf=false" >> $GITHUB_ENV
             fi
         - name: Commit changes to PR
-          if: ${{ env.cbf == 'true' }}
+          if: ${{ env.php_changes == 'true' && env.cbf == 'true' }}
           run: |
             git config --global user.email "bot@getpantheon.com"
             git config --global user.name "Pantheon Robot"
