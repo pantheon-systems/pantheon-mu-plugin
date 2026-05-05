@@ -1,8 +1,8 @@
 <?php
 /**
- * Compatibility fix for WooZone.
+ * Compatibility fix for Independent Analytics plugin.
  *
- * @link https://docs.pantheon.io/wordpress-known-issues#woozone
+ * @link https://github.com/pantheon-systems/pantheon-mu-plugin/issues/110
  * @package Pantheon\Compatibility
  */
 
@@ -11,9 +11,9 @@ namespace Pantheon\Compatibility;
 use Pantheon\Compatibility\Fixes\DefineConstantFix;
 
 /**
- * Class WooZone
+ * Class IndependentAnalytics
  */
-class WooZone extends Base {
+class IndependentAnalytics extends Base {
 	/**
 	 * Run fix on each request.
 	 *
@@ -26,7 +26,7 @@ class WooZone extends Base {
 	 * @return void
 	 */
 	public function apply_fix() {
-		DefineConstantFix::apply( 'WP_MEMORY_LIMIT', '256M' );
+		DefineConstantFix::apply( 'IAWP_TEMP_DIR', '/code/wp-content/uploads/iawp/' );
 	}
 
 	/**
