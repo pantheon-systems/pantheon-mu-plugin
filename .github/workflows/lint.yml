@@ -22,6 +22,8 @@ jobs:
             fi
         - name: Commit changes to PR
           if: ${{ env.cbf == 'true' }}
+          env:
+            PR_BRANCH: ${{ github.event.pull_request.head.ref }}
           run: |
             git config --global user.email "bot@getpantheon.com"
             git config --global user.name "Pantheon Robot"
@@ -29,7 +31,7 @@ jobs:
               CHANGES_DETECTED=true
               git add *.php
               git commit -m "PHPCBF: Fix coding standards" --no-verify
-              git push origin ${{ github.event.pull_request.head.ref }} || CHANGES_DETECTED=false
+              git push origin "$PR_BRANCH" || CHANGES_DETECTED=false
               echo "changes_detected=$CHANGES_DETECTED" >> $GITHUB_ENV
             else
               echo "changes_detected=false" >> $GITHUB_ENV
@@ -38,9 +40,10 @@ jobs:
           if: ${{ env.changes_detected == 'true' }}
           env:
             GH_TOKEN: ${{ github.token }}
+            PR_NUMBER: ${{ github.event.pull_request.number }}
           run: |
             CURRENT_COMMIT=$(git rev-parse --short HEAD)
-            gh pr comment ${{ github.event.pull_request.number }} -b "Hi from your friendly Pantheon Robot! :robot: I fixed PHPCS issues with \`phpcbf\` on $CURRENT_COMMIT. Please review the changes."
+            gh pr comment "$PR_NUMBER" -b "Hi from your friendly Pantheon Robot! :robot: I fixed PHPCS issues with \`phpcbf\` on $CURRENT_COMMIT. Please review the changes."
     lint:
         name: Lint
         runs-on: ubuntu-latest
