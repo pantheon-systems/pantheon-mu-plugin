@@ -158,6 +158,7 @@ add_filter( 'pantheon_compatibility_known_issues_plugins', function( $plugins ) 
 ```
 
 #### `pantheon_show_update_notice`
+
 Filter whether the Pantheon WordPress core update notice is shown in the admin. Return `false` to hide it. This suppresses the "A new WordPress update is available!" / "Check for Updates" notices.
 
 The notice also renders with `id="pantheon-update-notice"` and a matching `pantheon-update-notice` class, so it can be hidden with targeted CSS (e.g. `#pantheon-update-notice { display: none; }`) without affecting other Pantheon notices.
@@ -193,6 +194,7 @@ add_action( 'pantheon_cache_settings_page_bottom', function() {
 ### Constants
 
 #### `PANTHEON_HIDE_UPDATE_NOTICE`
+
 Define as `true` (e.g. in `wp-config.php`) to hide the Pantheon WordPress core update notice. This is the constant equivalent of returning `false` from the `pantheon_show_update_notice` filter.
 
 **Example:**
