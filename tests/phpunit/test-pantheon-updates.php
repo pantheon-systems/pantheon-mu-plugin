@@ -238,4 +238,130 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		$this->assertEmpty( $result->updates );
 		$this->assertIsInt( $result->last_checked );
 	}
+
+	/**
+	 * Simulate that WordPress core is not the latest version so the update
+	 * notice ("A new WordPress update is available!") renders.
+	 */
+	private function simulate_core_not_latest() {
+		set_current_screen( 'update-core' );
+		set_site_transient(
+			'update_core',
+			(object) [
+				'updates' => [
+					(object) [
+						'current' => '99.0.0',
+						'response' => 'upgrade',
+						'locale' => 'en_us',
+					],
+				],
+				'version_checked' => self::$wp_version,
+			],
+		);
+	}
+
+	/**
+	 * Test that the update notice exposes a unique id and class for CSS targeting.
+	 */
+	public function test_pantheon_upstream_update_notice_has_targeting_hooks() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'id="pantheon-update-notice"', $output );
+		$this->assertStringContainsString( 'pantheon-notice pantheon-update-notice', $output );
+	}
+
+	/**
+	 * Test that returning false from the pantheon_show_update_notice filter suppresses the notice.
+	 */
+	public function test_pantheon_show_update_notice_filter_suppresses() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		add_filter( 'pantheon_show_update_notice', '__return_false' );
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		remove_filter( 'pantheon_show_update_notice', '__return_false' );
+
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test that the notice still renders when the filter is left at its default (true).
+	 */
+	public function test_pantheon_show_update_notice_filter_default_shows() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
+	}
+
+	/**
+	 * Test that defining PANTHEON_HIDE_UPDATE_NOTICE suppresses the notice.
+	 *
+	 * Runs in a separate process because the constant, once defined, persists
+	 * for the remainder of the PHP process and would affect other tests.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_pantheon_hide_update_notice_constant_suppresses() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		define( 'PANTHEON_HIDE_UPDATE_NOTICE', true );
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test that defining PANTHEON_HIDE_UPDATE_NOTICE as false leaves the notice visible.
+	 *
+	 * Runs in a separate process for the same reason as the true-case test.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_pantheon_hide_update_notice_constant_false_shows() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		define( 'PANTHEON_HIDE_UPDATE_NOTICE', false );
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
+	}
 }

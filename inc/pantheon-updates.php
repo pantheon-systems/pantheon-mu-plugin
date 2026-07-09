@@ -75,9 +75,29 @@ function _pantheon_is_wordpress_core_prerelease(): bool {
  * Replace WordPress core update nag EVERYWHERE with our own notice.
  * Use git upstream instead
  *
+ * The notice can be suppressed two ways:
+ *  - Define the PANTHEON_HIDE_UPDATE_NOTICE constant as true (e.g. in wp-config.php).
+ *  - Return false from the `pantheon_show_update_notice` filter.
+ * The notice also exposes id="pantheon-update-notice" and a matching
+ * .pantheon-update-notice class for targeted hiding via CSS.
+ *
  * @return void
  */
 function _pantheon_upstream_update_notice() {
+	// Allow admins/developers to disable the update notice via constant or filter.
+	if ( defined( 'PANTHEON_HIDE_UPDATE_NOTICE' ) && PANTHEON_HIDE_UPDATE_NOTICE ) {
+		return;
+	}
+
+	/**
+	 * Filters whether the Pantheon WordPress update notice is shown.
+	 *
+	 * @param bool $show Whether to show the update notice. Default true.
+	 */
+	if ( ! apply_filters( 'pantheon_show_update_notice', true ) ) {
+		return;
+	}
+
 	$screen = get_current_screen();
 
 	// Check if using a pre-release version of WordPress.
@@ -99,11 +119,13 @@ function _pantheon_upstream_update_notice() {
 		);
 
 		Pantheon\_pantheon_render_notice( [
-			'type'        => 'warning',
-			'heading'     => __( 'A new WordPress update is available!', 'pantheon-systems' ),
-			'message'     => $message,
-			'button_text' => __( 'Pantheon Dashboard', 'pantheon-systems' ),
-			'button_url'  => $dashboard_url,
+			'type'          => 'warning',
+			'heading'       => __( 'A new WordPress update is available!', 'pantheon-systems' ),
+			'message'       => $message,
+			'button_text'   => __( 'Pantheon Dashboard', 'pantheon-systems' ),
+			'button_url'    => $dashboard_url,
+			'id'            => 'pantheon-update-notice',
+			'extra_classes' => 'pantheon-update-notice',
 		] );
 	} elseif ( $is_update_page ) {
 		// If no update is available but we're on the update pages, show the "Check for updates" message.
@@ -114,11 +136,13 @@ function _pantheon_upstream_update_notice() {
 		);
 
 		Pantheon\_pantheon_render_notice( [
-			'type'        => 'warning',
-			'heading'     => __( 'Check for Updates', 'pantheon-systems' ),
-			'message'     => $message,
-			'button_text' => __( 'Pantheon Dashboard', 'pantheon-systems' ),
-			'button_url'  => $dashboard_url,
+			'type'          => 'warning',
+			'heading'       => __( 'Check for Updates', 'pantheon-systems' ),
+			'message'       => $message,
+			'button_text'   => __( 'Pantheon Dashboard', 'pantheon-systems' ),
+			'button_url'    => $dashboard_url,
+			'id'            => 'pantheon-update-notice',
+			'extra_classes' => 'pantheon-update-notice',
 		] );
 	}
 }
