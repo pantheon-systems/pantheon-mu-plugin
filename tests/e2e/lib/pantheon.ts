@@ -116,9 +116,9 @@ export function wpOption(env: string, key: string, value: string): void {
   terminus(`wp ${SITE}.${env} -- option update ${key} ${value}`, 120000);
 }
 
-/** Block until all running workflows on the env finish (Pantheon built-in). */
+/** Wait for the env's code-sync workflow to complete (default max 180s). */
 export function workflowWait(env: string): void {
-  terminus(`workflow:wait ${SITE}.${env} --max=600`, 660000);
+  terminus(`workflow:wait ${SITE}.${env} --max=180`, 210000);
 }
 
 export function commitEnv(env: string, message: string): void {

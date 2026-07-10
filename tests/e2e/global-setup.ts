@@ -26,22 +26,40 @@ function writeWpUrl(url: string): void {
   fs.writeFileSync(ENV_FILE, `${body}\nWP_URL=${url}\n`);
 }
 
+function log(msg: string): void {
+  console.log(`[e2e setup] ${msg}`);
+}
+
 async function globalSetup(_config: FullConfig): Promise<void> {
   const env = generateMultidevName();
   const url = multidevUrl(env);
+  const site = process.env.TERMINUS_SITE || 'pantheon-mu-plugin';
 
-  console.log(`[setup] creating multidev ${env}`);
-  createMultidev(env); // terminus blocks until the environment is created
+  log(`Provisioning ephemeral multidev "${env}" from ${site}.dev`);
 
-  console.log('[setup] installing branch mu-plugin over SFTP');
+  log('Step 1/5: creating multidev (clones code + DB, runs platform workflows; ~2-5 min)...');
+  createMultidev(env);
+  log(`Step 1/5 done: multidev is up -> ${url}`);
+
+  log('Step 2/5: switching connection mode to SFTP...');
   switchToSftp(env);
+  log('Step 2/5 done: SFTP enabled');
+
+  log('Step 3/5: uploading branch plugin (functions.php, pantheon-updates.php) + E2E option shim over SFTP...');
   installBranchPlugin(env);
+  log('Step 3/5 done: files uploaded');
+
+  log('Step 4/5: committing code and waiting for the deploy workflow...');
   commitEnv(env, 'e2e: install SITE-5884 branch mu-plugin under test');
+  log('Step 4/5 done: code deployed');
+
+  log('Step 5/5: clearing cache (best-effort)...');
   clearCache(env);
+  log('Step 5/5 done');
 
   fs.writeFileSync(STATE_FILE, JSON.stringify({ multidev: env, url }, null, 2));
   writeWpUrl(url);
-  console.log(`[setup] ready: ${url}`);
+  log(`Environment ready: ${url} - running scenarios next`);
 }
 
 export default globalSetup;
