@@ -8,32 +8,20 @@ const { Given, When, Then, After } = createBdd(test);
 const FILTER_DROPIN = 'zz-e2e-show-filter.php';
 const CONSTANT_DROPIN = 'zz-e2e-hide-constant.php';
 
-/**
- * Sandbox-plan Pantheon sites gate every pantheonsite.io page behind a
- * "hosted in a sandbox environment" interstitial with a Continue button.
- * Click through it if present (sets a cookie, so later loads pass).
- */
-async function dismissSandboxGate(page: import('@playwright/test').Page): Promise<void> {
-  const cont = page.getByRole('button', { name: 'Continue' });
-  if (await cont.isVisible().catch(() => false)) {
-    await cont.click();
-    await page.waitForLoadState('load');
-  }
-}
+// The Pantheon sandbox interstitial is bypassed via the Deterrence-Bypass HTTP
+// header set in playwright.config.ts (use.extraHTTPHeaders), so no page load
+// hits the gate and steps can navigate straight to wp-admin.
 
 Given('I am logged in to WordPress admin', async ({ page }) => {
   await page.goto('/wp-login.php');
-  await dismissSandboxGate(page);
   await page.fill('#user_login', process.env.WP_USER!);
   await page.fill('#user_pass', process.env.WP_PASSWORD!);
   await page.click('#wp-submit');
-  await dismissSandboxGate(page);
   await expect(page.locator('#wpadminbar')).toBeVisible();
 });
 
 When('I open the WordPress admin page {string}', async ({ page }, adminPath: string) => {
   await page.goto(adminPath);
-  await dismissSandboxGate(page);
 });
 
 Then('the element {string} should be visible', async ({ page }, selector: string) => {

@@ -24,6 +24,11 @@ export default defineConfig({
   use: {
     baseURL: process.env.WP_URL,
     headless,
+    // Bypass the Pantheon sandbox interstitial on every request (official method).
+    // https://docs.pantheon.io/guides/account-mgmt/plans/site-plans#bypassing-the-interstitial-page-with-an-http-header-during-automated-testing
+    extraHTTPHeaders: {
+      'Deterrence-Bypass': '1',
+    },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
