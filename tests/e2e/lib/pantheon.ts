@@ -144,5 +144,6 @@ export function deleteMultidev(env: string): void {
 }
 
 export function createMultidev(env: string): void {
-  terminus(`multidev:create ${SITE}.${SOURCE_ENV} ${env}`, 300000);
+  // Multidev creation clones code + DB and runs workflows; can exceed 5 min.
+  terminus(`multidev:create ${SITE}.${SOURCE_ENV} ${env}`, 600000);
 }
