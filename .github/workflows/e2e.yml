@@ -7,6 +7,9 @@ on:
       - 'tests/e2e/**'
       - '.github/workflows/e2e.yml'
 
+permissions:
+  contents: read
+
 jobs:
   e2e:
     name: Playwright E2E (Pantheon multidev)
@@ -15,22 +18,22 @@ jobs:
       run:
         working-directory: tests/e2e
     env:
-      TERMINUS_SITE: pantheon-mu-plugin
-      TERMINUS_SOURCE_ENV: dev
+      TERMINUS_SITE: ${{ vars.E2E_TERMINUS_SITE }}
+      TERMINUS_SOURCE_ENV: ${{ vars.E2E_TERMINUS_SOURCE_ENV || 'dev' }}
       TERMINUS_HIDE_UPDATE_MESSAGE: '1'
       WP_USER: ${{ secrets.E2E_WP_USER }}
       WP_PASSWORD: ${{ secrets.E2E_WP_PASSWORD }}
       HEADLESS: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Set up PHP (for Terminus)
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.3'
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
 
@@ -42,12 +45,16 @@ jobs:
           terminus --version
 
       - name: Authenticate Terminus
-        run: terminus auth:login --machine-token="${{ secrets.TERMINUS_TOKEN }}"
+        env:
+          TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
+        run: terminus auth:login --machine-token="$TERMINUS_TOKEN"
 
       - name: Configure SSH for Pantheon (git/SFTP)
+        env:
+          PANTHEON_SSH_KEY: ${{ secrets.PANTHEON_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.PANTHEON_SSH_KEY }}" > ~/.ssh/id_rsa
+          printf '%s\n' "$PANTHEON_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Install dependencies
@@ -61,7 +68,7 @@ jobs:
 
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: playwright-report
           path: tests/e2e/playwright-report/
@@ -69,7 +76,7 @@ jobs:
 
       - name: Upload test results (screenshots, videos, traces)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: test-results
           path: tests/e2e/test-results/

@@ -16,7 +16,12 @@ const ENV_FILE = path.join(__dirname, '.env');
 
 /** Set (or replace) WP_URL in .env so each Playwright worker resolves baseURL. */
 function writeWpUrl(url: string): void {
-  let body = fs.existsSync(ENV_FILE) ? fs.readFileSync(ENV_FILE, 'utf8') : '';
+  let body = '';
+  try {
+    body = fs.readFileSync(ENV_FILE, 'utf8');
+  } catch {
+    // no .env yet; start empty
+  }
   body = body.replace(/^WP_URL=.*$/m, '').replace(/\n{2,}$/, '\n').trimEnd();
   fs.writeFileSync(ENV_FILE, `${body}\nWP_URL=${url}\n`);
 }

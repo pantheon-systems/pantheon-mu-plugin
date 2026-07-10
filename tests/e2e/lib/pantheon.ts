@@ -3,8 +3,17 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-const SITE = process.env.TERMINUS_SITE || 'pantheon-mu-plugin';
-const SOURCE_ENV = process.env.TERMINUS_SOURCE_ENV || 'dev';
+/** Reject anything that isn't a plain Pantheon site/env identifier before it
+ *  reaches a shell command (guards against command injection via config). */
+function assertSafeName(kind: string, value: string): string {
+  if (!/^[a-z0-9][a-z0-9-]*$/i.test(value)) {
+    throw new Error(`Unsafe ${kind}: ${JSON.stringify(value)}`);
+  }
+  return value;
+}
+
+const SITE = assertSafeName('TERMINUS_SITE', process.env.TERMINUS_SITE || 'pantheon-mu-plugin');
+const SOURCE_ENV = assertSafeName('TERMINUS_SOURCE_ENV', process.env.TERMINUS_SOURCE_ENV || 'dev');
 
 /** Path to the branch mu-plugin source (repo root /inc), relative to tests/e2e. */
 const PLUGIN_SRC = path.resolve(__dirname, '..', '..', '..', 'inc');
@@ -87,7 +96,8 @@ export function readState(): { multidev: string; url: string } {
 
 /** Drop a small PHP mu-plugin file onto the env, then commit + clear cache. */
 export function putDropin(env: string, filename: string, php: string): void {
-  const tmp = path.join(os.tmpdir(), filename);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-dropin-'));
+  const tmp = path.join(dir, filename);
   fs.writeFileSync(tmp, php);
   sftpBatch(env, [`put ${tmp} ${MU_DIR}/${filename}`]);
   commitEnv(env, `e2e: add ${filename}`);
