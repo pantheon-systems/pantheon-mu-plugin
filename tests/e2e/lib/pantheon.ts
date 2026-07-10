@@ -115,18 +115,15 @@ export function removeDropin(env: string, filename: string): void {
   }
 }
 
-export function commitEnv(env: string, message: string, attempts = 4): void {
-  // env:commit can fail if a prior Pantheon workflow is still running on the
-  // env; retry with a short settle so scenarios don't depend on Playwright retries.
-  for (let i = 0; i < attempts; i++) {
-    try {
-      terminus(`env:commit ${SITE}.${env} --message="${message}"`, 120000);
-      return;
-    } catch (e) {
-      if (i === attempts - 1) throw e;
-      execSync('sleep 20');
-    }
-  }
+/** Block until all running workflows on the env finish (Pantheon built-in). */
+export function workflowWait(env: string): void {
+  terminus(`workflow:wait ${SITE}.${env} --max=600`, 660000);
+}
+
+export function commitEnv(env: string, message: string): void {
+  terminus(`env:commit ${SITE}.${env} --message="${message}"`, 180000);
+  // Wait out the deploy workflow so the next commit/clear-cache can't race it.
+  workflowWait(env);
 }
 
 export function clearCache(env: string): void {
@@ -146,4 +143,6 @@ export function deleteMultidev(env: string): void {
 export function createMultidev(env: string): void {
   // Multidev creation clones code + DB and runs workflows; can exceed 5 min.
   terminus(`multidev:create ${SITE}.${SOURCE_ENV} ${env}`, 600000);
+  // Let the create/build workflow settle before we SFTP + commit into the env.
+  workflowWait(env);
 }
