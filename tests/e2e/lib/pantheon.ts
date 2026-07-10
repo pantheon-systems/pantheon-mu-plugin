@@ -115,8 +115,18 @@ export function removeDropin(env: string, filename: string): void {
   }
 }
 
-export function commitEnv(env: string, message: string): void {
-  terminus(`env:commit ${SITE}.${env} --message="${message}"`, 120000);
+export function commitEnv(env: string, message: string, attempts = 4): void {
+  // env:commit can fail if a prior Pantheon workflow is still running on the
+  // env; retry with a short settle so scenarios don't depend on Playwright retries.
+  for (let i = 0; i < attempts; i++) {
+    try {
+      terminus(`env:commit ${SITE}.${env} --message="${message}"`, 120000);
+      return;
+    } catch (e) {
+      if (i === attempts - 1) throw e;
+      execSync('sleep 20');
+    }
+  }
 }
 
 export function clearCache(env: string): void {
