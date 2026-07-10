@@ -143,7 +143,7 @@ export function deleteMultidev(env: string): void {
 
 export function createMultidev(env: string): void {
   // Multidev creation clones code + DB and runs workflows; can exceed 5 min.
+  // terminus waits for the create workflow itself, so no workflow:wait here
+  // (there is no code-sync to wait for, and workflow:wait would idle to --max).
   terminus(`multidev:create ${SITE}.${SOURCE_ENV} ${env}`, 600000);
-  // Let the create/build workflow settle before we SFTP + commit into the env.
-  workflowWait(env);
 }
