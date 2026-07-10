@@ -13,16 +13,21 @@ Feature: Hide the Pantheon WordPress update notice
 
   Scenario: CSS targeting the unique id hides the notice
     When I open the WordPress admin page "/wp-admin/update-core.php"
-    And I apply the CSS "#pantheon-update-notice { display: none; }"
+    Then the element "#pantheon-update-notice" should be visible
+    When I apply the CSS "#pantheon-update-notice { display: none; }"
     Then the element "#pantheon-update-notice" should be hidden
     And the element "#wpadminbar" should be visible
 
   Scenario: The pantheon_show_update_notice filter hides the notice
+    When I open the WordPress admin page "/wp-admin/update-core.php"
+    Then the element "#pantheon-update-notice" should be visible
     When the pantheon_show_update_notice filter returns false
     And I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be hidden
 
   Scenario: The PANTHEON_HIDE_UPDATE_NOTICE constant hides the notice
+    When I open the WordPress admin page "/wp-admin/update-core.php"
+    Then the element "#pantheon-update-notice" should be visible
     When the PANTHEON_HIDE_UPDATE_NOTICE constant is set to true
     And I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be hidden
