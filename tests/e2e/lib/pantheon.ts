@@ -78,15 +78,32 @@ export function sftpBatch(env: string, commands: string[]): void {
   });
 }
 
-/** SFTP the branch copies of the two changed plugin files onto the env. */
+const MU_DIR = 'code/wp-content/mu-plugins';
+const SHIM_FILENAME = 'zz-e2e-shim.php';
+
+// E2E-only shim: activates the real hide mechanisms from WP options, so
+// scenarios toggle them with a DB write (fast) instead of a per-test code deploy.
+const SHIM_PHP = `<?php
+// E2E test shim (SITE-5884) - installed only on ephemeral test multidevs.
+if ( get_option( 'e2e_hide_via_filter' ) ) {
+\tadd_filter( 'pantheon_show_update_notice', '__return_false' );
+}
+if ( get_option( 'e2e_hide_via_constant' ) && ! defined( 'PANTHEON_HIDE_UPDATE_NOTICE' ) ) {
+\tdefine( 'PANTHEON_HIDE_UPDATE_NOTICE', true );
+}
+`;
+
+/** SFTP the branch plugin files + the option-toggle shim onto the env. */
 export function installBranchPlugin(env: string): void {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-shim-'));
+  const shim = path.join(dir, SHIM_FILENAME);
+  fs.writeFileSync(shim, SHIM_PHP);
   sftpBatch(env, [
     `put ${PLUGIN_SRC}/functions.php ${REMOTE_INC}/functions.php`,
     `put ${PLUGIN_SRC}/pantheon-updates.php ${REMOTE_INC}/pantheon-updates.php`,
+    `put ${shim} ${MU_DIR}/${SHIM_FILENAME}`,
   ]);
 }
-
-const MU_DIR = 'code/wp-content/mu-plugins';
 
 /** Read the multidev name/url written by global-setup. */
 export function readState(): { multidev: string; url: string } {
@@ -94,25 +111,9 @@ export function readState(): { multidev: string; url: string } {
   return JSON.parse(fs.readFileSync(f, 'utf8'));
 }
 
-/** Drop a small PHP mu-plugin file onto the env, then commit + clear cache. */
-export function putDropin(env: string, filename: string, php: string): void {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-dropin-'));
-  const tmp = path.join(dir, filename);
-  fs.writeFileSync(tmp, php);
-  sftpBatch(env, [`put ${tmp} ${MU_DIR}/${filename}`]);
-  commitEnv(env, `e2e: add ${filename}`);
-  clearCache(env);
-}
-
-/** Remove a previously-added drop-in (tolerant if absent), then commit + clear cache. */
-export function removeDropin(env: string, filename: string): void {
-  try {
-    sftpBatch(env, [`rm ${MU_DIR}/${filename}`]);
-    commitEnv(env, `e2e: remove ${filename}`);
-    clearCache(env);
-  } catch {
-    // file was not present / nothing to commit; ignore
-  }
+/** Set a WP option on the env (a DB write - no deploy, no workflow). */
+export function wpOption(env: string, key: string, value: string): void {
+  terminus(`wp ${SITE}.${env} -- option update ${key} ${value}`, 120000);
 }
 
 /** Block until all running workflows on the env finish (Pantheon built-in). */

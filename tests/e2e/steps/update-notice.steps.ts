@@ -1,12 +1,14 @@
 import { createBdd } from 'playwright-bdd';
 import { test } from 'playwright-bdd';
 import { expect } from '@playwright/test';
-import { readState, putDropin, removeDropin } from '../lib/pantheon';
+import { readState, wpOption } from '../lib/pantheon';
 
 const { Given, When, Then, After } = createBdd(test);
 
-const FILTER_DROPIN = 'zz-e2e-show-filter.php';
-const CONSTANT_DROPIN = 'zz-e2e-hide-constant.php';
+// The installed E2E shim activates the real filter/constant based on these WP
+// options, so scenarios toggle them with a fast DB write (no per-test deploy).
+const FILTER_OPTION = 'e2e_hide_via_filter';
+const CONSTANT_OPTION = 'e2e_hide_via_constant';
 
 // The Pantheon sandbox interstitial is bypassed via the Deterrence-Bypass HTTP
 // header set in playwright.config.ts (use.extraHTTPHeaders), so no page load
@@ -38,18 +40,18 @@ When('I apply the CSS {string}', async ({ page }, css: string) => {
 
 When('the pantheon_show_update_notice filter returns false', async () => {
   const { multidev } = readState();
-  putDropin(multidev, FILTER_DROPIN, "<?php\nadd_filter( 'pantheon_show_update_notice', '__return_false' );\n");
+  wpOption(multidev, FILTER_OPTION, '1');
 });
 
 When('the PANTHEON_HIDE_UPDATE_NOTICE constant is set to true', async () => {
   const { multidev } = readState();
-  putDropin(multidev, CONSTANT_DROPIN, "<?php\ndefine( 'PANTHEON_HIDE_UPDATE_NOTICE', true );\n");
+  wpOption(multidev, CONSTANT_OPTION, '1');
 });
 
-// Always clear any override drop-ins after each scenario so scenarios stay isolated
-// on the shared multidev (tolerant when nothing was added).
+// Reset both toggle options after each scenario so scenarios stay isolated on
+// the shared multidev (a DB write, no deploy).
 After(async () => {
   const { multidev } = readState();
-  removeDropin(multidev, FILTER_DROPIN);
-  removeDropin(multidev, CONSTANT_DROPIN);
+  wpOption(multidev, FILTER_OPTION, '0');
+  wpOption(multidev, CONSTANT_OPTION, '0');
 });
