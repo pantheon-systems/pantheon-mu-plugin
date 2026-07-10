@@ -120,7 +120,13 @@ export function commitEnv(env: string, message: string): void {
 }
 
 export function clearCache(env: string): void {
-  terminus(`env:clear-cache ${SITE}.${env}`, 120000);
+  // Non-fatal: a commit already redeploys code and clears opcache, and wp-admin
+  // is not edge-cached, so a failed clear-cache must not abort setup/steps.
+  try {
+    terminus(`env:clear-cache ${SITE}.${env}`, 120000);
+  } catch (e) {
+    console.warn(`[warn] clear-cache failed, continuing: ${(e as Error).message.split('\n')[0]}`);
+  }
 }
 
 export function deleteMultidev(env: string): void {
