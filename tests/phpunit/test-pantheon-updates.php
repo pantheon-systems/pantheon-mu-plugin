@@ -275,7 +275,8 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		$output = ob_get_clean();
 
 		$this->assertStringContainsString( 'id="pantheon-update-notice"', $output );
-		$this->assertStringContainsString( 'pantheon-notice pantheon-update-notice', $output );
+		// pantheon-update-notice is a class token (order-independent; is-dismissible now sits between it and pantheon-notice).
+		$this->assertMatchesRegularExpression( '/class="[^"]*\bpantheon-update-notice\b/', $output );
 	}
 
 	/**

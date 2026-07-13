@@ -7,6 +7,7 @@
  * to the current WordPress version) so the notice stays dismissed until a newer
  * version is available.
  */
+/* global pantheonUpdateNotice */
 ( function () {
 	document.addEventListener( 'click', function ( event ) {
 		var button = event.target.closest( '.notice-dismiss' );
