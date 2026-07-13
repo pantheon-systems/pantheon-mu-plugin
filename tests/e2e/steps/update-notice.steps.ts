@@ -1,7 +1,7 @@
 import { createBdd } from 'playwright-bdd';
 import { test } from 'playwright-bdd';
 import { expect } from '@playwright/test';
-import { readState, wpOption, wp } from '../lib/pantheon';
+import { readState, wpOption, wp, assertSafeWpUser } from '../lib/pantheon';
 
 const { Given, When, Then, After } = createBdd(test);
 
@@ -85,7 +85,8 @@ After(async () => {
   wpOption(multidev, CONSTANT_OPTION, '0');
   wpOption(multidev, FORCE_OPTION, '0');
   try {
-    wp(multidev, `user meta delete ${process.env.WP_USER} ${DISMISSED_META}`);
+    const user = assertSafeWpUser(process.env.WP_USER ?? '');
+    wp(multidev, `user meta delete ${user} ${DISMISSED_META}`);
   } catch {
     // Meta may not exist if the scenario never dismissed; ignore.
   }

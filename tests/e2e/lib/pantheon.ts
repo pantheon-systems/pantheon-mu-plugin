@@ -12,6 +12,14 @@ function assertSafeName(kind: string, value: string): string {
   return value;
 }
 
+/** Validate a WordPress username (login/email) before it reaches a shell command. */
+export function assertSafeWpUser(value: string): string {
+  if (!/^[A-Za-z0-9._@-]+$/.test(value)) {
+    throw new Error(`Unsafe WP_USER: ${JSON.stringify(value)}`);
+  }
+  return value;
+}
+
 const SITE = assertSafeName('TERMINUS_SITE', process.env.TERMINUS_SITE || 'pantheon-mu-plugin');
 const SOURCE_ENV = assertSafeName('TERMINUS_SOURCE_ENV', process.env.TERMINUS_SOURCE_ENV || 'dev');
 
