@@ -72,20 +72,16 @@ function _pantheon_is_wordpress_core_prerelease(): bool {
 }
 
 /**
- * Replace WordPress core update nag EVERYWHERE with our own notice.
- * Use git upstream instead
+ * Render Pantheon's upstream update notice in place of the WordPress core update nag.
  *
- * The notice can be suppressed two ways:
- *  - Define the PANTHEON_HIDE_UPDATE_NOTICE constant as true (e.g. in wp-config.php).
- *  - Return false from the `pantheon_show_update_notice` filter.
- * The notice also exposes id="pantheon-update-notice" and a matching
- * .pantheon-update-notice class for targeted hiding via CSS.
+ * Suppressed by the PANTHEON_SHOW_UPDATE_NOTICE constant or the
+ * pantheon_show_update_notice filter (see the respective checks below).
  *
  * @return void
  */
 function _pantheon_upstream_update_notice() {
 	// Allow admins/developers to disable the update notice via constant or filter.
-	if ( defined( 'PANTHEON_HIDE_UPDATE_NOTICE' ) && PANTHEON_HIDE_UPDATE_NOTICE ) {
+	if ( defined( 'PANTHEON_SHOW_UPDATE_NOTICE' ) && ! PANTHEON_SHOW_UPDATE_NOTICE ) {
 		return;
 	}
 

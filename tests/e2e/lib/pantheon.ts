@@ -88,8 +88,8 @@ const SHIM_PHP = `<?php
 if ( get_option( 'e2e_hide_via_filter' ) ) {
 \tadd_filter( 'pantheon_show_update_notice', '__return_false' );
 }
-if ( get_option( 'e2e_hide_via_constant' ) && ! defined( 'PANTHEON_HIDE_UPDATE_NOTICE' ) ) {
-\tdefine( 'PANTHEON_HIDE_UPDATE_NOTICE', true );
+if ( get_option( 'e2e_hide_via_constant' ) && ! defined( 'PANTHEON_SHOW_UPDATE_NOTICE' ) ) {
+\tdefine( 'PANTHEON_SHOW_UPDATE_NOTICE', false );
 }
 `;
 

@@ -43,7 +43,7 @@ When('the pantheon_show_update_notice filter returns false', async () => {
   wpOption(multidev, FILTER_OPTION, '1');
 });
 
-When('the PANTHEON_HIDE_UPDATE_NOTICE constant is set to true', async () => {
+When('the PANTHEON_SHOW_UPDATE_NOTICE constant is set to false', async () => {
   const { multidev } = readState();
   wpOption(multidev, CONSTANT_OPTION, '1');
 });

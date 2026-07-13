@@ -193,13 +193,15 @@ add_action( 'pantheon_cache_settings_page_bottom', function() {
 
 ### Constants
 
-#### `PANTHEON_HIDE_UPDATE_NOTICE`
+#### `PANTHEON_SHOW_UPDATE_NOTICE`
 
-Define as `true` (e.g. in `wp-config.php`) to hide the Pantheon WordPress core update notice. This is the constant equivalent of returning `false` from the `pantheon_show_update_notice` filter.
+Define as `false` (e.g. in `wp-config.php`) to hide the Pantheon WordPress core update notice. This is the constant equivalent of returning `false` from the `pantheon_show_update_notice` filter. Defaults to shown.
+
+Note: this only hides the notice. It does not change update behavior. To opt out of Pantheon's update management entirely, use the separate `DISABLE_PANTHEON_UPDATE_NOTICES` constant.
 
 **Example:**
 ```php
-define( 'PANTHEON_HIDE_UPDATE_NOTICE', true );
+define( 'PANTHEON_SHOW_UPDATE_NOTICE', false );
 ```
 
 ## Install With Composer

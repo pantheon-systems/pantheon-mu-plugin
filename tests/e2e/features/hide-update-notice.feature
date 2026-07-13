@@ -25,9 +25,9 @@ Feature: Hide the Pantheon WordPress update notice
     And I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be hidden
 
-  Scenario: The PANTHEON_HIDE_UPDATE_NOTICE constant hides the notice
+  Scenario: The PANTHEON_SHOW_UPDATE_NOTICE constant hides the notice
     When I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be visible
-    When the PANTHEON_HIDE_UPDATE_NOTICE constant is set to true
+    When the PANTHEON_SHOW_UPDATE_NOTICE constant is set to false
     And I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be hidden
