@@ -91,6 +91,19 @@ if ( get_option( 'e2e_hide_via_filter' ) ) {
 if ( get_option( 'e2e_hide_via_constant' ) && ! defined( 'PANTHEON_SHOW_UPDATE_NOTICE' ) ) {
 \tdefine( 'PANTHEON_SHOW_UPDATE_NOTICE', false );
 }
+if ( get_option( 'e2e_force_update_available' ) ) {
+\tadd_filter( 'site_transient_update_core', function ( $value ) {
+\t\t$forced = get_option( 'e2e_forced_version' );
+\t\t$forced = $forced ? $forced : '99.0.0';
+\t\treturn (object) [
+\t\t\t'updates' => [
+\t\t\t\t(object) [ 'current' => $forced, 'response' => 'upgrade', 'locale' => 'en_US' ],
+\t\t\t],
+\t\t\t'version_checked' => get_bloginfo( 'version' ),
+\t\t\t'last_checked' => time(),
+\t\t];
+\t} );
+}
 `;
 
 /** SFTP the branch plugin files + the option-toggle shim onto the env. */
@@ -101,6 +114,7 @@ export function installBranchPlugin(env: string): void {
   sftpBatch(env, [
     `put ${PLUGIN_SRC}/functions.php ${REMOTE_INC}/functions.php`,
     `put ${PLUGIN_SRC}/pantheon-updates.php ${REMOTE_INC}/pantheon-updates.php`,
+    `put ${PLUGIN_SRC}/assets/js/pantheon-update-notice-dismiss.js ${REMOTE_INC}/assets/js/pantheon-update-notice-dismiss.js`,
     `put ${shim} ${MU_DIR}/${SHIM_FILENAME}`,
   ]);
 }

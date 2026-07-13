@@ -315,4 +315,61 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
 	}
+
+	/**
+	 * Test that the update notice carries the is-dismissible class.
+	 */
+	public function test_update_notice_is_dismissible() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'is-dismissible', $output );
+	}
+
+	/**
+	 * Test that the notice is hidden when the user dismissed it for the current available version.
+	 */
+	public function test_update_notice_hidden_when_dismissed_for_current_version() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest(); // Available version: 99.0.0.
+		$user_id = self::factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		update_user_meta( $user_id, PANTHEON_UPDATE_NOTICE_DISMISSED_META, '99.0.0' );
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test that the notice returns when a newer version is available than the one dismissed.
+	 */
+	public function test_update_notice_shows_when_newer_version_available() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest(); // Available version: 99.0.0.
+		$user_id = self::factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		update_user_meta( $user_id, PANTHEON_UPDATE_NOTICE_DISMISSED_META, '6.0.0' ); // Stale dismissal.
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
+	}
 }

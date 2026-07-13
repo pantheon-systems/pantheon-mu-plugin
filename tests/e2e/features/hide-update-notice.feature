@@ -31,3 +31,27 @@ Feature: Hide the Pantheon WordPress update notice
     When the PANTHEON_SHOW_UPDATE_NOTICE constant is set to false
     And I open the WordPress admin page "/wp-admin/update-core.php"
     Then the element "#pantheon-update-notice" should be hidden
+
+  Scenario: The update notice renders as dismissible
+    Given a WordPress core update is available
+    When I open the WordPress admin page "/wp-admin/index.php"
+    Then the element "#pantheon-update-notice.is-dismissible" should be visible
+    And the element "#pantheon-update-notice .notice-dismiss" should be visible
+
+  Scenario: Dismissing the update notice persists across page loads
+    Given a WordPress core update is available
+    When I open the WordPress admin page "/wp-admin/index.php"
+    Then the element "#pantheon-update-notice" should be visible
+    When I dismiss the update notice
+    And I open the WordPress admin page "/wp-admin/index.php"
+    Then the element "#pantheon-update-notice" should be hidden
+
+  Scenario: The dismissed notice returns when a newer version is available
+    Given a WordPress core update is available
+    When I open the WordPress admin page "/wp-admin/index.php"
+    And I dismiss the update notice
+    And I open the WordPress admin page "/wp-admin/index.php"
+    Then the element "#pantheon-update-notice" should be hidden
+    When a newer WordPress core update is released
+    And I open the WordPress admin page "/wp-admin/index.php"
+    Then the element "#pantheon-update-notice" should be visible
