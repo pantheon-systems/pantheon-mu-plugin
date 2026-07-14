@@ -39,6 +39,11 @@ Then('the element {string} should be hidden', async ({ page }, selector: string)
   await expect(page.locator(selector)).toBeHidden();
 });
 
+Then('the update notice should offer a dismiss option', async ({ page }) => {
+  await expect(page.locator('#pantheon-update-notice.is-dismissible')).toBeVisible();
+  await expect(page.locator('#pantheon-update-notice .notice-dismiss')).toBeVisible();
+});
+
 When('I apply the CSS {string}', async ({ page }, css: string) => {
   await page.addStyleTag({ content: css });
 });
@@ -57,6 +62,12 @@ Given('a WordPress core update is available', async () => {
   const { multidev } = readState();
   wpOption(multidev, FORCE_OPTION, '1');
   wpOption(multidev, VERSION_OPTION, '99.0.0');
+});
+
+Given('the update notice has been dismissed for the current version', async () => {
+  const { multidev } = readState();
+  const user = assertSafeWpUser(process.env.WP_USER ?? '');
+  wp(multidev, `user meta update ${user} ${DISMISSED_META} 99.0.0`);
 });
 
 When('a newer WordPress core update is released', async () => {
