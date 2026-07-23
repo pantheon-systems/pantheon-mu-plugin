@@ -3,6 +3,8 @@ name: E2E
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'tests/e2e/**'
       - '.github/workflows/e2e.yml'
