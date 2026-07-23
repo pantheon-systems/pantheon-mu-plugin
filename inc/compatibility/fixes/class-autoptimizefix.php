@@ -17,6 +17,7 @@ class AutoptimizeFix {
 	/**
 	 * Apply the fix
 	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public static function apply() {

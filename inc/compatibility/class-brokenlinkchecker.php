@@ -22,6 +22,7 @@ class BrokenLinkChecker extends Base {
 	private $default_threshold_value = 72;
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function apply_fix() {
@@ -29,6 +30,7 @@ class BrokenLinkChecker extends Base {
 	}
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function remove_fix() {

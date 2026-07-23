@@ -14,6 +14,7 @@ use const ABSPATH;
  */
 class SelfUpdatingThemesFix {
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public static function apply() {
