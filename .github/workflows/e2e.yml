@@ -6,6 +6,10 @@ on:
     paths:
       - 'tests/e2e/**'
       - '.github/workflows/e2e.yml'
+  pull_request:
+    paths:
+      - 'tests/e2e/**'
+      - '.github/workflows/e2e.yml'
 
 permissions:
   contents: read
