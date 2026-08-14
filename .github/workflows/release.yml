@@ -32,8 +32,9 @@ jobs:
 
       - name: Check whether this is a release version
         id: check
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           if [[ "$VERSION" == *-dev ]]; then
             echo "is_release=false" >> "$GITHUB_OUTPUT"
             echo "Version $VERSION ends in -dev — skipping release."
@@ -50,15 +51,17 @@ jobs:
 
       - name: Create Git tag
         if: steps.check.outputs.is_release == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           git tag "$VERSION"
           git push origin "$VERSION"
 
       - name: Create GitHub Release
         if: steps.check.outputs.is_release == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           gh release create "$VERSION" \
             --generate-notes \
             --title "$VERSION"
@@ -68,8 +71,9 @@ jobs:
       - name: Compute next dev version
         if: steps.check.outputs.is_release == 'true'
         id: next
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
           NEXT_PATCH=$(( PATCH + 1 ))
           NEXT_VERSION="${MAJOR}.${MINOR}.${NEXT_PATCH}-dev"
@@ -78,15 +82,17 @@ jobs:
 
       - name: Bump version in pantheon.php
         if: steps.check.outputs.is_release == 'true'
+        env:
+          NEXT: ${{ steps.next.outputs.next_version }}
         run: |
-          NEXT="${{ steps.next.outputs.next_version }}"
           sed -i "s/^\( \* Version: \).*/\1${NEXT}/" pantheon.php
           sed -i "s/\(define( 'PANTHEON_MU_PLUGIN_VERSION', '\)[^']*\(.*\)/\1${NEXT}\2/" pantheon.php
 
       - name: Verify both version strings were updated
         if: steps.check.outputs.is_release == 'true'
+        env:
+          NEXT: ${{ steps.next.outputs.next_version }}
         run: |
-          NEXT="${{ steps.next.outputs.next_version }}"
           COUNT=$(grep -c "$NEXT" pantheon.php)
           if [ "$COUNT" -lt 2 ]; then
             echo "ERROR: Expected at least 2 occurrences of $NEXT in pantheon.php, found $COUNT"
@@ -98,8 +104,9 @@ jobs:
 
       - name: Open version bump PR
         if: steps.check.outputs.is_release == 'true'
+        env:
+          NEXT: ${{ steps.next.outputs.next_version }}
         run: |
-          NEXT="${{ steps.next.outputs.next_version }}"
           BRANCH="chore/bump-version-${NEXT}"
           git checkout -b "$BRANCH"
           git add pantheon.php
