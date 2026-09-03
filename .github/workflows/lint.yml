@@ -7,6 +7,12 @@ jobs:
     phpcbf:
       name: PHPCBF & Commit
       runs-on: ubuntu-latest
+      # Skip fork PRs: this job checks out the PR head ref and has write
+      # permissions (contents, pull-requests). Running fork-controlled code
+      # (e.g. via composer scripts) in that context is an untrusted-checkout
+      # risk (CWE-829), even though GitHub already read-only-limits the token
+      # for fork PRs. Internal branch PRs (same repo) match here.
+      if: github.event.pull_request.head.repo.full_name == github.repository
       steps:
         - name: Checkout
           uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
