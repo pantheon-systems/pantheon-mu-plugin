@@ -22,6 +22,7 @@ class OfficialFacebookPixel extends Base {
 	protected $run_on_plugin_activation = true;
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function apply_fix() {
