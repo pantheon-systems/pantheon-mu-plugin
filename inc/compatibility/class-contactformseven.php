@@ -23,6 +23,7 @@ class ContactFormSeven extends Base {
 	protected $run_fix_everytime = true;
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function apply_fix() {
@@ -31,6 +32,7 @@ class ContactFormSeven extends Base {
 	}
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function remove_fix() {

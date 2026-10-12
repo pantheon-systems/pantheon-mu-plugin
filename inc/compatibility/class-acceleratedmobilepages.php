@@ -22,6 +22,7 @@ class AcceleratedMobilePages extends Base {
 	protected $run_fix_everytime = true;
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function apply_fix() {
@@ -29,6 +30,7 @@ class AcceleratedMobilePages extends Base {
 	}
 
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public function remove_fix() {

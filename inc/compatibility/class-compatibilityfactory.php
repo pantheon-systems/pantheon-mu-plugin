@@ -89,6 +89,8 @@ class CompatibilityFactory {
 			EventEspresso::class => [ 'slug' => 'event-espresso-decaf/espresso.php' ],
 			FastVelocityMinify::class => [ 'slug' => 'fast-velocity-minify/fvm.php' ],
 			ForceLogin::class => [ 'slug' => 'wp-force-login/wp-force-login.php' ],
+			IndependentAnalytics::class => [ 'slug' => 'independent-analytics/iawp.php' ],
+			IndependentAnalyticsPro::class => [ 'slug' => 'independent-analytics-pro/iawp.php' ],
 			OfficialFacebookPixel::class => [ 'slug' => 'official-facebook-pixel/facebook-for-wordpress.php' ],
 			Polylang::class => [ 'slug' => 'polylang/polylang.php' ],
 			Redirection::class => [ 'slug' => 'redirection/redirection.php' ],
@@ -166,6 +168,8 @@ class CompatibilityFactory {
 		$constant_fixes = [
 			ContactFormSeven::class,
 			FastVelocityMinify::class,
+			IndependentAnalytics::class,
+			IndependentAnalyticsPro::class,
 			Polylang::class,
 			WooZone::class,
 			Autoptimize::class,
