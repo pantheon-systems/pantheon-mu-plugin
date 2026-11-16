@@ -18,6 +18,7 @@ use function extension_loaded;
  */
 class AcceleratedMobilePagesFix {
 	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 * @return void
 	 */
 	public static function apply() {
