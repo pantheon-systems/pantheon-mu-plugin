@@ -1,0 +1,7 @@
+node_modules/
+.features-gen/
+test-results/
+playwright-report/
+allure-results/
+.env
+.test-state.json

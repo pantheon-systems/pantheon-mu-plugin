@@ -40,7 +40,7 @@ class Test_ElasticPress_CLI extends WP_UnitTestCase {
 	public function test_force_https_url( $input, $expected ) {
 		$this->assertSame(
 			$expected,
-			\Pantheon\CLI\_pantheon_ep_force_https_url( $input )
+			\Pantheon\_pantheon_ep_force_https_url( $input )
 		);
 	}
 
@@ -74,9 +74,9 @@ class Test_ElasticPress_CLI extends WP_UnitTestCase {
 	 */
 	public function test_option_filter_forces_https( $option ) {
 		$filter_name = 'option_' . $option;
-		add_filter( $filter_name, '\\Pantheon\\CLI\\_pantheon_ep_force_https_url' );
+		add_filter( $filter_name, '\\Pantheon\\_pantheon_ep_force_https_url' );
 		update_option( $option, 'http://example.com' );
 		$this->assertEquals( 'https://example.com', get_option( $option ) );
-		remove_filter( $filter_name, '\\Pantheon\\CLI\\_pantheon_ep_force_https_url' );
+		remove_filter( $filter_name, '\\Pantheon\\_pantheon_ep_force_https_url' );
 	}
 }

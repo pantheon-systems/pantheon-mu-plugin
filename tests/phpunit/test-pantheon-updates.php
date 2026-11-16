@@ -131,7 +131,7 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		_pantheon_upstream_update_notice();
 		$output = ob_get_clean();
 	
-		$this->assertStringContainsString( 'Check for updates on', $output );
+		$this->assertStringContainsString( 'Check for Updates', $output );
 	}
 	
 	/**
@@ -144,26 +144,26 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 
 		set_current_screen( 'update-core' );
 	
-		// Simulate that the core is not the latest version.
+		// Simulate that the core is not the latest version by using a version higher than any installed WP.
 		set_site_transient(
 			'update_core',
 			(object) [
 				'updates' => [
 					(object) [
-						'current' => '6.3.1',
-						'response' => 'upgrade', 
+						'current' => '99.0.0',
+						'response' => 'upgrade',
 						'locale' => 'en_us',
 					],
 				],
-				'version_checked' => '6.2',
+				'version_checked' => self::$wp_version,
 			],
 		);
-	
+
 		ob_start();
 		_pantheon_upstream_update_notice();
 		$output = ob_get_clean();
-	
-		$this->assertStringContainsString( 'Check for updates on <a href="https://dashboard.pantheon.io/sites/test-site">your Pantheon dashboard</a>', $output );
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
 	}
 	
 	/**
@@ -237,5 +237,140 @@ class Test_Pantheon_Updates extends WP_UnitTestCase {
 		$this->assertIsObject( $result );
 		$this->assertEmpty( $result->updates );
 		$this->assertIsInt( $result->last_checked );
+	}
+
+	/**
+	 * Simulate that WordPress core is not the latest version so the update
+	 * notice ("A new WordPress update is available!") renders.
+	 */
+	private function simulate_core_not_latest() {
+		set_current_screen( 'update-core' );
+		set_site_transient(
+			'update_core',
+			(object) [
+				'updates' => [
+					(object) [
+						'current' => '99.0.0',
+						'response' => 'upgrade',
+						'locale' => 'en_us',
+					],
+				],
+				'version_checked' => self::$wp_version,
+			],
+		);
+	}
+
+	/**
+	 * Test that the update notice exposes a unique id and class for CSS targeting.
+	 */
+	public function test_pantheon_upstream_update_notice_has_targeting_hooks() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'id="pantheon-update-notice"', $output );
+		// pantheon-update-notice is a class token (order-independent; is-dismissible now sits between it and pantheon-notice).
+		$this->assertMatchesRegularExpression( '/class="[^"]*\bpantheon-update-notice\b/', $output );
+	}
+
+	/**
+	 * Test that returning false from the pantheon_show_update_notice filter suppresses the notice.
+	 */
+	public function test_pantheon_show_update_notice_filter_suppresses() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		add_filter( 'pantheon_show_update_notice', '__return_false' );
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		remove_filter( 'pantheon_show_update_notice', '__return_false' );
+
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test that the notice still renders when the filter is left at its default (true).
+	 */
+	public function test_pantheon_show_update_notice_filter_default_shows() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
+	}
+
+	/**
+	 * Test that the update notice carries the is-dismissible class.
+	 */
+	public function test_update_notice_is_dismissible() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest();
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'is-dismissible', $output );
+	}
+
+	/**
+	 * Test that the notice is hidden when the user dismissed it for the current available version.
+	 */
+	public function test_update_notice_hidden_when_dismissed_for_current_version() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest(); // Available version: 99.0.0.
+		$user_id = self::factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		update_user_meta( $user_id, PANTHEON_UPDATE_NOTICE_DISMISSED_META, '99.0.0' );
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test that the notice returns when a newer version is available than the one dismissed.
+	 */
+	public function test_update_notice_shows_when_newer_version_available() {
+		if ( $this->is_prerelease() ) {
+			$this->markTestSkipped( 'Prerelease build renders a different notice.' );
+		}
+
+		$this->simulate_core_not_latest(); // Available version: 99.0.0.
+		$user_id = self::factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		update_user_meta( $user_id, PANTHEON_UPDATE_NOTICE_DISMISSED_META, '6.0.0' ); // Stale dismissal.
+
+		ob_start();
+		_pantheon_upstream_update_notice();
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'A new WordPress update is available!', $output );
 	}
 }

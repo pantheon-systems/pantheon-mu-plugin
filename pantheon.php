@@ -3,14 +3,14 @@
  * Plugin Name: Pantheon
  * Plugin URI: https://pantheon.io/
  * Description: Building on Pantheon's and WordPress's strengths, together.
- * Version: 1.5.4
+ * Version: 1.5.8-dev
  * Author: Pantheon
  * Author URI: https://pantheon.io/
  *
  * @package pantheon
  */
 
-define( 'PANTHEON_MU_PLUGIN_VERSION', '1.5.4' );
+define( 'PANTHEON_MU_PLUGIN_VERSION', '1.5.8-dev' );
 
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	require_once 'inc/functions.php';
@@ -28,6 +28,7 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		require_once 'inc/cli.php';
 	}
+	require_once 'inc/elasticpress-client-side.php';
 	if ( ! defined( 'FS_METHOD' ) ) {
 		/**
 		 * When this constant is not set, WordPress writes and then deletes a
